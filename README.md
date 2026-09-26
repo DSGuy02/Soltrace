@@ -183,3 +183,9 @@ Run the full pytest suite (21 automated tests covering canonical serialization, 
 ```bash
 PYTHONPATH=prototypes/soltrace .venv/bin/pytest prototypes/soltrace/tests
 ```
+
+---
+
+## 🤖 AI Usage Disclaimer
+
+Portions of this codebase, test suites, and documentation were built with the assistance of AI development tools (Google Gemini & Antigravity), under human architectural direction and verification.
