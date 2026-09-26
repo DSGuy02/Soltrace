@@ -7,7 +7,7 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
-CLI="./bin/soltrace"
+CLI="./bin/soltrade"
 
 echo -e "\033[1;36m========================================================================\033[0m"
 echo -e "\033[1m   SOLTRACE COMPUTER STORE & HARDWARE INVENTORY PROVENANCE DEMO\033[0m"
