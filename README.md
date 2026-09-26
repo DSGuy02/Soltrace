@@ -21,8 +21,7 @@ Small and medium enterprises (SMEs) and software teams lose over **$180 Billion 
 
 - **Track:** Solana Infrastructure & SME Fintech
 - **Event Dates:** September 14 – October 12, 2026
-- **Target:** Acceptance into the Colosseum Pre-Seed Accelerator ($250,000 investment)
-- **Founder:** Oladeji Sanyaolu (B.Eng. Computer & Robotics Systems Engineering, First Class Honours, Technological University of the Shannon)
+- **Founder:** Oladeji Sanyaolu
 
 ---
 
