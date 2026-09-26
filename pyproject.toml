@@ -3,9 +3,9 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "soltrade"
+name = "soltrace"
 version = "0.3.0"
-description = "Universal Cryptographic Ledger for Small & Medium Enterprises (SMEs) on Solana"
+description = "Universal Cryptographic Ledger & Provenance Engine on Solana"
 readme = "README.md"
 authors = [
     { name = "Oladeji Sanyaolu", email = "oladejisanyaolu@gmail.com" }
@@ -28,7 +28,6 @@ dev = [
 ]
 
 [project.scripts]
-soltrade = "soltrace.cli:main"
 soltrace = "soltrace.cli:main"
 
 [tool.setuptools.packages.find]

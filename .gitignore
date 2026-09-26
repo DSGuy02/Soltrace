@@ -21,7 +21,7 @@ ENV/
 htmlcov/
 .cache/
 
-# SolTrade runtime state & cryptographic keys (NEVER commit keys or runtime databases)
+# SolTrace runtime state & cryptographic keys (NEVER commit keys or runtime databases)
 .soltrace/
 *.sqlite3
 *.sqlite

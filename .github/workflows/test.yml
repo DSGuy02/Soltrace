@@ -1,4 +1,4 @@
-name: "SolTrade Test Suite & Verification"
+name: "SolTrace Test Suite & Verification"
 
 on:
   push:

@@ -1,19 +1,19 @@
-# SolTrade 🛡️
-> **Universal Cryptographic Ledger Sidecar for Any SME on Solana**  
+# SolTrace 🛡️
+> **Universal Cryptographic Ledger Sidecar for Any SME & Software Team on Solana**  
 > *Built for the Colosseum Crypto World's Fair Hackathon (Sept 14 – Oct 12, 2026)*  
-> *Sub-Cent Mathematical Immutability for Invoicing, Retail Inventory, Order Fulfillment & Enterprise Databases.*
+> *Sub-Cent Mathematical Immutability for Invoicing, Retail Inventory, Order Fulfillment, Code & Enterprise Databases.*
 
 ---
 
 ## 🚀 Overview
 
-Small and medium enterprises (SMEs) lose over **$180 Billion annually** to internal employee shrinkage, billing disputes, supplier invoice tampering, and Business Email Compromise (BEC) wire fraud. Standard accounting and ERP systems (QuickBooks, Xero, Shopify, InvenTree, PostgreSQL, MySQL) store mission-critical financial and operational state in mutable databases where records can be silently edited, deleted, or backdated with zero cryptographic accountability.
+Small and medium enterprises (SMEs) and software teams lose over **$180 Billion annually** to internal employee shrinkage, billing disputes, supplier invoice tampering, software supply chain backdoors, and Business Email Compromise (BEC) wire fraud. Standard accounting, inventory, and ERP systems (QuickBooks, Xero, Shopify, InvenTree, PostgreSQL, MySQL) store mission-critical financial and operational state in mutable databases where records can be silently edited, deleted, or backdated with zero cryptographic accountability.
 
-**SolTrade** solves this by acting as an invisible cryptographic sidecar:
-1. **Deterministic State Seals:** Computes canonical SHA-256 digests across any business record (B2B invoices, hardware inventories, purchase orders, legal contracts).
+**SolTrace** solves this by acting as an invisible cryptographic sidecar:
+1. **Deterministic State Seals:** Computes canonical SHA-256 digests across any business record (B2B invoices, hardware inventories, purchase orders, legal contracts) and software artifacts (Git commits, SBOMs, binaries).
 2. **Sub-Cent Solana Consensus:** Anchors state transitions directly to the **Solana Memo Program** in ~400ms for $\approx \$0.00025$ per transaction.
-3. **Instant Tamper Detection & Fraud Prevention:** Audits live state against Solana's immutable consensus. If an attacker tampers with an IBAN, inflates an invoice total, or wipes stolen retail inventory, SolTrade immediately triggers **TAMPER DETECTED** with a color-coded forensic diff.
-4. **Zero-Crypto UX for SMEs:** Integrates via standard REST APIs, webhooks, and background daemons. Business owners pay standard fiat subscriptions while SolTrade manages custodial keypairs and Solana gas under the hood.
+3. **Instant Tamper Detection & Fraud Prevention:** Audits live state against Solana's immutable consensus. If an attacker tampers with an IBAN, inflates an invoice total, wipes stolen retail inventory, or modifies code, SolTrace immediately triggers **TAMPER DETECTED** with a color-coded forensic diff.
+4. **Zero-Crypto UX for SMEs:** Integrates via standard REST APIs, webhooks, and background daemons. Business owners pay standard fiat subscriptions while SolTrace manages custodial keypairs and Solana gas under the hood.
 
 ---
 
@@ -21,7 +21,8 @@ Small and medium enterprises (SMEs) lose over **$180 Billion annually** to inter
 
 - **Track:** Solana Infrastructure & SME Fintech
 - **Event Dates:** September 14 – October 12, 2026
-- **Founder:** Oladeji Sanyaolu (B.Eng. Computer & Robotics Systems Engineering, Technological University of the Shannon)
+- **Target:** Acceptance into the Colosseum Pre-Seed Accelerator ($250,000 investment)
+- **Founder:** Oladeji Sanyaolu (B.Eng. Computer & Robotics Systems Engineering, First Class Honours, Technological University of the Shannon)
 
 ---
 
@@ -30,10 +31,9 @@ Small and medium enterprises (SMEs) lose over **$180 Billion annually** to inter
 ```
 prototypes/soltrace/
 ├── bin/
-│   ├── soltrade                         # Primary CLI entrypoint (auto-detects virtualenv)
-│   └── soltrace                         # Backward-compatible alias
+│   └── soltrace                         # Primary CLI entrypoint (auto-detects virtualenv)
 ├── soltrace/
-│   ├── __init__.py                      # Package metadata (SolTrade v0.3.0)
+│   ├── __init__.py                      # Package metadata (SolTrace v0.3.0)
 │   ├── db_hasher.py                     # Canonical JSON serialization & SHA-256 state seal engine
 │   ├── storage.py                       # Verifiable local SQLite ledger & state transition index
 │   ├── server.py                        # FastAPI REST Gateway & Webhook Ingestion server
@@ -59,35 +59,35 @@ prototypes/soltrace/
 ## ⚡ Quickstart
 
 ### 🎯 1-Command Multi-Vertical Demonstration
-Run the complete multi-vertical SME showcase (covers B2B Invoicing BEC wire fraud defense and Retail Hardware Shrinkage detection):
+Run the complete multi-vertical showcase (covers B2B Invoicing BEC wire fraud defense and Retail Hardware Shrinkage detection):
 
 ```bash
 ./demo_sme_showcase.sh
 ```
 
-Or execute via the `soltrade` CLI:
+Or execute via the `soltrace` CLI:
 ```bash
-./bin/soltrade demo all
+./bin/soltrace demo all
 ```
 
 You can also run specific vertical demos:
 ```bash
 # 1. B2B Invoicing & BEC Wire Fraud Protection Demo
-./bin/soltrade demo invoice
+./bin/soltrace demo invoice
 
 # 2. Computer Store Hardware Inventory & Shrinkage Demo
-./bin/soltrade demo inventory
+./bin/soltrace demo inventory
 ```
 
 ---
 
 ## 🖥️ REST API Gateway & Webhooks
 
-SolTrade includes an enterprise-ready FastAPI Gateway with auto-generated OpenAPI documentation.
+SolTrace includes an enterprise-ready FastAPI Gateway with auto-generated OpenAPI documentation.
 
 ### Launching the Server
 ```bash
-./bin/soltrade serve --host 0.0.0.0 --port 8000
+./bin/soltrace serve --host 0.0.0.0 --port 8000
 ```
 
 Open **[http://localhost:8000/docs](http://localhost:8000/docs)** for the interactive Swagger UI.
@@ -111,12 +111,12 @@ Open **[http://localhost:8000/docs](http://localhost:8000/docs)** for the intera
 
 ## 💻 CLI Usage
 
-The `soltrade` binary provides high-level commands for any business record.
+The `soltrace` binary provides high-level commands for any business record or software artifact.
 
 ### 1. Anchor a Record
 Anchor an invoice, inventory item, purchase order, or contract:
 ```bash
-./bin/soltrade anchor \
+./bin/soltrace anchor \
   --entity invoices \
   --id "INV-2026-0891" \
   --data '{
@@ -126,13 +126,13 @@ Anchor an invoice, inventory item, purchase order, or contract:
     "bic": "AIBKIE2D",
     "due_date": "2026-10-15"
   }' \
-  --operator "cfo@soltrade-demo.com" \
+  --operator "cfo@soltrace-demo.com" \
   --action "INVOICE_ISSUED"
 ```
 
 ### 2. Verify an Authentic Record
 ```bash
-./bin/soltrade verify \
+./bin/soltrace verify \
   --entity invoices \
   --id "INV-2026-0891" \
   --data '{
@@ -147,7 +147,7 @@ Anchor an invoice, inventory item, purchase order, or contract:
 
 ### 3. Verify a Tampered Record (e.g. Swapped IBAN & Inflated Amount)
 ```bash
-./bin/soltrade verify \
+./bin/soltrace verify \
   --entity invoices \
   --id "INV-2026-0891" \
   --data '{
@@ -162,16 +162,16 @@ Anchor an invoice, inventory item, purchase order, or contract:
 
 ### 4. Query Verifiable On-Chain Timeline
 ```bash
-./bin/soltrade history --entity invoices --id "INV-2026-0891"
+./bin/soltrace history --entity invoices --id "INV-2026-0891"
 ```
 
 ---
 
 ## 🛡️ DevOps & CI/CD Engine
 
-For software and DevOps teams, SolTrade retains its source-code and artifact provenance engine:
-- **Anchor Artifact & SBOM:** `./bin/soltrade record --artifact dist/app.bin`
-- **Enforce Deployment Gate:** `./bin/soltrade gate --artifact dist/app.bin`
+For software and DevOps teams, SolTrace retains its source-code and artifact provenance engine:
+- **Anchor Artifact & SBOM:** `./bin/soltrace record --artifact dist/app.bin`
+- **Enforce Deployment Gate:** `./bin/soltrace gate --artifact dist/app.bin`
 - **GitHub Action:** Ready for CI/CD pipelines via `.github/workflows/soltrace-ci.yml` and `action.yml`.
 
 ---

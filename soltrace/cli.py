@@ -52,8 +52,8 @@ def print_banner():
   / __/____   /_  __/ ___/____ _____   / /__   
  _\\ \\ / __ \\   / / / /   / __ `/ __ \\ / //_/   
 /___/ \\____/  /_/ /_/   /\\__,_/\\_,_/_//_/      {C_GREEN}v0.3.0{C_RESET}
-{C_DIM}SolTrade: Universal Cryptographic Ledger for SMEs on Solana{C_RESET}
-{C_DIM}Securing Invoices, Inventory, Contracts & Databases for Businesses{C_RESET}
+{C_DIM}SolTrace: Universal Cryptographic Ledger & Provenance on Solana{C_RESET}
+{C_DIM}Securing Invoices, Inventory, Contracts, Code & Databases for Businesses{C_RESET}
 """
     print(banner)
 
@@ -411,7 +411,7 @@ def cmd_demo_store(args):
                 loss = missing * legitimate_data['unit_price_eur']
                 print(f"      {C_YELLOW}↳ Discrepancy: {missing} missing units (Unaccounted Loss: €{loss:,.2f}){C_RESET}")
         print(f"\n{C_CYAN}Immutable Solana Attestation Signature:{C_RESET} {sig}")
-        print(f"{C_GREEN}SolTrade proves exactly what was altered, when it happened, and who authorized it.{C_RESET}\n")
+        print(f"{C_GREEN}SolTrace proves exactly what was altered, when it happened, and who authorized it.{C_RESET}\n")
 
 def cmd_demo_invoice(args):
     """
@@ -419,11 +419,11 @@ def cmd_demo_invoice(args):
     Simulates B2B Commercial Invoicing & Payment Routing Protection.
     Anchors invoice details (Client, Total Due, Recipient IBAN, Tax VAT, Due Date) to Solana.
     Simulates an Accounts Payable / Business Email Compromise (BEC) attack diverting the wire transfer,
-    and proves how SolTrade instantly detects fraudulent tampering before funds leave the company.
+    and proves how SolTrace instantly detects fraudulent tampering before funds leave the company.
     """
     print_banner()
     print(f"{C_BOLD}{C_MAGENTA}========================================================================{C_RESET}")
-    print(f"{C_BOLD}   SOLTRADE LIVE DEMO: B2B INVOICE & PAYMENT FRAUD PREVENTION{C_RESET}")
+    print(f"{C_BOLD}   SOLTRACE LIVE DEMO: B2B INVOICE & PAYMENT FRAUD PREVENTION{C_RESET}")
     print(f"{C_DIM}   Cryptographic Non-Repudiation for SME Billing, Banking & Audits{C_RESET}")
     print(f"{C_BOLD}{C_MAGENTA}========================================================================{C_RESET}\n")
     
@@ -457,7 +457,7 @@ def cmd_demo_invoice(args):
     print(f"  • Terms:         {legitimate_data['payment_terms']} (Due: {legitimate_data['due_date']})")
     
     # Step 2: Anchoring to Solana
-    print(f"\n{C_BOLD}[Step 2] SolTrade Anchors Invoice State Seal to Solana...{C_RESET}")
+    print(f"\n{C_BOLD}[Step 2] SolTrace Anchors Invoice State Seal to Solana...{C_RESET}")
     ts = datetime.now(timezone.utc).isoformat()
     rec_hash = compute_record_hash(entity, invoice_id, legitimate_data)
     state_seal = compute_db_state_seal(entity, invoice_id, legitimate_data, "GENESIS", ts, "cfo@dublin-precision.ie")
@@ -513,8 +513,8 @@ def cmd_demo_invoice(args):
     print(f"  {C_YELLOW}Database updated silently! Accounts Payable is about to wire €22,265.50 to a scammer.{C_RESET}")
     print(f"  {C_YELLOW}Without Solana, this wire transfer succeeds and the funds disappear overseas.{C_RESET}")
     
-    # Step 5: SolTrade Cryptographic Audit Detection
-    print(f"\n{C_BOLD}[Step 5] SolTrade Payment Gateway & Audit Engine Executes...{C_RESET}")
+    # Step 5: SolTrace Cryptographic Audit Detection
+    print(f"\n{C_BOLD}[Step 5] SolTrace Payment Gateway & Audit Engine Executes...{C_RESET}")
     tampered_hash = compute_record_hash(entity, invoice_id, tampered_data)
     
     print(f"  • Live DB Hash:   {C_RED}{tampered_hash}{C_RESET}")
@@ -537,7 +537,7 @@ def cmd_demo_invoice(args):
                 diff_amount = change['after'] - change['before']
                 print(f"      {C_YELLOW}↳ Discrepancy: Unauthorized inflation of +€{diff_amount:,.2f}{C_RESET}")
         print(f"\n{C_CYAN}Immutable Solana Attestation Signature:{C_RESET} {sig}")
-        print(f"{C_GREEN}SolTrade halted fraudulent payment of €22,265.50 before a single cent left the company.{C_RESET}\n")
+        print(f"{C_GREEN}SolTrace halted fraudulent payment of €22,265.50 before a single cent left the company.{C_RESET}\n")
 
 # --- Retained CI / CD Commands ---
 

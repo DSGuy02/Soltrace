@@ -62,7 +62,7 @@ runs:
       id: run-soltrace
       shell: bash
       run: |
-        python ${{ github.action_path }}/bin/soltrade ${{ inputs.command }} \
+        python ${{ github.action_path }}/bin/soltrace ${{ inputs.command }} \
           --artifact "${{ inputs.artifact }}" \
           --network "${{ inputs.network }}" \
           --repo "${{ inputs.repo_path }}"

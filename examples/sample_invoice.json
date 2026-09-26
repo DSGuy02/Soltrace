@@ -1,6 +1,6 @@
 {
   "invoice_id": "INV-2026-0891",
-  "issuer": "SolTrade Global Logistics Ltd",
+  "issuer": "SolTrace Global Logistics Ltd",
   "client": "Acme Retail Ltd",
   "issue_date": "2026-09-26",
   "due_date": "2026-10-15",
@@ -11,7 +11,7 @@
   "total_eur": 18265.50,
   "payment_details": {
     "bank_name": "Allied Irish Banks (AIB)",
-    "account_name": "SolTrade Logistics Operations",
+    "account_name": "SolTrace Logistics Operations",
     "iban": "IE29AIBK93012345678901",
     "bic": "AIBKIE2D"
   },

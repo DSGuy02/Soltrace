@@ -24,8 +24,8 @@ from soltrace.storage import SolTraceLedger, DEFAULT_DB_PATH
 
 # Initialize App
 app = FastAPI(
-    title="SolTrade Universal SME Ledger Gateway",
-    description="Universal Cryptographic Ledger on Solana for Small & Medium Enterprises (SMEs): Invoices, Inventory, Orders, Contracts & Databases.",
+    title="SolTrace Universal SME Ledger Gateway",
+    description="Universal Cryptographic Ledger on Solana for Small & Medium Enterprises (SMEs): Invoices, Inventory, Orders, Contracts, Code & Databases.",
     version="0.3.0",
     docs_url="/docs",
     redoc_url="/redoc"
