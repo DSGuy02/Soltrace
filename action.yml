@@ -1,0 +1,68 @@
+name: "SolTrace Provenance Anchor & Verification Gate"
+description: "Cryptographically anchor CI/CD build artifacts, SBOM dependencies, and Git commits onto Solana Devnet for tamper-proof provenance."
+author: "Oladeji Sanyaolu"
+
+branding:
+  icon: "shield"
+  color: "purple"
+
+inputs:
+  command:
+    description: "SolTrace operation to execute: record, verify, or gate"
+    required: false
+    default: "record"
+  artifact:
+    description: "Path to build artifact, container tarball, binary, or directory"
+    required: true
+  network:
+    description: "Solana network to anchor against (devnet, litesvm, or mainnet-beta)"
+    required: false
+    default: "devnet"
+  repo_path:
+    description: "Path to repository root"
+    required: false
+    default: "."
+  keypair:
+    description: "Solana private key JSON array or base58 string (optional)"
+    required: false
+
+outputs:
+  signature:
+    description: "The Solana transaction signature of the anchored attestation"
+    value: ${{ steps.run-soltrace.outputs.signature }}
+  state_seal:
+    description: "Deterministic SHA-256 state seal combining commit, SBOM, and artifact"
+    value: ${{ steps.run-soltrace.outputs.state_seal }}
+  explorer_url:
+    description: "Direct Solana Explorer link to inspect on-chain consensus"
+    value: ${{ steps.run-soltrace.outputs.explorer_url }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.11"
+
+    - name: Install SolTrace Dependencies
+      shell: bash
+      run: |
+        python -m pip install --upgrade pip
+        pip install solders solana requests
+
+    - name: Configure Keypair
+      if: ${{ inputs.keypair != '' }}
+      shell: bash
+      run: |
+        mkdir -p .soltrace
+        echo '${{ inputs.keypair }}' > .soltrace/keypair.json
+
+    - name: Execute SolTrace
+      id: run-soltrace
+      shell: bash
+      run: |
+        python ${{ github.action_path }}/bin/soltrace ${{ inputs.command }} \
+          --artifact "${{ inputs.artifact }}" \
+          --network "${{ inputs.network }}" \
+          --repo "${{ inputs.repo_path }}"

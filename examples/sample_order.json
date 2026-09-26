@@ -1,0 +1,33 @@
+{
+  "order_id": "ORD-2026-9921",
+  "store": "Dublin Tech Hub Online",
+  "customer_id": "CUST-84920",
+  "order_date": "2026-09-26T14:00:00Z",
+  "currency": "EUR",
+  "items": [
+    {
+      "sku": "LAP-APL-MBP16-M3",
+      "name": "Apple MacBook Pro 16 M3 Max",
+      "quantity": 2,
+      "unit_price": 2899.00,
+      "total": 5798.00
+    },
+    {
+      "sku": "ACC-APL-USBC-140W",
+      "name": "140W USB-C Power Adapter",
+      "quantity": 2,
+      "unit_price": 105.00,
+      "total": 210.00
+    }
+  ],
+  "shipping_address": {
+    "street": "Grand Canal Dock",
+    "city": "Dublin",
+    "country": "Ireland",
+    "eircode": "D02 XY99"
+  },
+  "subtotal": 6008.00,
+  "shipping_fee": 0.00,
+  "total_eur": 6008.00,
+  "fulfillment_status": "PENDING_DISPATCH"
+}

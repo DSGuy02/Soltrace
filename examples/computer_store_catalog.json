@@ -1,0 +1,72 @@
+[
+  {
+    "sku": "LAP-APL-MBP16-M3",
+    "brand": "Apple",
+    "model": "MacBook Pro 16\"",
+    "type": "laptop",
+    "storage_size": "1TB",
+    "storage_type": "NVMe Gen4 SSD",
+    "ram_size": "36GB",
+    "ram_type": "Unified LPDDR5X",
+    "wireless_specs": "Wi-Fi 6E (802.11ax) + Bluetooth 5.3",
+    "quantity": 25,
+    "unit_price_eur": 2899.00,
+    "store_location": "Dublin Grafton St - Vault A"
+  },
+  {
+    "sku": "DSK-DEL-XPS8960",
+    "brand": "Dell",
+    "model": "XPS Desktop 8960 Tower",
+    "type": "desktop",
+    "storage_size": "2TB",
+    "storage_type": "PCIe NVMe M.2 SSD",
+    "ram_size": "64GB",
+    "ram_type": "DDR5-5600MHz",
+    "wireless_specs": "Killer Wi-Fi 6E AX1675 (2x2) 802.11ax + Bluetooth 5.3",
+    "quantity": 14,
+    "unit_price_eur": 2499.00,
+    "store_location": "Dublin Grafton St - Floor Bay 3"
+  },
+  {
+    "sku": "LAP-LEN-P16G2",
+    "brand": "Lenovo",
+    "model": "ThinkPad P16 Gen 2 Workstation",
+    "type": "laptop",
+    "storage_size": "4TB",
+    "storage_type": "Dual 2TB NVMe Opal2 SSD RAID 0",
+    "ram_size": "128GB",
+    "ram_type": "ECC DDR5-5200MHz",
+    "wireless_specs": "Intel Wi-Fi 7 BE200 (802.11be) + Bluetooth 5.4",
+    "quantity": 8,
+    "unit_price_eur": 4150.00,
+    "store_location": "Dublin Grafton St - Enterprise Room"
+  },
+  {
+    "sku": "LAP-ASU-ZEPH-G16",
+    "brand": "ASUS",
+    "model": "ROG Zephyrus G16 OLED Gaming Laptop",
+    "type": "laptop",
+    "storage_size": "2TB",
+    "storage_type": "PCIe 4.0 NVMe M.2 Performance SSD",
+    "ram_size": "32GB",
+    "ram_type": "LPDDR5X-7467MHz",
+    "wireless_specs": "Wi-Fi 7 (802.11be) Triple Band + Bluetooth 5.4",
+    "quantity": 18,
+    "unit_price_eur": 2999.00,
+    "store_location": "Dublin Grafton St - Gaming Zone"
+  },
+  {
+    "sku": "LAP-FRM-MOD13",
+    "brand": "Framework",
+    "model": "Framework Laptop 13 (AMD Ryzen 7040)",
+    "type": "laptop",
+    "storage_size": "1TB",
+    "storage_type": "WD_BLACK SN770 NVMe SSD",
+    "ram_size": "32GB",
+    "ram_type": "DDR5-5600 SO-DIMM",
+    "wireless_specs": "AMD RZ616 Wi-Fi 6E + Bluetooth 5.2",
+    "quantity": 12,
+    "unit_price_eur": 1499.00,
+    "store_location": "Dublin Grafton St - Modular Tech Desk"
+  }
+]

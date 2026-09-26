@@ -1,0 +1,26 @@
+{
+  "invoice_id": "INV-2026-0891",
+  "issuer": "SolTrade Global Logistics Ltd",
+  "client": "Acme Retail Ltd",
+  "issue_date": "2026-09-26",
+  "due_date": "2026-10-15",
+  "currency": "EUR",
+  "subtotal": 14850.00,
+  "vat_rate": 0.23,
+  "vat_amount": 3415.50,
+  "total_eur": 18265.50,
+  "payment_details": {
+    "bank_name": "Allied Irish Banks (AIB)",
+    "account_name": "SolTrade Logistics Operations",
+    "iban": "IE29AIBK93012345678901",
+    "bic": "AIBKIE2D"
+  },
+  "line_items": [
+    {
+      "description": "Enterprise Server Hardware Logistics & Deployment",
+      "quantity": 10,
+      "unit_price": 1485.00,
+      "total": 14850.00
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+name: "SolTrace CI/CD Provenance & Admission Gate"
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-anchor:
+    name: "Build, Test & Anchor to Solana"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout Source Code"
+        uses: actions/checkout@v4
+
+      - name: "Compile & Package Build Artifacts"
+        run: |
+          mkdir -p dist
+          echo "Enterprise Production Binary - Built at $(date -u)" > dist/app-release.bin
+          tar -czvf dist/release-bundle.tar.gz dist/app-release.bin
+
+      - name: "Anchor Provenance to Solana Devnet"
+        id: soltrace-anchor
+        uses: ./
+        with:
+          command: "record"
+          artifact: "dist/release-bundle.tar.gz"
+          network: "devnet"
+          keypair: ${{ secrets.SOLANA_DEVNET_KEYPAIR }}
+
+      - name: "Display Verification Certificate"
+        run: |
+          echo "============================================="
+          echo "✔ Provenance Sealed on Solana Consensus Layer"
+          echo "Tx Signature: ${{ steps.soltrace-anchor.outputs.signature }}"
+          echo "State Seal:   ${{ steps.soltrace-anchor.outputs.state_seal }}"
+          echo "Explorer:     ${{ steps.soltrace-anchor.outputs.explorer_url }}"
+          echo "============================================="
+
+  deploy-gate:
+    name: "Zero-Trust Admission Gatekeeper"
+    needs: build-and-anchor
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout Source Code"
+        uses: actions/checkout@v4
+
+      - name: "Verify Artifact Integrity Against Solana Before Deploy"
+        uses: ./
+        with:
+          command: "gate"
+          artifact: "dist/release-bundle.tar.gz"
+          network: "devnet"
+
+      - name: "Deploy to Production Kubernetes Cluster"
+        run: |
+          echo "🚀 Cryptographic verification passed. Proceeding with deployment to cluster..."
