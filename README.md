@@ -7,13 +7,20 @@
 
 ## 🚀 Overview
 
-Small and medium enterprises (SMEs) and software teams lose over **$180 Billion annually** to internal employee shrinkage, billing disputes, supplier invoice tampering, software supply chain backdoors, and Business Email Compromise (BEC) wire fraud. Standard accounting, inventory, and ERP systems (QuickBooks, Xero, Shopify, InvenTree, PostgreSQL, MySQL) store mission-critical financial and operational state in mutable databases where records can be silently edited, deleted, or backdated with zero cryptographic accountability.
+Small and medium enterprises (SMEs) and software teams face a critical, systemic security vulnerability: **standard business software stores mission-critical financial, operational, and software state in mutable relational databases** (PostgreSQL, MySQL, QuickBooks, Xero, Shopify, InvenTree). Anyone with database administrative rights, raw SQL access, or compromised credentials can silently edit bank accounts, delete stolen inventory counts, inflate prices, or alter code—leaving zero mathematical proof of non-repudiation.
+
+### The Real-World Fraud & Shrinkage Problem
+* **$112B+ in Annual Retail Shrinkage:** According to the **National Retail Federation (NRF)**, retail shrinkage exceeds $112 Billion annually in the US alone, with **internal employee theft accounting for ~29% (~$32B+)**—frequently concealed by dishonest staff modifying stock quantities directly in inventory databases.
+* **$3B+ in Annual Reported Wire & Invoice Fraud:** The **FBI Internet Crime Complaint Center (IC3)** reports that Business Email Compromise (BEC) and vendor invoice tampering drive over **$3.0 Billion in direct annual reported losses** ($50B+ cumulative globally), with targeted businesses suffering an average loss of **$123,000 per incident**.
+* **5% of Total Annual Revenue Lost to Fraud:** The **Association of Certified Fraud Examiners (ACFE)** estimates that organizations lose 5% of their gross revenue to occupational fraud each year, with internal billing and payment tampering schemes causing a median loss of **$100,000+** before detection. Small businesses face the greatest proportional risk due to limited separation of duties.
+* **The "Root Privilege Paradox":** Traditional database and cloud audit logs can be truncated or deleted by the very administrators or compromised accounts carrying out the attack.
 
 **SolTrace** solves this by acting as an invisible cryptographic sidecar:
-1. **Deterministic State Seals:** Computes canonical SHA-256 digests across any business record (B2B invoices, hardware inventories, purchase orders, legal contracts) and software artifacts (Git commits, SBOMs, binaries).
-2. **Sub-Cent Solana Consensus:** Anchors state transitions directly to the **Solana Memo Program** in ~400ms for $\approx \$0.00025$ per transaction.
-3. **Instant Tamper Detection & Fraud Prevention:** Audits live state against Solana's immutable consensus. If an attacker tampers with an IBAN, inflates an invoice total, wipes stolen retail inventory, or modifies code, SolTrace immediately triggers **TAMPER DETECTED** with a color-coded forensic diff.
-4. **Zero-Crypto UX for SMEs:** Integrates via standard REST APIs, webhooks, and background daemons. Business owners pay standard fiat subscriptions while SolTrace manages custodial keypairs and Solana gas under the hood.
+1. **Deterministic State Seals:** Computes canonical SHA-256 digests across any business record (B2B invoices, hardware inventories, purchase orders, legal contracts) or software artifact (Git commits, SBOMs, binaries).
+2. **Sub-Cent Solana Consensus:** Anchors state transitions directly to the **Solana Memo Program** (`MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr`) in ~400ms for $\approx \$0.00075$ (5,000 lamports / under a tenth of a cent).
+3. **Zero-Knowledge Data Privacy:** Zero raw customer data, confidential pricing, or PII ever touches the blockchain—only one-way mathematical digests, ensuring complete GDPR and commercial privacy compliance.
+4. **Instant Tamper Detection & Fraud Prevention:** Audits live state against Solana's immutable consensus. If an attacker tampers with an IBAN, inflates an invoice total, wipes stolen retail inventory, or modifies code, SolTrace immediately triggers **TAMPER DETECTED** with a color-coded forensic diff.
+5. **Zero-Crypto UX for SMEs:** Integrates via standard REST APIs, webhooks, and background daemons. Business owners pay standard fiat subscriptions while SolTrace manages custodial keypairs and Solana gas under the hood.
 
 ---
 
