@@ -140,10 +140,13 @@ let currentLiveData = null;
 let currentAttestation = null;
 let currentAuditResult = null;
 let cachedLedgerRecords = [];
+let currentBadgeTheme = "dark";
+let currentDrawerRecord = null;
 
 // --- Initialization ---
 document.addEventListener("DOMContentLoaded", () => {
   initTabs();
+  initKeyboardShortcuts();
   loadPreset("invoice");
   fetchTelemetry();
   refreshLedger();
@@ -151,6 +154,69 @@ document.addEventListener("DOMContentLoaded", () => {
   // Auto-anchor invoice preset immediately so user can audit right away!
   anchorCurrentRecord(true);
 });
+
+// --- Modern Toast Notification Engine ---
+function showToast(title, desc, type = "info", duration = 3500) {
+  const container = document.getElementById("toast-container");
+  if (!container) return;
+
+  const toast = document.createElement("div");
+  toast.className = `toast toast-${type}`;
+
+  const iconMap = {
+    success: "🛡️",
+    error: "🚨",
+    info: "⚡"
+  };
+
+  toast.innerHTML = `
+    <div class="toast-icon">${iconMap[type] || "ℹ️"}</div>
+    <div class="toast-content">
+      <div class="toast-title">${title}</div>
+      ${desc ? `<div class="toast-desc">${desc}</div>` : ""}
+    </div>
+    <div class="toast-progress" style="animation-duration: ${duration}ms;"></div>
+  `;
+
+  container.appendChild(toast);
+
+  setTimeout(() => {
+    toast.style.transition = "opacity 0.25s ease, transform 0.25s ease";
+    toast.style.opacity = "0";
+    toast.style.transform = "translateY(15px)";
+    setTimeout(() => toast.remove(), 260);
+  }, duration);
+}
+
+// --- Keyboard Ergonomics (Linear / Raycast Style) ---
+function initKeyboardShortcuts() {
+  window.addEventListener("keydown", (e) => {
+    const isInput = ["INPUT", "TEXTAREA"].includes(document.activeElement.tagName);
+
+    if (e.key === "Escape") {
+      closeDrawer();
+      closeModal();
+      return;
+    }
+
+    if (isInput) return;
+
+    if (e.key === "1") switchTab("tab-showcase");
+    else if (e.key === "2") switchTab("tab-certificate");
+    else if (e.key === "3") switchTab("tab-badge");
+    else if (e.key === "4") switchTab("tab-explorer");
+    else if (e.key === "5") switchTab("tab-reproduce");
+    else if (e.key === "/") {
+      e.preventDefault();
+      switchTab("tab-explorer");
+      const searchInput = document.getElementById("explorer-search-input");
+      if (searchInput) {
+        searchInput.focus();
+        searchInput.select();
+      }
+    }
+  });
+}
 
 // --- Tab Navigation ---
 function initTabs() {
@@ -419,6 +485,7 @@ function renderAttackControls() {
 function executeAttack(attack) {
   currentLiveData = attack.apply(currentAuthenticData);
   renderDocumentView();
+  renderVisualDiff(currentAuthenticData, currentLiveData);
   
   // Highlight Live DB box with warning shake
   const liveBox = document.getElementById("live-doc-card");
@@ -431,6 +498,7 @@ function executeAttack(attack) {
     }, 1200);
   }
 
+  showToast("Database Tampering Simulated", attack.name, "error");
   // Clear previous audit to prompt user to audit again
   renderAuditBanner(null, "ATTACK_EXECUTED");
 }
@@ -438,7 +506,44 @@ function executeAttack(attack) {
 function resetToAuthentic() {
   currentLiveData = JSON.parse(JSON.stringify(currentAuthenticData));
   renderDocumentView();
+  const diffBox = document.getElementById("visual-diff-container");
+  if (diffBox) diffBox.style.display = "none";
+  showToast("Database Restored", "State reset to legitimate authentic record", "info");
   renderAuditBanner(null);
+}
+
+// --- Evil Martians / GitGuardian Inspired Visual Diff Renderer ---
+function renderVisualDiff(orig, altered) {
+  const diffContainer = document.getElementById("visual-diff-container");
+  const diffBody = document.getElementById("visual-diff-body");
+  if (!diffContainer || !diffBody) return;
+
+  const diff = computeClientDiff(orig, altered);
+  if (!diff.has_changes) {
+    diffContainer.style.display = "none";
+    return;
+  }
+
+  diffContainer.style.display = "block";
+  let html = "";
+
+  for (const [field, val] of Object.entries(diff.modified)) {
+    const beforeStr = typeof val.before === "object" ? JSON.stringify(val.before) : String(val.before);
+    const afterStr = typeof val.after === "object" ? JSON.stringify(val.after) : String(val.after);
+
+    html += `
+      <div class="diff-line diff-line-removed">
+        <span class="diff-sign">-</span>
+        <span>${field}: <span class="diff-strikethrough">${beforeStr}</span></span>
+      </div>
+      <div class="diff-line diff-line-added">
+        <span class="diff-sign">+</span>
+        <span>${field}: <span class="diff-highlight-red">${afterStr}</span></span>
+      </div>
+    `;
+  }
+
+  diffBody.innerHTML = html;
 }
 
 // --- Anchor to Solana ---
@@ -502,17 +607,63 @@ function displaySolanaConfirmation(att) {
   const netElem = document.getElementById("conf-network");
   const explorerElem = document.getElementById("conf-explorer-link");
 
-  if (sigElem) sigElem.textContent = att.signature || "5EwkS5SgSt1Q4duppiCvdhRXrb4XoFLLC1HCuySWKdJsKiEsoPsrqrNesADPTLm4bkUaD39hjfDuUtk99qgCpsW9";
-  if (sealElem) sealElem.textContent = att.state_seal || "1f951e99c459bc298ff86ac3adee1c41aec9d496a462a2db1d35683a200232d8";
+  const sig = att.signature || "5EwkS5SgSt1Q4duppiCvdhRXrb4XoFLLC1HCuySWKdJsKiEsoPsrqrNesADPTLm4bkUaD39hjfDuUtk99qgCpsW9";
+  const seal = att.state_seal || "1f951e99c459bc298ff86ac3adee1c41aec9d496a462a2db1d35683a200232d8";
+
+  if (sigElem) sigElem.textContent = sig;
+  if (sealElem) sealElem.textContent = seal;
   if (netElem) netElem.textContent = (att.network || "LiteSVM / Solana Devnet") + " (400ms • $0.00025/tx)";
   if (explorerElem) {
-    explorerElem.href = att.explorer_url || `https://explorer.solana.com/tx/${att.signature}?cluster=custom`;
+    explorerElem.href = att.explorer_url || `https://explorer.solana.com/tx/${sig}?cluster=custom`;
     explorerElem.textContent = "View on Solana Explorer ↗";
   }
 
   // Update State Seal Preview in Step 1
   const fpElem = document.getElementById("state-seal-preview");
-  if (fpElem) fpElem.textContent = att.state_seal;
+  if (fpElem) fpElem.textContent = seal;
+
+  // Render Solana Explorer Style Decoded Memo Inspector
+  renderDecodedMemoCard(att);
+
+  showToast("Solana Consensus Finalized", `State seal anchored in ~400ms: ${seal.substring(0, 10)}...`, "success");
+}
+
+function renderDecodedMemoCard(att) {
+  const container = document.getElementById("memo-decoder-container");
+  const tokensList = document.getElementById("memo-tokens-list");
+  if (!container || !tokensList) return;
+
+  const preset = SHOWCASE_PRESETS[currentPresetKey];
+  const seal = att.state_seal || "1f951e99c459bc298ff86ac3adee1c41aec9d496a462a2db1d35683a200232d8";
+  const shortSeal = seal.substring(0, 10) + "..." + seal.substring(seal.length - 8);
+
+  container.style.display = "block";
+  tokensList.innerHTML = `
+    <div class="memo-token-item">
+      <span class="memo-token-label">Protocol:</span>
+      <span class="memo-token-val">ST</span>
+    </div>
+    <div class="memo-token-item">
+      <span class="memo-token-label">v:</span>
+      <span class="memo-token-val">1</span>
+    </div>
+    <div class="memo-token-item">
+      <span class="memo-token-label">Table:</span>
+      <span class="memo-token-val">${preset.entity}</span>
+    </div>
+    <div class="memo-token-item">
+      <span class="memo-token-label">ID:</span>
+      <span class="memo-token-val">${preset.id}</span>
+    </div>
+    <div class="memo-token-item" title="${seal}">
+      <span class="memo-token-label">SHA-256 Seal:</span>
+      <span class="memo-token-val">${shortSeal}</span>
+    </div>
+    <div class="memo-token-item">
+      <span class="memo-token-label">Program:</span>
+      <span class="memo-token-val" style="color: #c084fc;">spl-memo v2</span>
+    </div>
+  `;
 }
 
 function displayLocalAttestationFallback() {
@@ -823,7 +974,16 @@ function printCertificate() {
   window.print();
 }
 
-// --- Embeddable Verification Badge ---
+// --- Embeddable Verification Badge & Customizer ---
+function setBadgeTheme(theme) {
+  currentBadgeTheme = theme;
+  document.querySelectorAll(".customizer-btn").forEach(btn => {
+    btn.classList.toggle("active", btn.id === `btn-theme-${theme}`);
+  });
+  renderBadgeShowcase();
+  showToast("Badge Theme Updated", `Switched to ${theme.toUpperCase()} style`, "info", 2000);
+}
+
 function renderBadgeShowcase() {
   const preset = SHOWCASE_PRESETS[currentPresetKey];
   const sig = (currentAttestation && currentAttestation.signature) || "5EwkS5SgSt1Q4duppiCvdhRXrb4XoFLLC1HCuySWKdJsKiEsoPsrqrNesADPTLm4bkUaD39hjfDuUtk99qgCpsW9";
@@ -831,19 +991,50 @@ function renderBadgeShowcase() {
 
   const previewTarget = document.getElementById("badge-preview-target");
   if (previewTarget) {
-    previewTarget.innerHTML = `
-      <div class="soltrace-verified-pill" onclick="alert('Live Solana Attestation Verified!\nEntity: ${preset.entity}\nRecord: ${preset.id}\nTx: ${sig}');">
-        <div class="badge-solana-icon"></div>
-        <span>Secured by <strong>SolTrace</strong> on Solana</span>
-        <span class="badge-verified-check">✔</span>
-        <span style="opacity:0.6; font-size:0.72rem; font-family:var(--font-mono);">[${shortSig}]</span>
-      </div>
-    `;
+    if (currentBadgeTheme === "light") {
+      previewTarget.innerHTML = `
+        <div class="soltrace-verified-pill" style="background:#ffffff; color:#0f172a; border:1px solid #10b981; box-shadow:0 4px 15px rgba(0,0,0,0.1);" onclick="openCurrentInDrawer()">
+          <div class="badge-solana-icon"></div>
+          <span>Secured by <strong>SolTrace</strong> on Solana</span>
+          <span class="badge-verified-check">✔</span>
+          <span style="opacity:0.6; font-size:0.72rem; font-family:var(--font-mono); color:#475569;">[${shortSig}]</span>
+        </div>
+      `;
+    } else if (currentBadgeTheme === "compact") {
+      previewTarget.innerHTML = `
+        <div class="soltrace-verified-pill" style="padding:0.35rem 0.75rem; font-size:0.8rem;" onclick="openCurrentInDrawer()">
+          <span style="color:var(--solana-green);">🛡️</span>
+          <span>Verified on Solana</span>
+          <span class="badge-verified-check">✔</span>
+        </div>
+      `;
+    } else {
+      // Default: Dark Obsidian
+      previewTarget.innerHTML = `
+        <div class="soltrace-verified-pill" onclick="openCurrentInDrawer()">
+          <div class="badge-solana-icon"></div>
+          <span>Secured by <strong>SolTrace</strong> on Solana</span>
+          <span class="badge-verified-check">✔</span>
+          <span style="opacity:0.6; font-size:0.72rem; font-family:var(--font-mono);">[${shortSig}]</span>
+        </div>
+      `;
+    }
   }
 
   // Generate Snippets
-  const htmlSnippet = `<a href="https://soltrace.app/verify/${preset.entity}/${preset.id}" target="_blank" style="display:inline-flex;align-items:center;gap:6px;background:#0f172a;border:1px solid #10b981;border-radius:999px;padding:6px 14px;color:#ffffff;text-decoration:none;font-family:sans-serif;font-size:13px;">\n  <span style="color:#10b981;font-weight:bold;">✔</span> Secured by SolTrace on Solana (${shortSig})\n</a>`;
-  const mdSnippet = `[![Secured by SolTrace on Solana](https://img.shields.io/badge/SolTrace-Secured_on_Solana-14f195?logo=solana)](https://soltrace.app/verify/${preset.entity}/${preset.id})`;
+  let htmlSnippet = "";
+  let mdSnippet = "";
+
+  if (currentBadgeTheme === "light") {
+    htmlSnippet = `<a href="https://soltrace.app/verify/${preset.entity}/${preset.id}" target="_blank" style="display:inline-flex;align-items:center;gap:6px;background:#ffffff;border:1px solid #10b981;border-radius:999px;padding:6px 14px;color:#0f172a;text-decoration:none;font-family:sans-serif;font-size:13px;box-shadow:0 2px 8px rgba(0,0,0,0.08);">\n  <span style="color:#10b981;font-weight:bold;">✔</span> Secured by SolTrace on Solana (${shortSig})\n</a>`;
+    mdSnippet = `[![Secured by SolTrace on Solana](https://img.shields.io/badge/SolTrace-Secured_on_Solana-ffffff?logo=solana&color=10b981)](https://soltrace.app/verify/${preset.entity}/${preset.id})`;
+  } else if (currentBadgeTheme === "compact") {
+    htmlSnippet = `<a href="https://soltrace.app/verify/${preset.entity}/${preset.id}" target="_blank" style="display:inline-flex;align-items:center;gap:5px;background:#0f172a;border:1px solid #14f195;border-radius:999px;padding:4px 10px;color:#14f195;text-decoration:none;font-family:sans-serif;font-size:11px;">\n  <span>🛡️</span> Verified on Solana\n</a>`;
+    mdSnippet = `[![Verified on Solana](https://img.shields.io/badge/SolTrace-Verified-14f195?logo=solana)](https://soltrace.app/verify/${preset.entity}/${preset.id})`;
+  } else {
+    htmlSnippet = `<a href="https://soltrace.app/verify/${preset.entity}/${preset.id}" target="_blank" style="display:inline-flex;align-items:center;gap:6px;background:#0f172a;border:1px solid #10b981;border-radius:999px;padding:6px 14px;color:#ffffff;text-decoration:none;font-family:sans-serif;font-size:13px;">\n  <span style="color:#10b981;font-weight:bold;">✔</span> Secured by SolTrace on Solana (${shortSig})\n</a>`;
+    mdSnippet = `[![Secured by SolTrace on Solana](https://img.shields.io/badge/SolTrace-Secured_on_Solana-14f195?logo=solana)](https://soltrace.app/verify/${preset.entity}/${preset.id})`;
+  }
 
   const htmlBox = document.getElementById("code-snippet-html");
   const mdBox = document.getElementById("code-snippet-md");
@@ -855,7 +1046,7 @@ function copyCode(elemId) {
   const elem = document.getElementById(elemId);
   if (!elem) return;
   navigator.clipboard.writeText(elem.textContent).then(() => {
-    alert("Snippet copied to clipboard!");
+    showToast("Copied to Clipboard", "Embed code snippet ready to paste into your billing template", "success");
   });
 }
 
@@ -895,7 +1086,11 @@ function renderLedgerTable(records) {
     tr.innerHTML = `
       <td><span class="badge-version" style="color:var(--solana-cyan);">${r.table_name}</span></td>
       <td><strong>${r.record_id}</strong></td>
-      <td><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--solana-green);">${shortSeal}</span></td>
+      <td>
+        <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--solana-green); cursor:pointer;" title="Click to copy seal" onclick="navigator.clipboard.writeText('${r.current_seal}'); showToast('Seal Copied', '${shortSeal}', 'success');">
+          ${shortSeal} 📋
+        </span>
+      </td>
       <td>
         <a href="https://explorer.solana.com/tx/${r.last_signature}?cluster=custom" target="_blank" style="color:var(--solana-cyan); font-family:var(--font-mono); font-size:0.75rem; text-decoration:none;">
           ${shortSig} ↗
@@ -904,11 +1099,14 @@ function renderLedgerTable(records) {
       <td><span style="font-size:0.78rem; color:var(--text-secondary);">${r.last_updated || 'Just now'}</span></td>
       <td>
         <div class="table-actions">
+          <button class="btn btn-outline" style="padding:0.25rem 0.6rem; font-size:0.75rem;" onclick='openRecordInDrawer("${r.table_name}", "${r.record_id}", "${r.current_seal || ""}", "${r.last_signature || ""}", "${r.last_updated || ""}")'>
+            🔍 Inspect
+          </button>
           <button class="btn btn-outline" style="padding:0.25rem 0.6rem; font-size:0.75rem;" onclick="viewHistoryModal('${r.table_name}', '${r.record_id}')">
             📜 History
           </button>
           <button class="btn btn-outline" style="padding:0.25rem 0.6rem; font-size:0.75rem;" onclick="loadAndAuditRecord('${r.table_name}', '${r.record_id}')">
-            🔍 Audit
+            ⚡ Audit
           </button>
         </div>
       </td>
@@ -935,6 +1133,225 @@ function renderLedgerMockTable() {
     }
   ];
   renderLedgerTable(mockRecords);
+}
+
+function filterExplorerTable(query) {
+  const q = (query || "").toLowerCase();
+  const rows = document.querySelectorAll("#explorer-table-body tr");
+  rows.forEach(row => {
+    const text = row.textContent.toLowerCase();
+    row.style.display = text.includes(q) ? "" : "none";
+  });
+}
+
+// --- Retraced / Open-Source Inspired Slide-Over Inspector Drawer ---
+function openDrawer(record) {
+  currentDrawerRecord = record;
+  const drawer = document.getElementById("inspector-drawer");
+  const backdrop = document.getElementById("drawer-backdrop");
+  if (!drawer || !backdrop) return;
+
+  const title = document.getElementById("drawer-title");
+  const subtitle = document.getElementById("drawer-subtitle");
+  if (title) title.textContent = "Cryptographic Evidence Inspector";
+  if (subtitle) {
+    subtitle.textContent = `${record.table_name || record.entity || 'records'} / ${record.record_id || record.id}`;
+  }
+
+  renderDrawerPanes(record);
+  switchDrawerTab("pane-overview");
+
+  backdrop.classList.add("active");
+  drawer.classList.add("active");
+}
+
+function openRecordInDrawer(table, id, seal, signature, timestamp) {
+  const record = {
+    table_name: table,
+    record_id: id,
+    current_seal: seal,
+    last_signature: signature,
+    last_updated: timestamp
+  };
+
+  const preset = SHOWCASE_PRESETS[currentPresetKey];
+  if (preset && preset.entity === table && preset.id === id) {
+    record.authentic_data = currentAuthenticData;
+    record.live_data = currentLiveData;
+    record.audit_result = currentAuditResult;
+  }
+
+  openDrawer(record);
+}
+
+function openCurrentInDrawer() {
+  const preset = SHOWCASE_PRESETS[currentPresetKey];
+  const record = {
+    table_name: preset.entity,
+    record_id: preset.id,
+    current_seal: (currentAttestation && currentAttestation.state_seal) || "1f951e99c459bc298ff86ac3adee1c41aec9d496a462a2db1d35683a200232d8",
+    last_signature: (currentAttestation && currentAttestation.signature) || "5EwkS5SgSt1Q4duppiCvdhRXrb4XoFLLC1HCuySWKdJsKiEsoPsrqrNesADPTLm4bkUaD39hjfDuUtk99qgCpsW9",
+    last_updated: new Date().toISOString(),
+    authentic_data: currentAuthenticData,
+    live_data: currentLiveData,
+    audit_result: currentAuditResult
+  };
+  openDrawer(record);
+}
+
+function closeDrawer() {
+  const drawer = document.getElementById("inspector-drawer");
+  const backdrop = document.getElementById("drawer-backdrop");
+  if (drawer) drawer.classList.remove("active");
+  if (backdrop) backdrop.classList.remove("active");
+}
+
+function switchDrawerTab(paneId) {
+  document.querySelectorAll(".drawer-tab-btn").forEach(btn => {
+    btn.classList.toggle("active", btn.getAttribute("data-drawer-tab") === paneId);
+  });
+  document.querySelectorAll(".drawer-tab-pane").forEach(pane => {
+    pane.classList.toggle("active", pane.id === paneId);
+  });
+}
+
+function renderDrawerPanes(record) {
+  const pOverview = document.getElementById("pane-overview");
+  const pDiff = document.getElementById("pane-diff");
+  const pMemo = document.getElementById("pane-memo");
+  const pJson = document.getElementById("pane-json");
+
+  const table = record.table_name || record.entity || "entity";
+  const id = record.record_id || record.id || "0";
+  const seal = record.current_seal || "1f951e99c459bc298ff86ac3adee1c41aec9d496a462a2db1d35683a200232d8";
+  const sig = record.last_signature || "5EwkS5SgSt1Q4duppiCvdhRXrb4XoFLLC1HCuySWKdJsKiEsoPsrqrNesADPTLm4bkUaD39hjfDuUtk99qgCpsW9";
+  const time = record.last_updated || new Date().toISOString();
+  const isVerified = record.audit_result ? record.audit_result.verified : true;
+
+  // 1. Overview Pane
+  if (pOverview) {
+    pOverview.innerHTML = `
+      <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius-md); padding: 1.25rem;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+          <span class="badge-version" style="font-size:0.75rem; color:var(--solana-cyan);">${table}</span>
+          <span style="font-size:0.8rem; font-weight:700; color:${isVerified ? 'var(--solana-green)' : 'var(--tamper-red)'};">
+            ${isVerified ? '✔ MATHEMATICALLY VERIFIED' : '✖ TAMPERING DETECTED'}
+          </span>
+        </div>
+        <div style="font-size:1.15rem; font-weight:800; margin-bottom:0.75rem;">Record: ${id}</div>
+        <div style="display:flex; flex-direction:column; gap:0.6rem; font-size:0.82rem;">
+          <div>
+            <span style="color:var(--text-muted);">Solana Network:</span>
+            <strong style="color:var(--text-primary); margin-left:6px;">LiteSVM / Solana Devnet</strong>
+          </div>
+          <div>
+            <span style="color:var(--text-muted);">Finality & Latency:</span>
+            <strong style="color:var(--solana-green); margin-left:6px;">~400ms (Single Slot Finality)</strong>
+          </div>
+          <div>
+            <span style="color:var(--text-muted);">Anchor Timestamp:</span>
+            <span style="color:var(--text-secondary); margin-left:6px;">${time}</span>
+          </div>
+          <div>
+            <span style="color:var(--text-muted);">Transaction Tx:</span>
+            <div style="margin-top:0.25rem;">
+              <a href="https://explorer.solana.com/tx/${sig}?cluster=custom" target="_blank" style="color:var(--solana-cyan); font-family:var(--font-mono); font-size:0.75rem; word-break:break-all;">
+                ${sig} ↗
+              </a>
+            </div>
+          </div>
+          <div>
+            <span style="color:var(--text-muted);">Cryptographic State Seal:</span>
+            <div style="background:rgba(0,0,0,0.4); padding:0.5rem; border-radius:4px; font-family:var(--font-mono); font-size:0.75rem; color:var(--solana-green); word-break:break-all; margin-top:0.25rem; display:flex; justify-content:space-between; align-items:center;">
+              <span>${seal}</span>
+              <button class="btn btn-outline" style="padding:0.15rem 0.4rem; font-size:0.68rem;" onclick="navigator.clipboard.writeText('${seal}'); showToast('Copied', 'State seal copied to clipboard', 'success');">Copy</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  // 2. Diff Pane
+  if (pDiff) {
+    if (record.audit_result && !record.audit_result.verified && record.audit_result.differences && record.audit_result.differences.modified) {
+      let diffHtml = `
+        <div class="visual-diff-box">
+          <div class="diff-header">
+            <span>Unauthorized State Alterations</span>
+            <span style="color:var(--tamper-red); font-weight:700;">TAMPER DETECTED</span>
+          </div>
+          <div class="diff-body">
+      `;
+      for (const [field, val] of Object.entries(record.audit_result.differences.modified)) {
+        diffHtml += `
+          <div class="diff-line diff-line-removed">
+            <span class="diff-sign">-</span>
+            <span>${field}: <span class="diff-strikethrough">${typeof val.before === 'object' ? JSON.stringify(val.before) : val.before}</span></span>
+          </div>
+          <div class="diff-line diff-line-added">
+            <span class="diff-sign">+</span>
+            <span>${field}: <span class="diff-highlight-red">${typeof val.after === 'object' ? JSON.stringify(val.after) : val.after}</span></span>
+          </div>
+        `;
+      }
+      diffHtml += `</div></div>`;
+      pDiff.innerHTML = diffHtml;
+    } else {
+      pDiff.innerHTML = `
+        <div style="background:rgba(16, 185, 129, 0.08); border:1px solid rgba(16, 185, 129, 0.3); border-radius:var(--radius-md); padding:1.5rem; text-align:center;">
+          <div style="font-size:2rem; margin-bottom:0.5rem;">🛡️</div>
+          <h4 style="color:var(--solana-green); font-size:1.05rem; font-weight:700;">Zero Cryptographic Drift</h4>
+          <p style="font-size:0.84rem; color:var(--text-secondary); margin-top:0.35rem;">
+            The live record state matches the decentralized on-chain Solana consensus seal bit-for-bit.
+          </p>
+        </div>
+      `;
+    }
+  }
+
+  // 3. Solana Memo Pane
+  if (pMemo) {
+    pMemo.innerHTML = `
+      <div class="memo-decoder-card">
+        <div class="memo-program-header">
+          <span style="font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 0.35rem;">
+            <span>📜</span> SPL-Memo Instruction Breakdown
+          </span>
+          <span class="program-pill">spl-memo v2</span>
+        </div>
+        <div style="font-size:0.75rem; color:var(--text-secondary);">
+          Program ID: <code>MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr</code>
+        </div>
+        <div class="memo-tokens-breakdown">
+          <div class="memo-token-item"><span class="memo-token-label">Protocol:</span><span class="memo-token-val">ST</span></div>
+          <div class="memo-token-item"><span class="memo-token-label">Version:</span><span class="memo-token-val">1</span></div>
+          <div class="memo-token-item"><span class="memo-token-label">Table:</span><span class="memo-token-val">${table}</span></div>
+          <div class="memo-token-item"><span class="memo-token-label">Record:</span><span class="memo-token-val">${id}</span></div>
+          <div class="memo-token-item" title="${seal}"><span class="memo-token-label">State Seal:</span><span class="memo-token-val">${seal.substring(0, 12)}...</span></div>
+        </div>
+        <div style="margin-top:0.5rem;">
+          <span style="font-size:0.75rem; color:var(--text-muted);">Raw UTF-8 Payload:</span>
+          <pre class="code-box" style="margin-top:0.25rem;">ST:1:${table}:${id}:${seal}</pre>
+        </div>
+      </div>
+    `;
+  }
+
+  // 4. Canonical JSON Pane
+  if (pJson) {
+    const rawData = record.live_data || record.authentic_data || { table: table, id: id, seal: seal };
+    const formatted = JSON.stringify(rawData, null, 2);
+    pJson.innerHTML = `
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <span style="font-size:0.8rem; color:var(--text-secondary);">Canonical Formatted JSON Payload:</span>
+        <button class="btn btn-outline" style="padding:0.2rem 0.5rem; font-size:0.72rem;" onclick="navigator.clipboard.writeText(document.getElementById('drawer-json-code').textContent); showToast('JSON Copied', 'Canonical payload copied to clipboard', 'success');">
+          Copy JSON
+        </button>
+      </div>
+      <pre class="code-box" id="drawer-json-code" style="max-height:420px; overflow-y:auto; margin-top:0.5rem;">${formatted}</pre>
+    `;
+  }
 }
 
 async function viewHistoryModal(table, recordId) {

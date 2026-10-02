@@ -47,19 +47,19 @@
   <nav class="nav-tabs">
     <div class="nav-tabs-inner">
       <button class="tab-btn active" data-tab="tab-showcase">
-        <span>🚀</span> Interactive Showcase
+        <span>🚀</span> Interactive Showcase <kbd class="key-badge">1</kbd>
       </button>
       <button class="tab-btn" data-tab="tab-certificate">
-        <span>📋</span> CPA Audit Certificate
+        <span>📋</span> CPA Audit Certificate <kbd class="key-badge">2</kbd>
       </button>
       <button class="tab-btn" data-tab="tab-badge">
-        <span>🛡️</span> Embeddable Verification Badge
+        <span>🛡️</span> Embeddable Verification Badge <kbd class="key-badge">3</kbd>
       </button>
       <button class="tab-btn" data-tab="tab-explorer">
-        <span>🔍</span> Solana Ledger Explorer
+        <span>🔍</span> Solana Ledger Explorer <kbd class="key-badge">4</kbd>
       </button>
       <button class="tab-btn" data-tab="tab-reproduce">
-        <span>💻</span> Reproduce On Your Own
+        <span>💻</span> Reproduce On Your Own <kbd class="key-badge">5</kbd>
       </button>
     </div>
   </nav>
@@ -176,10 +176,26 @@
               <span class="conf-label">Network / Latency:</span>
               <span class="conf-val" id="conf-network">LiteSVM (400ms • $0.00025)</span>
             </div>
-            <div style="margin-top: 0.35rem; text-align: right;">
+            <div style="margin-top: 0.35rem; display: flex; justify-content: space-between; align-items: center;">
+              <button class="btn btn-outline" style="padding: 0.2rem 0.5rem; font-size: 0.72rem;" onclick="openCurrentInDrawer()">
+                <span>🔍</span> Inspect Evidence
+              </button>
               <a id="conf-explorer-link" href="#" target="_blank" style="font-size: 0.75rem; color: var(--solana-cyan); text-decoration: none;">
                 View on Solana Explorer ↗
               </a>
+            </div>
+
+            <!-- Solana Foundation Explorer Style Decoded Memo Inspector -->
+            <div id="memo-decoder-container" style="display: none; margin-top: 0.85rem;">
+              <div class="memo-decoder-card">
+                <div class="memo-program-header">
+                  <span style="font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 0.35rem;">
+                    <span>📜</span> Decoded Solana Memo Instruction
+                  </span>
+                  <span class="program-pill">spl-memo v2</span>
+                </div>
+                <div class="memo-tokens-breakdown" id="memo-tokens-list"></div>
+              </div>
             </div>
           </div>
 
@@ -206,6 +222,17 @@
 
           <!-- Attack Simulation Buttons -->
           <div id="attack-buttons-container" class="attack-buttons-group"></div>
+
+          <!-- Evil Martians / GitGuardian Visual Diff Container -->
+          <div id="visual-diff-container" style="display: none; margin-top: 0.85rem;">
+            <div class="visual-diff-box">
+              <div class="diff-header">
+                <span><span>⚡</span> Cryptographic State Drift Diff</span>
+                <span style="color: var(--tamper-red); font-weight: 700;">DATABASE TAMPER DETECTED</span>
+              </div>
+              <div class="diff-body" id="visual-diff-body"></div>
+            </div>
+          </div>
         </div>
 
       </div>
@@ -273,10 +300,18 @@
 
       <div class="badge-showcase-grid">
         <div class="badge-preview-card">
-          <h3 style="font-size: 1.05rem; margin-bottom: 0.5rem;">Interactive Live Badge Preview:</h3>
-          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
-            Click the badge below to test the live on-chain verification popover:
-          </p>
+          <div class="badge-customizer-controls">
+            <span style="font-size: 0.78rem; color: var(--text-muted); font-weight: 600;">Theme Variant:</span>
+            <button class="customizer-btn active" id="btn-theme-dark" onclick="setBadgeTheme('dark')">
+              <span>🌙</span> Obsidian Dark
+            </button>
+            <button class="customizer-btn" id="btn-theme-light" onclick="setBadgeTheme('light')">
+              <span>☀️</span> Enterprise Light
+            </button>
+            <button class="customizer-btn" id="btn-theme-compact" onclick="setBadgeTheme('compact')">
+              <span>💊</span> Compact Pill
+            </button>
+          </div>
 
           <div class="badge-live-render" id="badge-preview-target"></div>
 
@@ -331,7 +366,12 @@
 
       <div class="explorer-table-wrapper">
         <div class="table-controls">
-          <input type="text" class="search-input" placeholder="Search table, record ID or seal..." onkeyup="filterExplorerTable(this.value)">
+          <div style="position: relative; flex: 1; max-width: 480px;">
+            <input type="text" id="explorer-search-input" class="search-input" placeholder="Search table, record ID or seal... (Press / to focus)" onkeyup="filterExplorerTable(this.value)">
+            <span style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); pointer-events: none;">
+              <kbd class="key-badge">/</kbd>
+            </span>
+          </div>
           <span style="font-size: 0.8rem; color: var(--text-muted);">Stored in SQLite <code>.soltrace/ledger.db</code></span>
         </div>
 
@@ -428,16 +468,77 @@
 
   </main>
 
-  <!-- History Modal Overlay -->
-  <div id="history-modal" class="modal-overlay" onclick="if(event.target===this)closeModal()">
-    <div class="modal-window">
-      <div class="modal-header">
-        <h3 style="font-size: 1.1rem; font-weight: 700;">Chronological On-Chain Transition History</h3>
-        <button class="modal-close-btn" onclick="closeModal()">&times;</button>
-      </div>
-      <div id="modal-history-content"></div>
+  <!-- Linear-Style Keyboard Shortcuts Footer -->
+  <footer class="shortcuts-footer-bar">
+    <div class="shortcut-item">
+      <kbd class="key-badge">1</kbd>–<kbd class="key-badge">5</kbd>
+      <span>Switch Tabs</span>
     </div>
-  </div>
+    <div class="shortcut-item">
+      <kbd class="key-badge">/</kbd>
+      <span>Search Ledger</span>
+    </div>
+    <div class="shortcut-item">
+      <kbd class="key-badge">Esc</kbd>
+      <span>Close Inspector</span>
+    </div>
+    <div class="shortcut-item">
+      <span style="color: var(--solana-green);">●</span>
+      <span>Solana Fast Finality: 400ms</span>
+    </div>
+    <div class="shortcut-item">
+      <span style="color: var(--solana-purple); font-weight: 700;">Colosseum World's Fair</span>
+    </div>
+  </footer>
+
+  <!-- Retraced / Open-Source Inspired Slide-Over Inspector Drawer -->
+  <div id="drawer-backdrop" class="drawer-backdrop" onclick="closeDrawer()"></div>
+  <aside id="inspector-drawer" class="inspector-drawer">
+    <div class="drawer-header">
+      <div class="drawer-header-left">
+        <span style="font-size: 1.25rem;">🔍</span>
+        <div>
+          <h3 id="drawer-title">Cryptographic Evidence Inspector</h3>
+          <span id="drawer-subtitle" style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono);">invoices / INV-2026-0891</span>
+        </div>
+      </div>
+      <button class="drawer-close-btn" onclick="closeDrawer()" title="Close (Esc)">&times;</button>
+    </div>
+
+    <!-- Drawer Tabs -->
+    <div class="drawer-tabs">
+      <button class="drawer-tab-btn active" data-drawer-tab="pane-overview" onclick="switchDrawerTab('pane-overview')">
+        <span>📊</span> Overview
+      </button>
+      <button class="drawer-tab-btn" data-drawer-tab="pane-diff" onclick="switchDrawerTab('pane-diff')">
+        <span>⚡</span> Visual Diff
+      </button>
+      <button class="drawer-tab-btn" data-drawer-tab="pane-memo" onclick="switchDrawerTab('pane-memo')">
+        <span>📜</span> Solana Memo
+      </button>
+      <button class="drawer-tab-btn" data-drawer-tab="pane-json" onclick="switchDrawerTab('pane-json')">
+        <span>📦</span> Canonical JSON
+      </button>
+    </div>
+
+    <!-- Drawer Body -->
+    <div class="drawer-body">
+      <!-- Pane 1: Overview -->
+      <div id="pane-overview" class="drawer-tab-pane active"></div>
+
+      <!-- Pane 2: Cryptographic Diff -->
+      <div id="pane-diff" class="drawer-tab-pane"></div>
+
+      <!-- Pane 3: Solana Memo -->
+      <div id="pane-memo" class="drawer-tab-pane"></div>
+
+      <!-- Pane 4: Canonical JSON -->
+      <div id="pane-json" class="drawer-tab-pane"></div>
+    </div>
+  </aside>
+
+  <!-- Toast Notification System -->
+  <div id="toast-container" class="toast-container"></div>
 
   <script src="/static/app.js"></script>
 </body>
