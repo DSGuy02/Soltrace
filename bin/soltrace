@@ -1,6 +1,13 @@
 #!/usr/bin/env python3
 import sys
 import os
+import shutil
+
+# If running on the host system where python version != 3.13 (e.g. Fedora Atomic with Python 3.14),
+# transparently bridge execution into the containerized Python 3.13 environment where dependencies are installed
+if sys.version_info[:2] != (3, 13) and shutil.which("flatpak") and not os.path.exists("/.flatpak-info"):
+    cmd = ["flatpak", "run", "--command=python3", "com.vscodium.codium", os.path.abspath(__file__)] + sys.argv[1:]
+    os.execvp("flatpak", cmd)
 
 # Auto-detect project virtual environment and ensure its packages are available
 package_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
