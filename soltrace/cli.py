@@ -277,13 +277,14 @@ def cmd_serve(args):
     import uvicorn
     from soltrace.server import app
     print_banner()
-    print(f"{C_GREEN}✔ Starting SolTrace Provenance Gateway...{C_RESET}")
-    print(f"  • Host:           {args.host}")
-    print(f"  • Port:           {args.port}")
-    print(f"  • Swagger Docs:   {C_CYAN}http://{args.host}:{args.port}/docs{C_RESET}")
-    print(f"  • NetBox Webhook: {C_CYAN}http://{args.host}:{args.port}/webhooks/netbox{C_RESET}")
-    print(f"  • Snipe-IT Hook:  {C_CYAN}http://{args.host}:{args.port}/webhooks/snipeit{C_RESET}\n")
+    print(f"{C_GREEN}✔ Starting SolTrace Provenance Gateway & Webhook Server...{C_RESET}")
+    print(f"  • Host:             {args.host}")
+    print(f"  • Port:             {args.port}")
+    print(f"  • Interactive UI:   {C_GREEN}{C_BOLD}http://{args.host}:{args.port}/dashboard{C_RESET}")
+    print(f"  • Swagger Docs:     {C_CYAN}http://{args.host}:{args.port}/docs{C_RESET}")
+    print(f"  • Webhook Ingest:   {C_CYAN}http://{args.host}:{args.port}/webhooks/invoice{C_RESET}\n")
     uvicorn.run(app, host=args.host, port=args.port)
+
 
 # --- Hero Tamper Demonstration ---
 

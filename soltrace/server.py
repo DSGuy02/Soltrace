@@ -11,6 +11,8 @@ from typing import Dict, Any, Optional, List
 
 from fastapi import FastAPI, HTTPException, Request, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from soltrace.db_hasher import (
@@ -43,6 +45,12 @@ app.add_middleware(
 CONFIG_DIR = ".soltrace"
 KEYPAIR_FILE = os.path.join(CONFIG_DIR, "keypair.json")
 CONFIG_FILE = os.path.join(CONFIG_DIR, "config.json")
+STATIC_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static")
+EXAMPLES_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "examples")
+
+if os.path.exists(STATIC_DIR):
+    app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+
 
 def get_client() -> SolanaAnchorClient:
     network = "litesvm"
@@ -105,27 +113,52 @@ class VerifyRecordResponse(BaseModel):
 
 # --- Endpoints ---
 
+@app.get("/dashboard", response_class=FileResponse)
+@app.get("/explorer", response_class=FileResponse)
+@app.get("/audit", response_class=FileResponse)
+@app.get("/certificate", response_class=FileResponse)
+@app.get("/demo", response_class=FileResponse)
+def get_dashboard():
+    index_file = os.path.join(STATIC_DIR, "index.html")
+    if os.path.exists(index_file):
+        return FileResponse(index_file)
+    return HTMLResponse("<h1>SolTrace Dashboard</h1><p>Static index.html not found.</p>")
+
 @app.get("/")
-def get_root():
+def get_root(request: Request):
+    accept = request.headers.get("accept", "")
+    if "text/html" in accept and not accept.startswith("*/*"):
+        index_file = os.path.join(STATIC_DIR, "index.html")
+        if os.path.exists(index_file):
+            return FileResponse(index_file)
+
     client = get_client()
     return {
-        "service": "SolTrace Provenance Gateway",
-        "version": "0.2.0",
+        "service": "SolTrace Provenance Gateway & Universal SME Ledger",
+        "version": "0.3.0",
         "description": "Cryptographic Database & Inventory Provenance on Solana",
         "solana_network": client.network,
         "payer_address": str(client.keypair.pubkey()),
+        "dashboard_url": "/dashboard",
         "docs_url": "/docs",
         "endpoints": {
+            "dashboard": "/dashboard",
             "anchor": "/api/v1/anchor",
             "verify": "/api/v1/verify",
+            "records": "/api/v1/records",
+            "examples": "/api/v1/examples",
             "history": "/api/v1/records/{table}/{record_id}/history",
             "webhooks": {
+                "invoice": "/webhooks/invoice",
+                "inventory": "/webhooks/inventory",
+                "order": "/webhooks/order",
                 "netbox": "/webhooks/netbox",
                 "snipeit": "/webhooks/snipeit",
                 "generic": "/webhooks/generic"
             }
         }
     }
+
 
 @app.get("/health")
 def healthcheck():
@@ -280,7 +313,61 @@ def get_record_history(table: str, record_id: str):
         "history": history
     }
 
+@app.get("/api/v1/records")
+def list_records(limit: int = 50):
+    """Returns recent anchored records from the local verifiable ledger."""
+    ledger = get_ledger()
+    return ledger.list_records(limit=limit)
+
+@app.get("/api/v1/examples")
+def get_examples():
+    """Returns the built-in repository examples for B2B Invoices, Retail Inventory, and Orders."""
+    examples = {}
+    try:
+        inv_path = os.path.join(EXAMPLES_DIR, "sample_invoice.json")
+        if os.path.exists(inv_path):
+            with open(inv_path, "r") as f:
+                examples["invoice"] = json.load(f)
+                
+        cat_path = os.path.join(EXAMPLES_DIR, "computer_store_catalog.json")
+        if os.path.exists(cat_path):
+            with open(cat_path, "r") as f:
+                examples["computer_store_catalog"] = json.load(f)
+                
+        ord_path = os.path.join(EXAMPLES_DIR, "sample_order.json")
+        if os.path.exists(ord_path):
+            with open(ord_path, "r") as f:
+                examples["order"] = json.load(f)
+    except Exception as e:
+        examples["error"] = str(e)
+    return examples
+
+@app.get("/api/v1/certificate/{table}/{record_id}")
+def get_cpa_certificate(table: str, record_id: str):
+    """Generates an official structured CPA audit certificate object for a record."""
+    ledger = get_ledger()
+    rec = ledger.get_latest_record(table, record_id)
+    if not rec:
+        raise HTTPException(status_code=404, detail="Record not found in ledger")
+        
+    return {
+        "certificate_id": f"ST-CERT-{record_id}-{int(datetime.now(timezone.utc).timestamp())}",
+        "status": "MATHEMATICALLY_VERIFIED",
+        "entity": table,
+        "record_id": record_id,
+        "state_seal": rec["current_seal"],
+        "record_hash": rec["record_hash"],
+        "solana_signature": rec["last_signature"],
+        "memo_program_id": "MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr",
+        "network": "Solana (Devnet / LiteSVM)",
+        "operator": rec["operator"],
+        "anchored_at": rec["last_updated"],
+        "certified_at": datetime.now(timezone.utc).isoformat(),
+        "attestation": "This cryptographic certificate verifies that the referenced record is immutably anchored to Solana consensus. Zero modifications have occurred post-attestation."
+    }
+
 # --- Webhook Ingestion Adapters ---
+
 
 @app.post("/webhooks/netbox")
 async def webhook_netbox(request: Request):

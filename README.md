@@ -87,24 +87,29 @@ You can also run specific vertical demos:
 
 ---
 
-## 🖥️ REST API Gateway & Webhooks
+## 🖥️ Interactive Web Dashboard & REST Gateway
 
-SolTrace includes an enterprise-ready FastAPI Gateway with auto-generated OpenAPI documentation.
+SolTrace includes a web interface for hackathon demonstrations, CPA audit certification, and live verification alongside an OpenAPI REST Gateway.
 
-### Launching the Server
+### Launching the Dashboard & Server
 ```bash
 ./bin/soltrace serve --host 0.0.0.0 --port 8000
 ```
 
-Open **[http://localhost:8000/docs](http://localhost:8000/docs)** for the interactive Swagger UI.
+* **Interactive Showcase & CPA Reports:** Open **[http://localhost:8000/dashboard](http://localhost:8000/dashboard)**
+* **OpenAPI / Swagger Documentation:** Open **[http://localhost:8000/docs](http://localhost:8000/docs)**
 
-### Key REST Endpoints
+### Key Endpoints & UI Views
 
-| Endpoint | Method | Description |
+| Endpoint / View | Method | Description |
 | :--- | :---: | :--- |
+| `/dashboard` | `GET` | **Visual Interactive Command Center:** Multi-vertical fraud simulation, live verification badges, and printable CPA Audit Certificates |
 | `/api/v1/anchor` | `POST` | Anchor arbitrary business entity or record to Solana |
 | `/api/v1/verify` | `POST` | Audit live entity state against the on-chain Solana seal |
-| `/api/v1/records/{entity}/{id}/history` | `GET` | Retrieve verifiable cryptographic audit trail |
+| `/api/v1/records` | `GET` | List recent anchored records in the verifiable SQLite registry |
+| `/api/v1/examples` | `GET` | Retrieve repository showcase datasets (invoices, hardware catalogs, orders) |
+| `/api/v1/certificate/{entity}/{id}` | `GET` | Generate structured cryptographic CPA audit certificate |
+| `/api/v1/records/{entity}/{id}/history` | `GET` | Retrieve verifiable chronological cryptographic audit trail |
 | `/webhooks/invoice` | `POST` | Ingest B2B invoices (QuickBooks, Xero, Stripe Invoicing) |
 | `/webhooks/order` | `POST` | Ingest e-commerce customer orders (Shopify, WooCommerce) |
 | `/webhooks/inventory` | `POST` | Ingest retail hardware inventory stock events |
@@ -112,6 +117,7 @@ Open **[http://localhost:8000/docs](http://localhost:8000/docs)** for the intera
 | `/webhooks/snipeit` | `POST` | Ingest Snipe-IT IT asset management check-in/out |
 | `/webhooks/netbox` | `POST` | Ingest NetBox IPAM / DCIM infrastructure state |
 | `/webhooks/generic` | `POST` | Universal JSON adapter for custom ERPs and CDC pipelines |
+
 
 ---
 
@@ -184,11 +190,12 @@ For software and DevOps teams, SolTrace retains its source-code and artifact pro
 
 ## 🧪 Automated Test Suite
 
-Run the full pytest suite (21 automated tests covering canonical serialization, SQLite verifiable storage, Solana Memo transactions, REST endpoints, and multi-vertical webhooks):
+Run the full pytest suite (26 automated tests covering canonical serialization, SQLite verifiable storage, Solana Memo transactions, REST endpoints, multi-vertical webhooks, and frontend dashboard serving):
 
 ```bash
 PYTHONPATH=prototypes/soltrace .venv/bin/pytest prototypes/soltrace/tests
 ```
+
 
 ---
 

@@ -137,3 +137,19 @@ class SolTraceLedger:
                 item["data"] = json.loads(item["data_json"])
                 history.append(item)
             return history
+
+    def list_records(self, limit: int = 50) -> List[Dict[str, Any]]:
+        with self._get_connection() as conn:
+            cursor = conn.execute("""
+            SELECT * FROM records
+            ORDER BY last_updated DESC
+            LIMIT ?
+            """, (limit,))
+            rows = cursor.fetchall()
+            records = []
+            for r in rows:
+                item = dict(r)
+                item["data"] = json.loads(item["data_json"])
+                records.append(item)
+            return records
+

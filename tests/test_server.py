@@ -216,3 +216,58 @@ def test_order_webhook():
     assert data["success"] is True
     assert data["table"] == "orders"
     assert data["record_id"] == "ORD-10042"
+
+def test_dashboard_page():
+    resp = client.get("/dashboard")
+    assert resp.status_code == 200
+    assert "SolTrace" in resp.text
+    assert "Universal Cryptographic Ledger" in resp.text
+    assert "Interactive Showcase" in resp.text
+
+def test_static_assets():
+    resp_css = client.get("/static/style.css")
+    assert resp_css.status_code == 200
+    assert "--solana-cyan" in resp_css.text
+
+    resp_js = client.get("/static/app.js")
+    assert resp_js.status_code == 200
+    assert "SHOWCASE_PRESETS" in resp_js.text
+
+def test_list_records_endpoint():
+    resp = client.get("/api/v1/records")
+    assert resp.status_code == 200
+    data = resp.json()
+    assert isinstance(data, list)
+
+def test_examples_endpoint():
+    resp = client.get("/api/v1/examples")
+    assert resp.status_code == 200
+    data = resp.json()
+    assert "invoice" in data
+    assert "computer_store_catalog" in data
+    assert "order" in data
+
+def test_cpa_certificate_endpoint():
+    # Anchor an invoice first
+    inv_payload = {
+        "table": "invoices",
+        "record_id": "CERT-INV-001",
+        "data": {
+            "amount": 5000.00,
+            "iban": "IE29AIBK93012345678901"
+        },
+        "operator": "cfo@company.com",
+        "action": "ISSUE"
+    }
+    client.post("/api/v1/anchor", json=inv_payload)
+
+    # Get certificate
+    cert_resp = client.get("/api/v1/certificate/invoices/CERT-INV-001")
+    assert cert_resp.status_code == 200
+    cert = cert_resp.json()
+    assert cert["status"] == "MATHEMATICALLY_VERIFIED"
+    assert cert["entity"] == "invoices"
+    assert cert["record_id"] == "CERT-INV-001"
+    assert len(cert["state_seal"]) == 64
+    assert len(cert["solana_signature"]) > 0
+
