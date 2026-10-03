@@ -2,543 +2,338 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SolTrace 🛡️ — Universal Cryptographic Ledger on Solana</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <script>
+    {
+      const pinned = localStorage.getItem("soltrace-color-scheme");
+      if (pinned) {
+        document.documentElement.dataset.theme = pinned;
+        document.querySelector('meta[name="color-scheme"]').content = pinned;
+      }
+    }
+  </script>
+  <title>SolTrace — Tamper-proof business records on Solana</title>
+  <meta name="description" content="SolTrace seals invoices, inventory and orders on Solana so anyone can prove a record hasn't been changed.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
   <link rel="stylesheet" href="/static/style.css">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%239945FF'/%3E%3Cstop offset='1' stop-color='%2314F195'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='url(%23g)'/%3E%3Cpath d='M16 7l7 3v5.5c0 4.5-3 8-7 9.5-4-1.5-7-5-7-9.5V10z' fill='none' stroke='white' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='M12.5 16l2.5 2.5 4.5-4.5' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 </head>
 <body>
 
-  <!-- Top App Header -->
-  <header class="app-header">
-    <div class="header-inner">
-      <div class="brand-wrapper">
-        <div class="brand-logo-icon">🛡️</div>
-        <div class="brand-title-group">
-          <h1>
-            SolTrace
-            <span class="badge-version">v0.3.0</span>
-            <span class="badge-version" style="background:rgba(153,69,255,0.15); color:var(--solana-purple); border-color:rgba(153,69,255,0.3);">Colosseum World's Fair</span>
-          </h1>
-          <p>Universal Cryptographic Ledger for Small & Medium Enterprises (SMEs) on Solana</p>
-        </div>
-      </div>
+  <a class="skip-link" href="#main">Skip to content</a>
 
-      <!-- Network Telemetry -->
-      <div class="network-telemetry">
-        <div class="status-indicator">
-          <span class="status-pulse"></span>
-          <span>Solana Consensus Online</span>
-        </div>
-        <div class="telemetry-item">
-          Network: <strong id="telemetry-network">LiteSVM / Devnet</strong>
-        </div>
-        <div class="telemetry-item">
-          Finality: <strong>~400ms</strong>
-        </div>
-        <div class="telemetry-item">
-          Cost: <strong>$0.00025 / tx</strong>
-        </div>
+  <!-- ============ Top bar ============ -->
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="#demo" aria-label="SolTrace home">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+          <defs>
+            <linearGradient id="brand-gradient" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#9945FF"/>
+              <stop offset="1" stop-color="#14F195"/>
+            </linearGradient>
+          </defs>
+          <rect width="32" height="32" rx="8" fill="url(#brand-gradient)"/>
+          <path d="M16 7l7 3v5.5c0 4.5-3 8-7 9.5-4-1.5-7-5-7-9.5V10z" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"/>
+          <path d="M12.5 16l2.5 2.5 4.5-4.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="brand-name">SolTrace</span>
+        <span class="brand-badge">Universal Cryptographic Ledger</span>
+      </a>
+
+      <nav class="tabs" role="tablist" aria-label="Sections">
+        <button class="tab" role="tab" id="tab-demo" aria-controls="view-demo" aria-selected="true" data-view="demo">Interactive Showcase</button>
+        <button class="tab" role="tab" id="tab-records" aria-controls="view-records" aria-selected="false" tabindex="-1" data-view="records">Records</button>
+        <button class="tab" role="tab" id="tab-certificate" aria-controls="view-certificate" aria-selected="false" tabindex="-1" data-view="certificate">Certificate</button>
+        <button class="tab" role="tab" id="tab-badge" aria-controls="view-badge" aria-selected="false" tabindex="-1" data-view="badge">Badge</button>
+        <button class="tab" role="tab" id="tab-run" aria-controls="view-run" aria-selected="false" tabindex="-1" data-view="run">Run it yourself</button>
+      </nav>
+
+      <div class="topbar-actions">
+        <span class="net-pill" id="net-pill" title="Solana connection">
+          <span class="net-dot" aria-hidden="true"></span>
+          <span id="net-label">Connecting…</span>
+        </span>
+        <a class="btn btn-ghost btn-sm" href="/docs" target="_blank" rel="noopener">API docs</a>
+        <button class="btn btn-ghost btn-icon" id="theme-toggle" type="button" aria-label="Switch colour theme"></button>
       </div>
     </div>
   </header>
 
-  <!-- Navigation Tabs -->
-  <nav class="nav-tabs">
-    <div class="nav-tabs-inner">
-      <button class="tab-btn active" data-tab="tab-showcase">
-        <span>🚀</span> Interactive Showcase <kbd class="key-badge">1</kbd>
-      </button>
-      <button class="tab-btn" data-tab="tab-certificate">
-        <span>📋</span> CPA Audit Certificate <kbd class="key-badge">2</kbd>
-      </button>
-      <button class="tab-btn" data-tab="tab-badge">
-        <span>🛡️</span> Embeddable Verification Badge <kbd class="key-badge">3</kbd>
-      </button>
-      <button class="tab-btn" data-tab="tab-explorer">
-        <span>🔍</span> Solana Ledger Explorer <kbd class="key-badge">4</kbd>
-      </button>
-      <button class="tab-btn" data-tab="tab-reproduce">
-        <span>💻</span> Reproduce On Your Own <kbd class="key-badge">5</kbd>
-      </button>
-    </div>
-  </nav>
+  <main id="main">
 
-  <!-- Main Content Area -->
-  <main class="app-main">
+    <!-- ============ Demo ============ -->
+    <section class="view" id="view-demo" role="tabpanel" aria-labelledby="tab-demo">
+      <div class="container">
 
-    <!-- 1. Interactive Showcase Tab -->
-    <section id="tab-showcase" class="tab-content-panel active">
-      
-      <!-- Story Context Banner -->
-      <div class="story-banner">
-        <div class="story-text">
-          <h2>
-            <span>The Mutable Database Vulnerability vs. Solana Consensus</span>
-          </h2>
-          <p>
-            Standard enterprise software (QuickBooks, Shopify, MySQL, PostgreSQL) stores financial and stock state in <strong>mutable databases</strong>. Anyone with database admin rights, raw SQL access, or compromised credentials can silently edit records with zero trace. <strong>SolTrace anchors deterministic state seals to Solana in 400ms for fractions of a cent</strong>, delivering immediate mathematical non-repudiation.
+        <div class="hero">
+          <p class="eyebrow">Interactive Showcase · Live on Solana</p>
+          <h1 class="hero-title">Know instantly if a business record was changed.</h1>
+          <p class="hero-lead">
+            SolTrace saves a fingerprint of each invoice, stock count or order on the Solana blockchain.
+            Anyone can later compare the record with that fingerprint. If even one character changed, it shows.
           </p>
         </div>
-        <div class="story-stats">
-          <div class="stat-item">
-            <div class="stat-value">$112B+</div>
-            <div class="stat-label">Retail Shrinkage / Yr (NRF)</div>
+
+        <div class="scenario">
+          <div class="segmented" role="radiogroup" aria-label="Choose an example record">
+            <button type="button" role="radio" aria-checked="true" data-scenario="invoice"><i data-icon="file-text"></i>Invoice</button>
+            <button type="button" role="radio" aria-checked="false" data-scenario="inventory"><i data-icon="package"></i>Inventory</button>
+            <button type="button" role="radio" aria-checked="false" data-scenario="order"><i data-icon="shopping-cart"></i>Order</button>
           </div>
-          <div class="stat-item">
-            <div class="stat-value">$3.0B+</div>
-            <div class="stat-label">Wire / BEC Fraud / Yr (FBI)</div>
+          <p class="scenario-desc" id="scenario-desc"></p>
+        </div>
+
+        <div class="steps">
+          <!-- Step 1 -->
+          <article class="card step" id="step-seal">
+            <header class="card-header">
+              <span class="step-num" aria-hidden="true">1</span>
+              <div>
+                <h2 class="card-title">Seal the original</h2>
+                <p class="card-desc">The business approves this record and saves its fingerprint on Solana.</p>
+              </div>
+            </header>
+            <div class="card-body">
+              <dl class="kv" id="original-record"></dl>
+            </div>
+            <footer class="card-footer">
+              <div class="seal-status" id="seal-status"></div>
+              <button type="button" class="btn btn-primary" id="btn-seal"></button>
+            </footer>
+          </article>
+
+          <!-- Step 2 -->
+          <article class="card step" id="step-tamper">
+            <header class="card-header">
+              <span class="step-num" aria-hidden="true">2</span>
+              <div>
+                <h2 class="card-title">Someone edits the database</h2>
+                <p class="card-desc">An insider or attacker changes the record directly in the database. The app itself doesn't notice.</p>
+              </div>
+            </header>
+            <div class="card-body">
+              <dl class="kv" id="live-record"></dl>
+            </div>
+            <footer class="card-footer">
+              <p class="hint" id="tamper-hint"></p>
+              <div class="btn-row">
+                <button type="button" class="btn btn-ghost" id="btn-reset" hidden><i data-icon="rotate-ccw"></i>Undo</button>
+                <button type="button" class="btn btn-danger" id="btn-tamper"></button>
+              </div>
+            </footer>
+          </article>
+        </div>
+
+        <!-- Step 3 -->
+        <article class="card step" id="step-verify">
+          <header class="card-header card-header-split">
+            <div class="card-header-main">
+              <span class="step-num" aria-hidden="true">3</span>
+              <div>
+                <h2 class="card-title">Check against Solana</h2>
+                <p class="card-desc">SolTrace recalculates the record's fingerprint and compares it with the one stored on-chain.</p>
+              </div>
+            </div>
+            <button type="button" class="btn btn-primary" id="btn-verify"><i data-icon="shield-check"></i>Verify record</button>
+          </header>
+          <div class="card-body" id="verify-result" aria-live="polite"></div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ============ Records ============ -->
+    <section class="view" id="view-records" role="tabpanel" aria-labelledby="tab-records" hidden>
+      <div class="container">
+        <div class="page-head">
+          <div>
+            <h1 class="page-title">Records</h1>
+            <p class="page-desc">Every record sealed on Solana from this workspace. Select one to see its fingerprint, transaction and history.</p>
           </div>
-          <div class="stat-item">
-            <div class="stat-value">&lt; $0.00025</div>
-            <div class="stat-label">Solana Anchor Cost</div>
+          <button type="button" class="btn btn-outline" id="btn-refresh"><i data-icon="refresh-cw"></i>Refresh</button>
+        </div>
+
+        <div class="card">
+          <div class="table-toolbar">
+            <label class="search">
+              <i data-icon="search"></i>
+              <input type="search" id="records-search" placeholder="Search records, types or fingerprints" aria-label="Search records">
+            </label>
+            <span class="muted text-sm" id="records-count"></span>
+          </div>
+          <div class="table-wrap">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Record</th>
+                  <th scope="col">Fingerprint</th>
+                  <th scope="col">Solana transaction</th>
+                  <th scope="col">Sealed</th>
+                  <th scope="col"><span class="sr-only">Open</span></th>
+                </tr>
+              </thead>
+              <tbody id="records-body"></tbody>
+            </table>
           </div>
         </div>
       </div>
+    </section>
 
-      <!-- Vertical Showcase Selector -->
-      <div class="vertical-selector-group">
-        <div class="selector-label">
-          <span>Select Real-World SME Vertical to Test:</span>
-          <span style="font-size: 0.75rem; text-transform: none; color: var(--solana-cyan);">All examples loaded from repo /examples</span>
+    <!-- ============ Certificate ============ -->
+    <section class="view" id="view-certificate" role="tabpanel" aria-labelledby="tab-certificate" hidden>
+      <div class="container container-narrow">
+        <div class="page-head no-print">
+          <div>
+            <h1 class="page-title">Audit certificate</h1>
+            <p class="page-desc">A one-page report for accountants, auditors and insurers, generated from the record in the demo.</p>
+          </div>
+          <button type="button" class="btn btn-primary" id="btn-print"><i data-icon="printer"></i>Print or save as PDF</button>
         </div>
-        <div class="vertical-buttons">
-          <button class="vertical-card-btn active" data-vertical="invoice" onclick="loadPreset('invoice')">
-            <div class="vertical-icon">🧾</div>
-            <div class="vertical-info">
-              <h3>B2B Invoicing (BEC Fraud)</h3>
-              <p>Detects €18k IBAN diversion & €4k inflation</p>
-            </div>
-          </button>
-
-          <button class="vertical-card-btn" data-vertical="inventory" onclick="loadPreset('inventory')">
-            <div class="vertical-icon">💻</div>
-            <div class="vertical-info">
-              <h3>Computer Store Inventory</h3>
-              <p>Catches 10 stolen MacBooks & RAM swaps</p>
-            </div>
-          </button>
-
-          <button class="vertical-card-btn" data-vertical="order" onclick="loadPreset('order')">
-            <div class="vertical-icon">📦</div>
-            <div class="vertical-info">
-              <h3>E-Commerce Order Fulfillment</h3>
-              <p>Stops malicious shipping address redirect</p>
-            </div>
-          </button>
-        </div>
+        <div id="certificate"></div>
       </div>
+    </section>
 
-      <!-- Two-Column Interactive Arena -->
-      <div class="showcase-pipeline">
-
-        <!-- Step 1: Authentic Record & Solana Anchor -->
-        <div class="pipeline-card">
-          <div class="card-step-badge">Step 1 • Authentic State & Solana Anchor</div>
-          <div class="card-header">
-            <h3><span>🔒</span> Legitimate Business Record</h3>
-            <span class="badge-version" style="color: var(--solana-green);">Clean Genesis State</span>
+    <!-- ============ Badge ============ -->
+    <section class="view" id="view-badge" role="tabpanel" aria-labelledby="tab-badge" hidden>
+      <div class="container">
+        <div class="page-head">
+          <div>
+            <h1 class="page-title">Verification badge</h1>
+            <p class="page-desc">Add this badge to invoices, receipts or order pages. Customers click it to confirm the document hasn't been altered. No crypto wallet needed.</p>
           </div>
+        </div>
 
-          <p style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 0.75rem;">
-            This is the official record as authorized by the business owner, accountant, or inventory manager.
-          </p>
-
-          <!-- Authentic Document Visualizer -->
-          <div id="authentic-doc-container"></div>
-
-          <!-- Deterministic Fingerprint Preview -->
-          <div class="crypto-fingerprint-box">
-            <div class="fingerprint-title">
-              <span>Canonical SHA-256 State Seal:</span>
-              <span style="color: var(--solana-cyan); font-size: 0.7rem;">Deterministic Byte Order</span>
-            </div>
-            <div id="state-seal-preview" class="fingerprint-hash">
-              Computing seal...
+        <div class="grid-2">
+          <div class="card">
+            <header class="card-header card-header-split">
+              <h2 class="card-title">Preview</h2>
+              <div class="segmented segmented-sm" role="radiogroup" aria-label="Badge style">
+                <button type="button" role="radio" aria-checked="true" data-badge-theme="light">Light</button>
+                <button type="button" role="radio" aria-checked="false" data-badge-theme="dark">Dark</button>
+              </div>
+            </header>
+            <div class="card-body">
+              <div id="badge-preview"></div>
             </div>
           </div>
 
-          <!-- Solana Confirmation Box -->
-          <div id="solana-confirmation-box" class="solana-confirmation-box" style="display: none;">
-            <div class="conf-row">
-              <span class="conf-label">Solana Status:</span>
-              <span class="conf-val" style="color: var(--solana-green);">✔ Confirmed on Solana Blockchain</span>
-            </div>
-            <div class="conf-row">
-              <span class="conf-label">Memo Program:</span>
-              <span class="conf-val" style="font-size: 0.7rem;">MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr</span>
-            </div>
-            <div class="conf-row">
-              <span class="conf-label">Transaction Tx:</span>
-              <span class="conf-val" style="font-size: 0.72rem; word-break: break-all;" id="conf-signature">-</span>
-            </div>
-            <div class="conf-row">
-              <span class="conf-label">Network / Latency:</span>
-              <span class="conf-val" id="conf-network">LiteSVM (400ms • $0.00025)</span>
-            </div>
-            <div style="margin-top: 0.35rem; display: flex; justify-content: space-between; align-items: center;">
-              <button class="btn btn-outline" style="padding: 0.2rem 0.5rem; font-size: 0.72rem;" onclick="openCurrentInDrawer()">
-                <span>🔍</span> Inspect Evidence
-              </button>
-              <a id="conf-explorer-link" href="#" target="_blank" style="font-size: 0.75rem; color: var(--solana-cyan); text-decoration: none;">
-                View on Solana Explorer ↗
-              </a>
-            </div>
-
-            <!-- Solana Foundation Explorer Style Decoded Memo Inspector -->
-            <div id="memo-decoder-container" style="display: none; margin-top: 0.85rem;">
-              <div class="memo-decoder-card">
-                <div class="memo-program-header">
-                  <span style="font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 0.35rem;">
-                    <span>📜</span> Decoded Solana Memo Instruction
-                  </span>
-                  <span class="program-pill">spl-memo v2</span>
+          <div class="card">
+            <header class="card-header">
+              <div>
+                <h2 class="card-title">Embed code</h2>
+                <p class="card-desc">Paste into your invoice template, email footer or website.</p>
+              </div>
+            </header>
+            <div class="card-body stack">
+              <div class="code-block">
+                <div class="code-head">
+                  <span>HTML</span>
+                  <button type="button" class="btn btn-ghost btn-xs" data-copy-from="snippet-html"><i data-icon="copy"></i>Copy</button>
                 </div>
-                <div class="memo-tokens-breakdown" id="memo-tokens-list"></div>
+                <pre id="snippet-html"></pre>
+              </div>
+              <div class="code-block">
+                <div class="code-head">
+                  <span>Markdown</span>
+                  <button type="button" class="btn btn-ghost btn-xs" data-copy-from="snippet-md"><i data-icon="copy"></i>Copy</button>
+                </div>
+                <pre id="snippet-md"></pre>
               </div>
             </div>
           </div>
-
-          <button id="btn-anchor-solana" class="btn btn-solana" onclick="anchorCurrentRecord()">
-            <span>⛓️</span> Anchor State Seal to Solana (400ms)
-          </button>
         </div>
-
-        <!-- Step 2: Simulate The Attack -->
-        <div id="live-doc-card" class="pipeline-card">
-          <div class="card-step-badge" style="color: var(--warning-amber);">Step 2 • The Insider / Hacker Attack</div>
-          <div class="card-header">
-            <h3><span>🚨</span> Mutable Centralized Database</h3>
-            <span class="badge-version" style="color: var(--warning-amber);">Live SQL / App State</span>
-          </div>
-
-          <!-- Context explanation -->
-          <div class="attack-context-box">
-            <strong>The Problem:</strong> Centralized databases (PostgreSQL, MySQL, QuickBooks) allow anyone with SQL access or stolen credentials to update records out-of-band. Without Solana, these attacks succeed silently.
-          </div>
-
-          <!-- Live Document Visualizer -->
-          <div id="live-doc-container"></div>
-
-          <!-- Attack Simulation Buttons -->
-          <div id="attack-buttons-container" class="attack-buttons-group"></div>
-
-          <!-- Evil Martians / GitGuardian Visual Diff Container -->
-          <div id="visual-diff-container" style="display: none; margin-top: 0.85rem;">
-            <div class="visual-diff-box">
-              <div class="diff-header">
-                <span><span>⚡</span> Cryptographic State Drift Diff</span>
-                <span style="color: var(--tamper-red); font-weight: 700;">DATABASE TAMPER DETECTED</span>
-              </div>
-              <div class="diff-body" id="visual-diff-body"></div>
-            </div>
-          </div>
-        </div>
-
       </div>
+    </section>
 
-      <!-- Step 3: Run Cryptographic Audit Panel (Full Width) -->
-      <div class="audit-panel-section">
-        <div class="card-step-badge" style="color: var(--solana-green);">Step 3 • Continuous Mathematical Verification</div>
-        
-        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
+    <!-- ============ Run it yourself ============ -->
+    <section class="view" id="view-run" role="tabpanel" aria-labelledby="tab-run" hidden>
+      <div class="container container-narrow">
+        <div class="page-head">
           <div>
-            <h3 style="font-size: 1.15rem; font-weight: 800;">
-              <span>🔍</span> SolTrace Cryptographic Audit Engine
-            </h3>
-            <p style="font-size: 0.85rem; color: var(--text-secondary);">
-              Audits the live database state against Solana's immutable on-chain memo. Detects single-byte tampering in ~400ms.
-            </p>
-          </div>
-
-          <button id="btn-run-audit" class="btn btn-primary" style="font-size: 0.95rem; padding: 0.85rem 1.75rem;" onclick="runAuditVerification()">
-            <span>🔍</span> Run Cryptographic Audit against Solana Consensus
-          </button>
-        </div>
-
-        <!-- Dynamic Audit Results Banner -->
-        <div id="audit-result-container">
-          <div style="text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.9rem;">
-            Click <strong>"Run Cryptographic Audit against Solana Consensus"</strong> above to audit live database integrity.
+            <h1 class="page-title">Run it yourself</h1>
+            <p class="page-desc">Everything here runs on your own machine. No account or wallet is needed: SolTrace uses a built-in local Solana simulator (LiteSVM) by default, or Solana Devnet if you configure it.</p>
           </div>
         </div>
 
-      </div>
-
-    </section>
-
-    <!-- 2. CPA Audit Certificate Tab -->
-    <section id="tab-certificate" class="tab-content-panel">
-      <div class="story-banner">
-        <div class="story-text">
-          <h2><span>📋</span> Official CPA & Auditor Verification Certificate</h2>
-          <p>
-            Certified Public Accountants (CPAs) spend hundreds of hours manually sampling invoices and physical inventory. SolTrace generates instantaneous, mathematically non-repudiable audit certificates backed by Solana block consensus.
-          </p>
-        </div>
-        <div>
-          <button class="btn btn-primary" onclick="printCertificate()">
-            <span>🖨️</span> Print / Save Certificate as PDF
-          </button>
-        </div>
-      </div>
-
-      <!-- Certificate Preview Container -->
-      <div id="cert-render-target"></div>
-    </section>
-
-    <!-- 3. Embeddable Verification Badge Tab -->
-    <section id="tab-badge" class="tab-content-panel">
-      <div class="story-banner">
-        <div class="story-text">
-          <h2><span>🛡️</span> 1-Click Embeddable Verification Badges for SMEs</h2>
-          <p>
-            SMEs embed SolTrace verification badges directly onto customer invoices, e-commerce receipts, and shipment manifests. Customers and banks click the badge to verify non-repudiation live on the Solana blockchain.
-          </p>
-        </div>
-      </div>
-
-      <div class="badge-showcase-grid">
-        <div class="badge-preview-card">
-          <div class="badge-customizer-controls">
-            <span style="font-size: 0.78rem; color: var(--text-muted); font-weight: 600;">Theme Variant:</span>
-            <button class="customizer-btn active" id="btn-theme-dark" onclick="setBadgeTheme('dark')">
-              <span>🌙</span> Obsidian Dark
-            </button>
-            <button class="customizer-btn" id="btn-theme-light" onclick="setBadgeTheme('light')">
-              <span>☀️</span> Enterprise Light
-            </button>
-            <button class="customizer-btn" id="btn-theme-compact" onclick="setBadgeTheme('compact')">
-              <span>💊</span> Compact Pill
-            </button>
-          </div>
-
-          <div class="badge-live-render" id="badge-preview-target"></div>
-
-          <h4 style="font-size: 0.9rem; margin-bottom: 0.5rem;">Why Customers & Banks Love This:</h4>
-          <ul style="font-size: 0.82rem; color: var(--text-secondary); padding-left: 1.2rem; line-height: 1.8;">
-            <li>Proves invoice IBAN has not been intercepted by Business Email Compromise (BEC).</li>
-            <li>Eliminates customer wire diversion fears and speeds up Net-30 invoice payments.</li>
-            <li>No crypto wallet required for customers—verification opens a clean web explorer.</li>
-          </ul>
-        </div>
-
-        <div class="badge-preview-card">
-          <h3 style="font-size: 1.05rem; margin-bottom: 0.5rem;">Embed Code for SME Invoices & Web Portals:</h3>
-          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.75rem;">
-            Copy-paste this HTML snippet into QuickBooks, Xero, Shopify, or custom billing templates:
-          </p>
-
-          <div style="margin-bottom: 1rem;">
-            <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.35rem; display: flex; justify-content: space-between;">
-              <span>HTML / Email Template Code:</span>
-              <button class="btn btn-outline" style="padding: 0.15rem 0.5rem; font-size: 0.7rem;" onclick="copyCode('code-snippet-html')">Copy HTML</button>
+        <ol class="run-steps">
+          <li>
+            <h3>Get the code</h3>
+            <div class="code-block">
+              <div class="code-head"><span>Terminal</span><button type="button" class="btn btn-ghost btn-xs" data-copy-from="run-1"><i data-icon="copy"></i>Copy</button></div>
+              <pre id="run-1">git clone https://github.com/DSGuy02/Soltrace.git
+cd Soltrace</pre>
             </div>
-            <pre class="code-box" id="code-snippet-html"></pre>
-          </div>
-
-          <div>
-            <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.35rem; display: flex; justify-content: space-between;">
-              <span>Markdown / GitHub README Badge:</span>
-              <button class="btn btn-outline" style="padding: 0.15rem 0.5rem; font-size: 0.7rem;" onclick="copyCode('code-snippet-md')">Copy Markdown</button>
+          </li>
+          <li>
+            <h3>Install dependencies</h3>
+            <p>Needs Python 3.10 or newer.</p>
+            <div class="code-block">
+              <div class="code-head"><span>Terminal</span><button type="button" class="btn btn-ghost btn-xs" data-copy-from="run-2"><i data-icon="copy"></i>Copy</button></div>
+              <pre id="run-2">python3 -m venv .venv
+.venv/bin/pip install -e ".[dev]"</pre>
             </div>
-            <pre class="code-box" id="code-snippet-md"></pre>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 4. Solana Ledger Explorer Tab -->
-    <section id="tab-explorer" class="tab-content-panel">
-      <div class="story-banner">
-        <div class="story-text">
-          <h2><span>🔍</span> Verifiable Local Registry & Solana Anchor Explorer</h2>
-          <p>
-            Browse all state seals anchored to the Solana blockchain. Click "History" on any record to view its chronological transition Merkle trail and signatures.
-          </p>
-        </div>
-        <div>
-          <button class="btn btn-outline" onclick="refreshLedger()">
-            <span>🔄</span> Refresh Ledger
-          </button>
-        </div>
-      </div>
-
-      <div class="explorer-table-wrapper">
-        <div class="table-controls">
-          <div style="position: relative; flex: 1; max-width: 480px;">
-            <input type="text" id="explorer-search-input" class="search-input" placeholder="Search table, record ID or seal... (Press / to focus)" onkeyup="filterExplorerTable(this.value)">
-            <span style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); pointer-events: none;">
-              <kbd class="key-badge">/</kbd>
-            </span>
-          </div>
-          <span style="font-size: 0.8rem; color: var(--text-muted);">Stored in SQLite <code>.soltrace/ledger.db</code></span>
-        </div>
-
-        <table class="explorer-table">
-          <thead>
-            <tr>
-              <th>Entity / Table</th>
-              <th>Record ID</th>
-              <th>Cryptographic State Seal</th>
-              <th>Solana Transaction</th>
-              <th>Last Updated</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="explorer-table-body">
-            <tr>
-              <td colspan="6" style="text-align: center; padding: 1.5rem; color: var(--text-muted);">
-                Loading on-chain anchors...
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- 5. Reproduce On Your Own Tab -->
-    <section id="tab-reproduce" class="tab-content-panel">
-      <div class="story-banner">
-        <div class="story-text">
-          <h2><span>💻</span> Reproduce SolTrace On Your Own (For Judges & Developers)</h2>
-          <p>
-            Anyone can replicate the entire SolTrace workflow in under 30 seconds using the web UI, command-line interface, or REST APIs.
-          </p>
-        </div>
-      </div>
-
-      <div class="reproduce-grid">
-        
-        <div class="reproduce-step-card">
-          <div class="step-number-tag">1</div>
-          <h3>Interactive Web Playground</h3>
-          <p>Test live invoice fraud and retail shrinkage detection directly in this browser:</p>
-          <ul style="font-size: 0.82rem; color: var(--text-secondary); padding-left: 1.2rem; line-height: 1.8; margin-bottom: 1rem;">
-            <li>Go to <strong>Interactive Showcase</strong> tab.</li>
-            <li>Click <strong>"Execute Attack"</strong> to tamper with the database.</li>
-            <li>Click <strong>"Run Cryptographic Audit"</strong> to watch SolTrace catch the fraud in 400ms!</li>
-          </ul>
-          <button class="btn btn-primary" onclick="switchTab('tab-showcase')">Go to Showcase Tab ↗</button>
-        </div>
-
-        <div class="reproduce-step-card">
-          <div class="step-number-tag">2</div>
-          <h3>Unified CLI Demonstrations</h3>
-          <p>Run the 1-click multi-vertical terminal demonstrations:</p>
-          <div style="position: relative; margin-bottom: 0.75rem;">
-            <pre class="code-box">./bin/soltrace demo invoice</pre>
-            <button class="copy-code-btn" onclick="navigator.clipboard.writeText('./bin/soltrace demo invoice'); alert('Copied!');">Copy</button>
-          </div>
-          <div style="position: relative; margin-bottom: 1rem;">
-            <pre class="code-box">./bin/soltrace demo inventory</pre>
-            <button class="copy-code-btn" onclick="navigator.clipboard.writeText('./bin/soltrace demo inventory'); alert('Copied!');">Copy</button>
-          </div>
-          <p style="font-size: 0.78rem; color: var(--text-muted);">Auto-detects the virtualenv and uses embedded LiteSVM or Solana Devnet.</p>
-        </div>
-
-        <div class="reproduce-step-card">
-          <div class="step-number-tag">3</div>
-          <h3>REST API & Swagger Docs</h3>
-          <p>Integrate directly via standard REST endpoints and OpenAPI documentation:</p>
-          <div style="position: relative; margin-bottom: 0.75rem;">
-            <pre class="code-box">http://localhost:8000/docs</pre>
-            <button class="copy-code-btn" onclick="window.open('/docs', '_blank');">Open Docs</button>
-          </div>
-          <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 1rem;">
-            Interactive Swagger UI allows executing <code>/api/v1/anchor</code> and <code>/api/v1/verify</code> directly from your browser.
-          </p>
-          <a href="/docs" target="_blank" class="btn btn-outline">Explore Swagger UI ↗</a>
-        </div>
-
-        <div class="reproduce-step-card">
-          <div class="step-number-tag">4</div>
-          <h3>Automated Test Suite</h3>
-          <p>Run the full pytest suite (21 unit and integration tests passing):</p>
-          <div style="position: relative; margin-bottom: 1rem;">
-            <pre class="code-box">PYTHONPATH=prototypes/soltrace \
-.venv/bin/pytest prototypes/soltrace/tests</pre>
-            <button class="copy-code-btn" onclick="navigator.clipboard.writeText('PYTHONPATH=prototypes/soltrace .venv/bin/pytest prototypes/soltrace/tests'); alert('Copied!');">Copy</button>
-          </div>
-          <p style="font-size: 0.78rem; color: var(--text-muted);">Covers canonical serialization, SQLite storage, LiteSVM anchoring, and webhooks.</p>
-        </div>
-
+          </li>
+          <li>
+            <h3>Start this dashboard</h3>
+            <p>Then open <a href="/dashboard">http://localhost:8000/dashboard</a> and follow the three steps in the Demo tab.</p>
+            <div class="code-block">
+              <div class="code-head"><span>Terminal</span><button type="button" class="btn btn-ghost btn-xs" data-copy-from="run-3"><i data-icon="copy"></i>Copy</button></div>
+              <pre id="run-3">./bin/soltrace serve --port 8000</pre>
+            </div>
+          </li>
+          <li>
+            <h3>Or run the demos in the terminal</h3>
+            <div class="code-block">
+              <div class="code-head"><span>Terminal</span><button type="button" class="btn btn-ghost btn-xs" data-copy-from="run-4"><i data-icon="copy"></i>Copy</button></div>
+              <pre id="run-4">./bin/soltrace demo invoice
+./bin/soltrace demo inventory
+./bin/soltrace demo all</pre>
+            </div>
+          </li>
+          <li>
+            <h3>Connect your own software</h3>
+            <p>Send records to <code>POST /api/v1/anchor</code> to seal them and <code>POST /api/v1/verify</code> to check them. Every endpoint can be tried from the <a href="/docs" target="_blank" rel="noopener">interactive API docs</a>.</p>
+          </li>
+          <li>
+            <h3>Run the tests</h3>
+            <div class="code-block">
+              <div class="code-head"><span>Terminal</span><button type="button" class="btn btn-ghost btn-xs" data-copy-from="run-6"><i data-icon="copy"></i>Copy</button></div>
+              <pre id="run-6">.venv/bin/pytest tests</pre>
+            </div>
+          </li>
+        </ol>
       </div>
     </section>
 
   </main>
 
-  <!-- Linear-Style Keyboard Shortcuts Footer -->
-  <footer class="shortcuts-footer-bar">
-    <div class="shortcut-item">
-      <kbd class="key-badge">1</kbd>–<kbd class="key-badge">5</kbd>
-      <span>Switch Tabs</span>
-    </div>
-    <div class="shortcut-item">
-      <kbd class="key-badge">/</kbd>
-      <span>Search Ledger</span>
-    </div>
-    <div class="shortcut-item">
-      <kbd class="key-badge">Esc</kbd>
-      <span>Close Inspector</span>
-    </div>
-    <div class="shortcut-item">
-      <span style="color: var(--solana-green);">●</span>
-      <span>Solana Fast Finality: 400ms</span>
-    </div>
-    <div class="shortcut-item">
-      <span style="color: var(--solana-purple); font-weight: 700;">Colosseum World's Fair</span>
+  <footer class="site-footer no-print">
+    <div class="container site-footer-inner">
+      <span>SolTrace · Colosseum Crypto World's Fair 2026</span>
+      <span class="muted">Fingerprints are stored with the Solana Memo program.</span>
     </div>
   </footer>
 
-  <!-- Retraced / Open-Source Inspired Slide-Over Inspector Drawer -->
-  <div id="drawer-backdrop" class="drawer-backdrop" onclick="closeDrawer()"></div>
-  <aside id="inspector-drawer" class="inspector-drawer">
-    <div class="drawer-header">
-      <div class="drawer-header-left">
-        <span style="font-size: 1.25rem;">🔍</span>
-        <div>
-          <h3 id="drawer-title">Cryptographic Evidence Inspector</h3>
-          <span id="drawer-subtitle" style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono);">invoices / INV-2026-0891</span>
-        </div>
+  <!-- Record details side sheet -->
+  <dialog class="sheet" id="sheet" closedby="any" aria-labelledby="sheet-title">
+    <div class="sheet-header">
+      <div>
+        <p class="eyebrow" id="sheet-eyebrow"></p>
+        <h2 class="sheet-title" id="sheet-title"></h2>
       </div>
-      <button class="drawer-close-btn" onclick="closeDrawer()" title="Close (Esc)">&times;</button>
+      <form method="dialog">
+        <button class="btn btn-ghost btn-icon" aria-label="Close"><i data-icon="x"></i></button>
+      </form>
     </div>
+    <div class="sheet-body" id="sheet-body"></div>
+  </dialog>
 
-    <!-- Drawer Tabs -->
-    <div class="drawer-tabs">
-      <button class="drawer-tab-btn active" data-drawer-tab="pane-overview" onclick="switchDrawerTab('pane-overview')">
-        <span>📊</span> Overview
-      </button>
-      <button class="drawer-tab-btn" data-drawer-tab="pane-diff" onclick="switchDrawerTab('pane-diff')">
-        <span>⚡</span> Visual Diff
-      </button>
-      <button class="drawer-tab-btn" data-drawer-tab="pane-memo" onclick="switchDrawerTab('pane-memo')">
-        <span>📜</span> Solana Memo
-      </button>
-      <button class="drawer-tab-btn" data-drawer-tab="pane-json" onclick="switchDrawerTab('pane-json')">
-        <span>📦</span> Canonical JSON
-      </button>
-    </div>
-
-    <!-- Drawer Body -->
-    <div class="drawer-body">
-      <!-- Pane 1: Overview -->
-      <div id="pane-overview" class="drawer-tab-pane active"></div>
-
-      <!-- Pane 2: Cryptographic Diff -->
-      <div id="pane-diff" class="drawer-tab-pane"></div>
-
-      <!-- Pane 3: Solana Memo -->
-      <div id="pane-memo" class="drawer-tab-pane"></div>
-
-      <!-- Pane 4: Canonical JSON -->
-      <div id="pane-json" class="drawer-tab-pane"></div>
-    </div>
-  </aside>
-
-  <!-- Toast Notification System -->
-  <div id="toast-container" class="toast-container"></div>
+  <!-- Toasts -->
+  <div class="toasts" id="toasts" popover="manual" role="status" aria-live="polite"></div>
 
   <script src="/static/app.js"></script>
 </body>
