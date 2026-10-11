@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>SolTrace — Colosseum Crypto World's Fair 2026 Pitch Deck</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap">
+  <style>
+    :root {
+      --bg: #09090b;
+      --card-bg: #141418;
+      --card-border: #27272a;
+      --pill-bg: #1c1c22;
+      --text: #fafafa;
+      --text-muted: #a1a1aa;
+      --text-dim: #71717a;
+      --cyan: #22d3ee;
+      --emerald: #10b981;
+      --rose: #f43f5e;
+      --purple: #9945FF;
+      --amber: #f59e0b;
+      --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'Geist Mono', monospace;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+    }
+
+    /* Top presentation navigation bar */
+    .deck-topbar {
+      height: 48px;
+      border-bottom: 1px solid var(--card-border);
+      background: rgba(9, 9, 11, 0.85);
+      backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.25rem;
+      z-index: 50;
+      flex-shrink: 0;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .brand-mark {
+      width: 22px;
+      height: 22px;
+      border-radius: 5px;
+      background: linear-gradient(135deg, var(--purple), #14F195);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .brand-name {
+      font-weight: 700;
+      font-size: 0.9375rem;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-tag {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      color: var(--emerald);
+      background: var(--pill-bg);
+      border: 1px solid var(--card-border);
+      padding: 0.15rem 0.5rem;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .topbar-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-ctrl {
+      background: transparent;
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      font-weight: 500;
+      padding: 0.3rem 0.65rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .btn-ctrl:hover {
+      background: var(--card-bg);
+      color: var(--text);
+      border-color: #3f3f46;
+    }
+
+    .btn-ctrl.active {
+      background: var(--card-bg);
+      color: var(--emerald);
+      border-color: var(--emerald);
+    }
+
+    /* Deck viewport and slides */
+    .deck-viewport {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 1rem 1.5rem;
+    }
+
+    .slide {
+      width: 100%;
+      max-width: 1200px;
+      height: 100%;
+      max-height: 675px; /* 16:9 aspect ratio */
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+      display: none;
+      flex-direction: column;
+      padding: 2.5rem 3rem;
+      position: relative;
+      animation: fadeIn 0.25s ease-out;
+    }
+
+    .slide.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Header component inside slide */
+    .slide-header {
+      margin-bottom: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .slide-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      border-radius: 9999px;
+      background: var(--pill-bg);
+      border: 1px solid var(--card-border);
+      margin-bottom: 0.6rem;
+    }
+
+    .slide-eyebrow.green { color: var(--emerald); border-color: rgba(16, 185, 129, 0.3); }
+    .slide-eyebrow.rose { color: var(--rose); border-color: rgba(244, 63, 94, 0.3); }
+    .slide-eyebrow.cyan { color: var(--cyan); border-color: rgba(34, 211, 238, 0.3); }
+
+    .slide-title {
+      font-size: 1.875rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      line-height: 1.15;
+      margin-bottom: 0.35rem;
+    }
+
+    .slide-subtitle {
+      font-size: 0.9375rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    .slide-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    /* Cards grid */
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      height: 100%;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      height: 100%;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+
+    .card {
+      background: rgba(24, 24, 27, 0.6);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card.highlight-emerald {
+      border-color: rgba(16, 185, 129, 0.4);
+      background: rgba(16, 185, 129, 0.04);
+    }
+
+    .card.highlight-cyan {
+      border-color: rgba(34, 211, 238, 0.4);
+      background: rgba(34, 211, 238, 0.04);
+    }
+
+    .stat-badge {
+      font-size: 2.25rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-badge.rose { color: var(--rose); }
+    .stat-badge.amber { color: var(--amber); }
+    .stat-badge.cyan { color: var(--cyan); }
+    .stat-badge.emerald { color: var(--emerald); }
+
+    .card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+    }
+
+    .card-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .card-list {
+      list-style: none;
+      font-size: 0.8125rem;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      line-height: 1.4;
+    }
+
+    .card-list li {
+      position: relative;
+      padding-left: 0.95rem;
+    }
+
+    .card-list li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: var(--text-muted);
+    }
+
+    /* Architecture / Flow row */
+    .flow-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      align-items: stretch;
+      margin-bottom: 1.25rem;
+    }
+
+    .flow-card {
+      background: #18181b;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .flow-card-head {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .flow-card-title {
+      font-size: 0.9375rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .flow-card-body {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* Comparison Table */
+    .comp-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8125rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .comp-table th {
+      text-align: left;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 0.5rem 0.85rem;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .comp-table td {
+      padding: 0.75rem 0.85rem;
+      border-bottom: 1px solid var(--card-border);
+      color: var(--text);
+    }
+
+    .comp-table tr.highlight-row {
+      background: rgba(16, 185, 129, 0.08);
+      font-weight: 600;
+    }
+
+    .comp-table tr.highlight-row td {
+      border-top: 1px solid var(--emerald);
+      border-bottom: 1px solid var(--emerald);
+      color: #fff;
+    }
+
+    /* Footer Bottom Controls */
+    .deck-bottombar {
+      height: 48px;
+      border-top: 1px solid var(--card-border);
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.25rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      z-index: 50;
+      flex-shrink: 0;
+    }
+
+    .slide-dots {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--card-border);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .dot.active {
+      width: 20px;
+      border-radius: 9999px;
+      background: var(--emerald);
+    }
+
+    /* Speaker Notes Modal */
+    .notes-drawer {
+      position: fixed;
+      bottom: 48px;
+      left: 0;
+      right: 0;
+      height: 160px;
+      background: rgba(15, 15, 18, 0.98);
+      border-top: 1px solid var(--card-border);
+      padding: 1.25rem 2rem;
+      overflow-y: auto;
+      z-index: 100;
+      display: none;
+      box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .notes-drawer.open {
+      display: block;
+    }
+
+    .notes-title {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--emerald);
+      margin-bottom: 0.35rem;
+    }
+
+    .notes-text {
+      font-size: 0.875rem;
+      color: var(--text);
+      line-height: 1.6;
+      font-family: var(--font-sans);
+    }
+
+    .mono { font-family: var(--font-mono); }
+  </style>
+</head>
+<body>
+
+  <!-- Top bar -->
+  <header class="deck-topbar">
+    <div class="brand-group">
+      <div class="brand-mark">S</div>
+      <span class="brand-name">SolTrace</span>
+      <span class="brand-tag">Colosseum Pitch Deck</span>
+    </div>
+    <div class="topbar-controls">
+      <a href="/dashboard" class="btn-ctrl" target="_blank" rel="noopener">Open Live Demo</a>
+      <span style="font-size:0.75rem; color:var(--text-dim); margin:0 0.5rem;" id="slide-num-label">1 / 8</span>
+      <button class="btn-ctrl" id="btn-notes" title="Toggle speaker notes (N)">Notes (N)</button>
+      <button class="btn-ctrl" id="btn-fullscreen" title="Toggle fullscreen (F)">Fullscreen (F)</button>
+    </div>
+  </header>
+
+  <!-- Slide Viewport -->
+  <main class="deck-viewport">
+
+    <!-- ================= SLIDE 1 ================= -->
+    <section class="slide active" id="slide-1" data-title="Title Slide">
+      <div class="slide-header">
+        <span class="slide-eyebrow green">Colosseum Crypto World's Fair 2026 · Solana Track</span>
+        <h1 class="slide-title" style="font-size:3.5rem; letter-spacing:-0.04em;">SolTrace</h1>
+        <p class="slide-subtitle" style="font-size:1.25rem; font-weight:600; color:var(--cyan);">
+          Universal Cryptographic Ledger for Small & Medium Enterprises
+        </p>
+      </div>
+      <div class="slide-body">
+        <div class="card" style="margin-bottom:1.5rem; background:#18181b; padding:1.75rem;">
+          <h2 style="font-size:1.25rem; font-weight:700; margin-bottom:0.4rem;">Know instantly if a business record was changed.</h2>
+          <p style="color:var(--text-muted); font-size:0.9375rem; line-height:1.5;">
+            SolTrace anchors cryptographic fingerprints of B2B invoices, retail inventory counts, and customer orders directly to Solana in 400ms. If even one character is altered in an internal database, SolTrace detects the mismatch immediately.
+          </p>
+        </div>
+        <div class="card" style="padding:1rem 1.25rem; background:rgba(16, 185, 129, 0.05); border-color:rgba(16, 185, 129, 0.25);">
+          <div style="font-weight:700; font-size:0.875rem; color:#fff;">
+            Founder: Oladeji Sanyaolu · Systems Architect (TUS)
+          </div>
+          <div style="font-size:0.75rem; color:var(--emerald); margin-top:0.2rem;">
+            Live Prototype on Solana · 26/26 Automated Tests Passing · Interactive Web UI at /dashboard
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:auto; display:flex; gap:1.5rem; align-items:center; opacity:0.8;">
+        <span style="font-size:0.6875rem; font-weight:600; color:var(--text-dim); text-transform:uppercase;">Ecosystem Backing:</span>
+        <span style="font-size:0.75rem; font-weight:600; color:#fff;">Solana</span>
+        <span style="font-size:0.75rem; font-weight:600; color:#fff;">Colosseum</span>
+        <span style="font-size:0.75rem; font-weight:600; color:#fff;">Dogpatch Labs</span>
+        <span style="font-size:0.75rem; font-weight:600; color:#fff;">GitHub</span>
+      </div>
+    </section>
+
+    <!-- ================= SLIDE 2 ================= -->
+    <section class="slide" id="slide-2" data-title="The Problem">
+      <div class="slide-header">
+        <span class="slide-eyebrow rose">The Problem · $180B+ Annual Crisis</span>
+        <h2 class="slide-title">Centralized Business Databases Are Completely Mutable</h2>
+        <p class="slide-subtitle">QuickBooks, Shopify, and SQL databases permit silent out-of-band record alterations with zero cryptographic trace.</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-3">
+          <div class="card">
+            <div class="stat-badge rose">$3.0B+</div>
+            <h3 class="card-title">B2B Wire & Invoice Fraud (BEC)</h3>
+            <p class="card-sub">FBI IC3 Report · $123k avg loss per business</p>
+            <ul class="card-list">
+              <li>Attackers or rogue insiders alter recipient IBANs in database right before payout approval.</li>
+              <li>Accounts payable wires funds to offshore scammer account.</li>
+              <li>Standard database logs can be wiped or truncated by anyone with server privileges.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="stat-badge amber">$112B+</div>
+            <h3 class="card-title">Retail Inventory Shrinkage</h3>
+            <p class="card-sub">NRF Annual Survey · 29% Employee Theft</p>
+            <ul class="card-list">
+              <li>Workers physically take high-value laptops/GPUs and overwrite stock quantities in SQL.</li>
+              <li>Missing stock written off as "damaged goods" with zero mathematical non-repudiation.</li>
+              <li>Inventory systems only store the latest state, leaving owners unable to prove fraud.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="stat-badge cyan">5%</div>
+            <h3 class="card-title">Annual Revenue Lost to Fraud</h3>
+            <p class="card-sub">ACFE Global Study · $100k+ median loss</p>
+            <ul class="card-list">
+              <li>Billing tampering schemes persist for 12+ months before accidental discovery.</li>
+              <li>Small businesses lack complex multi-tier internal controls.</li>
+              <li>CPAs spend hundreds of hours manually sampling paper receipts with zero certainty.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SLIDE 3 ================= -->
+    <section class="slide" id="slide-3" data-title="The Solution">
+      <div class="slide-header">
+        <span class="slide-eyebrow green">The Solution · Zero-Trust Integrity</span>
+        <h2 class="slide-title">SolTrace: An Invisible Cryptographic Sidecar for Any SME</h2>
+        <p class="slide-subtitle">Computes deterministic state seals and anchors them to Solana in ~400ms with zero crypto friction.</p>
+      </div>
+      <div class="slide-body">
+        <div class="flow-row">
+          <div class="flow-card">
+            <span class="flow-card-head" style="color:var(--text-muted);">1. Business Source</span>
+            <div class="flow-card-title">Existing Software</div>
+            <div class="flow-card-body">QuickBooks, Xero, Shopify, InvenTree, and SQL databases emit webhook events.</div>
+          </div>
+          <div class="flow-card" style="border-color:var(--cyan);">
+            <span class="flow-card-head" style="color:var(--cyan);">2. SolTrace Sidecar</span>
+            <div class="flow-card-title">Deterministic Seal</div>
+            <div class="flow-card-body">Canonical JSON normalizer computes SHA-256 state seal across critical business values.</div>
+          </div>
+          <div class="flow-card" style="border-color:var(--purple);">
+            <span class="flow-card-head" style="color:var(--purple);">3. Solana Consensus</span>
+            <div class="flow-card-title">SPL Memo Program</div>
+            <div class="flow-card-body">Anchors fingerprint directly on-chain in 400ms for $0.00025. Zero private data on-chain.</div>
+          </div>
+          <div class="flow-card" style="border-color:var(--emerald);">
+            <span class="flow-card-head" style="color:var(--emerald);">4. Continuous Audit</span>
+            <div class="flow-card-title">Tamper Detection</div>
+            <div class="flow-card-body">Live SQL row compared against Solana seal. Immediate alert & forensic diff if modified.</div>
+          </div>
+        </div>
+        <div class="grid-3">
+          <div class="card">
+            <h4 style="font-size:0.875rem; font-weight:700; color:var(--cyan); margin-bottom:0.25rem;">Deterministic State Seals</h4>
+            <p style="font-size:0.75rem; color:var(--text-muted);">Lexicographically sorted JSON keys and normalized whitespace guarantee exact identical hashes across platforms.</p>
+          </div>
+          <div class="card">
+            <h4 style="font-size:0.875rem; font-weight:700; color:var(--emerald); margin-bottom:0.25rem;">400ms Sub-Second Finality</h4>
+            <p style="font-size:0.75rem; color:var(--text-muted);">Powered by Solana's SPL Memo Program. Instant confirmation during checkout or invoice issuance with zero lag.</p>
+          </div>
+          <div class="card">
+            <h4 style="font-size:0.875rem; font-weight:700; color:var(--purple); margin-bottom:0.25rem;">Zero Private Data Leaks</h4>
+            <p style="font-size:0.75rem; color:var(--text-muted);">Only one-way mathematical digests go on-chain. Confidential customer details and pricing remain 100% private.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SLIDE 4 ================= -->
+    <section class="slide" id="slide-4" data-title="Why Solana?">
+      <div class="slide-header">
+        <span class="slide-eyebrow cyan">Why Solana? · Sub-Cent Microeconomics</span>
+        <h2 class="slide-title">Sub-Cent Cost & 400ms Finality Make Business Sealing Viable</h2>
+        <p class="slide-subtitle">Solana is the only public blockchain where logging every commercial state transition is economically rational.</p>
+      </div>
+      <div class="slide-body">
+        <table class="comp-table">
+          <thead>
+            <tr>
+              <th>Platform</th>
+              <th>Cost for 100,000 Records</th>
+              <th>Confirmation Latency</th>
+              <th>Commercial Verdict</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Ethereum Mainnet</strong></td>
+              <td style="color:var(--rose);">~$25,000+</td>
+              <td>12–15 min finality</td>
+              <td style="color:var(--text-muted);">Financially impossible for SMEs</td>
+            </tr>
+            <tr>
+              <td><strong>Polygon / Arbitrum L2s</strong></td>
+              <td style="color:var(--amber);">~$200 – $500</td>
+              <td>2–5 min finality</td>
+              <td style="color:var(--text-muted);">Too expensive for daily inventory transactions</td>
+            </tr>
+            <tr>
+              <td><strong>AWS CloudTrail / Splunk</strong></td>
+              <td style="color:var(--amber);">~$400 / month</td>
+              <td>Centralized DB</td>
+              <td style="color:var(--text-muted);">Mutable centralized SQL; zero non-repudiation</td>
+            </tr>
+            <tr class="highlight-row">
+              <td><strong>Solana Memo Program</strong></td>
+              <td style="color:var(--emerald); font-weight:700;">&lt;$25.00 Total</td>
+              <td>400ms Sub-Second</td>
+              <td style="color:var(--emerald);">1,000x Cheaper • Sub-Cent Commercial Viability</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="grid-3">
+          <div class="card highlight-emerald">
+            <div class="stat-badge emerald" style="font-size:1.75rem;">$0.00025</div>
+            <div class="card-title">Per Anchor Cost</div>
+            <div style="font-size:0.75rem; color:var(--text-muted);">100,000 commercial record seals cost less than $25 total on Solana.</div>
+          </div>
+          <div class="card highlight-cyan">
+            <div class="stat-badge cyan" style="font-size:1.75rem;">400ms</div>
+            <div class="card-title">Slot Finality</div>
+            <div style="font-size:0.75rem; color:var(--text-muted);">Instant record sealing with zero POS checkout or accounting delay.</div>
+          </div>
+          <div class="card">
+            <div class="stat-badge" style="color:var(--purple); font-size:1.75rem;">&gt;95%</div>
+            <div class="card-title">SaaS Gross Margins</div>
+            <div style="font-size:0.75rem; color:var(--text-muted);">SolTrace charges $49–$149/mo while paying ~$2 in on-chain fees.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SLIDE 5 ================= -->
+    <section class="slide" id="slide-5" data-title="Working Prototype">
+      <div class="slide-header">
+        <span class="slide-eyebrow green">Working Prototype · 3 Core Verticals</span>
+        <h2 class="slide-title">Live Interactive Showcase: 3 Steps Across 3 Verticals</h2>
+        <p class="slide-subtitle">Fully working FastAPI REST gateway, Swagger UI (/docs), visual dashboard (/dashboard), and live verification badges.</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card" style="padding:1.5rem; background:#18181b;">
+            <div style="font-size:0.75rem; font-weight:700; color:var(--cyan); text-transform:uppercase; margin-bottom:0.75rem;">
+              The 3-Step Interactive Paradigm
+            </div>
+            <div style="display:flex; flex-direction:column; gap:1rem;">
+              <div style="border-left:2px solid var(--emerald); padding-left:0.75rem;">
+                <div style="font-weight:700; font-size:0.875rem;">Step 1: Seal Original</div>
+                <div style="font-size:0.75rem; color:var(--text-muted);">Saves SHA-256 fingerprint on Solana Memo program. Returns confirmed signature link.</div>
+              </div>
+              <div style="border-left:2px solid var(--rose); padding-left:0.75rem;">
+                <div style="font-weight:700; font-size:0.875rem;">Step 2: Someone Edits Database</div>
+                <div style="font-size:0.75rem; color:var(--text-muted);">Simulates out-of-band SQL overwrite attack. App itself doesn't notice until audited.</div>
+              </div>
+              <div style="border-left:2px solid var(--cyan); padding-left:0.75rem;">
+                <div style="font-weight:700; font-size:0.875rem;">Step 3: Check Against Solana</div>
+                <div style="font-size:0.75rem; color:var(--text-muted);">Recalculates live hash and compares to on-chain seal. Instant forensic diff alert.</div>
+              </div>
+            </div>
+          </div>
+          <div class="card" style="padding:1.5rem;">
+            <div style="font-size:0.75rem; font-weight:700; color:var(--emerald); text-transform:uppercase; margin-bottom:0.75rem;">
+              Proven Across 3 Commercial Verticals
+            </div>
+            <div style="display:flex; flex-direction:column; gap:0.85rem;">
+              <div>
+                <div style="font-weight:700; font-size:0.875rem; color:#fff;">🧾 B2B Invoices & BEC Wire Defense</div>
+                <div style="font-size:0.75rem; color:var(--text-muted);">Protects €18,265.50 invoice. Halts altered recipient IBAN & +€4k inflation fraud.</div>
+              </div>
+              <div>
+                <div style="font-weight:700; font-size:0.875rem; color:#fff;">📦 Retail Hardware Inventory</div>
+                <div style="font-size:0.75rem; color:var(--text-muted);">Store vault: Catches 10 stolen MacBooks (€28,990 shrinkage) and swapped RAM/SSD specs.</div>
+              </div>
+              <div>
+                <div style="font-weight:700; font-size:0.875rem; color:#fff;">🛒 Customer Orders & Fulfilment</div>
+                <div style="font-size:0.75rem; color:var(--text-muted);">E-commerce order: Catches address redirect to scammer drop house before shipping.</div>
+              </div>
+              <div style="padding-top:0.5rem; border-top:1px solid var(--card-border); font-size:0.75rem; color:var(--emerald);">
+                ✔ Printable CPA Audit Certificates + Embeddable Verification Badges
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SLIDE 6 ================= -->
+    <section class="slide" id="slide-6" data-title="Business Model">
+      <div class="slide-header">
+        <span class="slide-eyebrow cyan">Business Model & GTM · Predictable SaaS</span>
+        <h2 class="slide-title">High-Margin B2B SaaS with Organic App Store Distribution</h2>
+        <p class="slide-subtitle">SMEs pay standard fiat subscriptions via Stripe. SolTrace handles gas, RPCs, and key management behind the scenes.</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <h3 class="card-title" style="color:var(--emerald); margin-bottom:1rem;">Predictable SaaS Tiers</h3>
+            <div style="display:flex; flex-direction:column; gap:1rem;">
+              <div>
+                <div style="font-weight:700; font-size:0.9375rem;">Starter — $49 / month</div>
+                <div style="font-size:0.75rem; color:var(--text-muted);">Up to 25,000 anchors/mo for retail shops & local businesses. Standard REST API.</div>
+              </div>
+              <div>
+                <div style="font-weight:700; font-size:0.9375rem;">Growth — $149 / month</div>
+                <div style="font-size:0.75rem; color:var(--text-muted);">Up to 100,000 anchors/mo + webhooks + 1-click verification badges + CPA certificates.</div>
+              </div>
+              <div>
+                <div style="font-weight:700; font-size:0.9375rem;">Enterprise — $299+ / month</div>
+                <div style="font-size:0.75rem; color:var(--text-muted);">Custom Postgres/MySQL CDC daemons, multi-store audit consolidation & SLA.</div>
+              </div>
+              <div style="font-size:0.75rem; color:var(--emerald); font-weight:600; padding-top:0.5rem; border-top:1px solid var(--card-border);">
+                On-chain fees cost &lt;$2/mo per customer yielding &gt;95% gross margins.
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <h3 class="card-title" style="color:var(--cyan); margin-bottom:1rem;">Frictionless Distribution Channels</h3>
+            <div style="display:flex; flex-direction:column; gap:1.1rem;">
+              <div>
+                <div style="font-weight:700; font-size:0.875rem;">1. Accounting & POS App Stores</div>
+                <div style="font-size:0.75rem; color:var(--text-muted);">1-click connectors for QuickBooks, Xero, and Shopify. Zero behavioral change required for SMEs.</div>
+              </div>
+              <div>
+                <div style="font-weight:700; font-size:0.875rem;">2. CPA & Accounting Channel Partners</div>
+                <div style="font-size:0.75rem; color:var(--text-muted);">Accounting firms mandate SolTrace to clients to cut year-end manual audit preparation by 80%.</div>
+              </div>
+              <div>
+                <div style="font-weight:700; font-size:0.875rem;">3. Developer & SQL Extensions</div>
+                <div style="font-size:0.75rem; color:var(--text-muted);">2-line configuration for PostgreSQL, MySQL, Supabase, and SQLite—letting developers seal tables effortlessly.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SLIDE 7 ================= -->
+    <section class="slide" id="slide-7" data-title="Founder-Market Fit">
+      <div class="slide-header">
+        <span class="slide-eyebrow green">Founder-Market Fit · Systems Engineering</span>
+        <h2 class="slide-title">Built by an Engineer Who Understands Physical & Digital State</h2>
+        <p class="slide-subtitle">Combining robotics systems engineering discipline with high-speed cryptographic consensus.</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card" style="align-items:center; text-align:center; padding:2rem;">
+            <div style="width:130px; height:130px; border-radius:50%; background:linear-gradient(135deg, var(--purple), var(--cyan)); padding:3px; margin-bottom:1rem;">
+              <div style="width:100%; height:100%; border-radius:50%; background:#18181b; display:flex; align-items:center; justify-content:center; font-size:2.5rem; font-weight:800; color:#fff;">OS</div>
+            </div>
+            <h3 style="font-size:1.25rem; font-weight:700; color:#fff;">Oladeji Sanyaolu</h3>
+            <div style="font-size:0.8125rem; color:var(--cyan); font-weight:600; margin-top:0.2rem;">Founder & Systems Architect</div>
+            <p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.5rem; max-width:320px; line-height:1.5;">
+              BEng in Computer Engineering with Robotics<br>
+              Technological University of the Shannon (TUS)
+            </p>
+          </div>
+          <div class="card" style="padding:1.5rem;">
+            <div style="display:flex; flex-direction:column; gap:1rem;">
+              <div>
+                <div style="font-weight:700; font-size:0.875rem; color:var(--cyan);">Hardware & Systems Engineering Foundation</div>
+                <div style="font-size:0.75rem; color:var(--text-muted); margin-top:0.2rem;">Deep expertise in embedded systems, component telemetry, microcontrollers, and state machine validation.</div>
+              </div>
+              <div>
+                <div style="font-weight:700; font-size:0.875rem; color:var(--purple);">Database & Cryptographic Provenance</div>
+                <div style="font-size:0.75rem; color:var(--text-muted); margin-top:0.2rem;">Architected the deterministic JSON hasher, verifiable transition ledger, and Solana Memo client with 26/26 automated tests.</div>
+              </div>
+              <div style="padding-top:0.75rem; border-top:1px solid var(--card-border);">
+                <div style="font-size:0.8125rem; font-weight:700; color:var(--emerald); line-height:1.5;">
+                  "Every business transaction deserves mathematical certainty. SolTrace bridges Main Street commerce and Solana consensus."
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SLIDE 8 ================= -->
+    <section class="slide" id="slide-8" data-title="Roadmap & The Ask">
+      <div class="slide-header">
+        <span class="slide-eyebrow green">Roadmap & The Ask · Scale to 1,000 SMEs</span>
+        <h2 class="slide-title">From Hackathon MVP to Scaling Across 1,000 SMEs</h2>
+        <p class="slide-subtitle">Ready to onboard the first cohort of commercial design partners and accounting firms onto Solana.</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-4" style="margin-bottom:1.25rem;">
+          <div class="card highlight-cyan">
+            <span style="font-size:0.6875rem; font-weight:700; color:var(--cyan);">Q3 2026 (Now)</span>
+            <div style="font-weight:700; font-size:0.875rem; margin-top:0.2rem;">Colosseum MVP</div>
+            <div style="font-size:0.6875rem; color:var(--text-muted); margin-top:0.35rem;">Working Solana engine, 26 automated tests, live UI dashboard.</div>
+          </div>
+          <div class="card">
+            <span style="font-size:0.6875rem; font-weight:700; color:var(--text-muted);">Q4 2026</span>
+            <div style="font-weight:700; font-size:0.875rem; margin-top:0.2rem;">SME Connectors</div>
+            <div style="font-size:0.6875rem; color:var(--text-muted); margin-top:0.35rem;">QuickBooks & Shopify plugins, 50 pilot SMEs.</div>
+          </div>
+          <div class="card">
+            <span style="font-size:0.6875rem; font-weight:700; color:var(--text-muted);">Q1 2027</span>
+            <div style="font-weight:700; font-size:0.875rem; margin-top:0.2rem;">Mainnet Launch</div>
+            <div style="font-size:0.6875rem; color:var(--text-muted); margin-top:0.35rem;">Public protocol launch, open SDK, CPA audit portal.</div>
+          </div>
+          <div class="card highlight-emerald">
+            <span style="font-size:0.6875rem; font-weight:700; color:var(--emerald);">Q2 2027</span>
+            <div style="font-weight:700; font-size:0.875rem; margin-top:0.2rem;">Scale to 1,000 SMEs</div>
+            <div style="font-size:0.6875rem; color:var(--text-muted); margin-top:0.35rem;">European & global retail distribution, $1.2M ARR run-rate.</div>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="card highlight-emerald" style="padding:1.25rem;">
+            <div style="font-weight:700; font-size:0.9375rem; color:var(--emerald); margin-bottom:0.4rem;">Hackathon Next Steps & Goals</div>
+            <ul class="card-list" style="font-size:0.75rem;">
+              <li>Target: Top placement in the Colosseum Crypto World's Fair Solana Track ($100k prize pool).</li>
+              <li>Pilot Traction: Onboarding our first 50 retail, wholesale, and B2B design partners across Ireland & UK.</li>
+              <li>Ecosystem Growth: Seeking judge feedback, accounting firm intros, and developer integrations.</li>
+            </ul>
+          </div>
+          <div class="card" style="padding:1.25rem;">
+            <div style="font-weight:700; font-size:0.9375rem; color:var(--cyan); margin-bottom:0.4rem;">Get In Touch</div>
+            <div style="font-size:0.75rem; display:flex; flex-direction:column; gap:0.25rem; color:var(--text-muted);">
+              <div><strong style="color:#fff;">Founder:</strong> Oladeji Sanyaolu</div>
+              <div><strong style="color:#fff;">Email:</strong> oladejisanyaolu@gmail.com</div>
+              <div><strong style="color:#fff;">GitHub:</strong> github.com/DSGuy02</div>
+              <div><strong style="color:#fff;">Project:</strong> SolTrace (Universal SME Cryptographic Ledger)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Speaker Notes Drawer -->
+  <div class="notes-drawer" id="notes-drawer">
+    <div class="notes-title" id="notes-slide-title">Slide 1: Title & Hook</div>
+    <div class="notes-text" id="notes-content">
+      "Good afternoon judges. My name is Oladeji Sanyaolu, and today I am excited to present SolTrace: the universal cryptographic ledger for Small and Medium Enterprises, powered by Solana..."
+    </div>
+  </div>
+
+  <!-- Bottom Navigation Bar -->
+  <footer class="deck-bottombar">
+    <div>
+      <span>Use <kbd style="background:var(--card-border); padding:0.15rem 0.35rem; border-radius:4px; font-family:var(--font-mono); font-size:0.6875rem;">←</kbd> <kbd style="background:var(--card-border); padding:0.15rem 0.35rem; border-radius:4px; font-family:var(--font-mono); font-size:0.6875rem;">→</kbd> or Space to navigate</span>
+    </div>
+    <div class="slide-dots" id="slide-dots">
+      <div class="dot active" data-slide="1"></div>
+      <div class="dot" data-slide="2"></div>
+      <div class="dot" data-slide="3"></div>
+      <div class="dot" data-slide="4"></div>
+      <div class="dot" data-slide="5"></div>
+      <div class="dot" data-slide="6"></div>
+      <div class="dot" data-slide="7"></div>
+      <div class="dot" data-slide="8"></div>
+    </div>
+    <div style="display:flex; gap:0.5rem;">
+      <button class="btn-ctrl" id="btn-prev">Prev</button>
+      <button class="btn-ctrl" id="btn-next">Next</button>
+    </div>
+  </footer>
+
+  <script>
+    const totalSlides = 8;
+    let currentSlide = 1;
+
+    const speakerNotes = {
+      1: `[00:00 - 00:20] SPEAKER SCRIPT:\n"Good afternoon judges. My name is Oladeji Sanyaolu, and today I am excited to present SolTrace: the universal cryptographic ledger for Small and Medium Enterprises, powered by Solana.\n\nOver 400 million SMEs run daily operations on invoices, stock counts, and orders stored in standard relational databases. But traditional business databases have a fatal flaw: they are completely mutable. Anyone with direct database access or compromised credentials can alter records with zero cryptographic trace.\n\nSolTrace brings mathematical non-repudiation to Main Street business operations."`,
+      2: `[00:20 - 00:50] SPEAKER SCRIPT:\n"Here is the root vulnerability in business software today: relational databases are mutable by design.\n\nIf an attacker breaches a company's email or an insider wants to steal money, they do not hack the bank. They alter the invoice database: changing the recipient IBAN to an offshore account right before Accounts Payable hits wire transfer. The FBI reports over $3 Billion in annual BEC wire fraud losses, averaging $123,000 per business.\n\nIn retail, the National Retail Federation reports over $112 Billion lost to shrinkage, with nearly 30% caused by employee theft. Employees quietly decrement stock numbers in MySQL to hide stolen laptops as damaged goods.\n\nAnd because standard databases only record current state, businesses lose 5% of their revenue annually with zero cryptographic defense."`,
+      3: `[00:50 - 01:25] SPEAKER SCRIPT:\n"SolTrace solves this by giving every SME an invisible cryptographic sidecar powered by Solana.\n\nIt integrates seamlessly with the software businesses already run: QuickBooks, Xero, Shopify, InvenTree, and standard PostgreSQL or MySQL databases.\n\nWhenever an invoice is generated or inventory arrives, SolTrace computes a deterministic SHA-256 seal across the critical fields and commits it directly to Solana in 400 milliseconds.\n\nCrucially: zero private customer information or pricing secrets ever go on-chain—only one-way mathematical digests.\n\nIf anyone attempts an unauthorized database edit, SolTrace detects the mismatch immediately and halts the fraudulent payout before money or merchandise leaves the building."`,
+      4: `[01:25 - 01:55] SPEAKER SCRIPT:\n"Why does this have to be built on Solana? Because of micro-cent economics and sub-second speed.\n\nA busy distributor or retail store generates thousands of invoices and inventory updates every week. On Ethereum, logging records costs thousands of dollars. On L2 rollups, costs still reach hundreds of dollars with multi-minute delays.\n\nOn Solana, anchoring 100,000 records costs less than $25 total. With 400ms block times, records are sealed instantly.\n\nThis enables SolTrace to charge simple, accessible $49 to $149 monthly fiat subscriptions while operating at greater than 95% software gross profit margins."`,
+      5: `[01:55 - 02:20] SPEAKER SCRIPT:\n"This is not a slide mockup—SolTrace is a fully functional prototype tested with 26 automated unit and integration suites.\n\nOur dashboard demonstrates the entire 3-step lifecycle:\nStep 1: Seal the original record on Solana.\nStep 2: Simulate an insider or hacker modifying database values via SQL.\nStep 3: Instant on-chain verification flagging the exact altered fields with a forensic diff table.\n\nWe demonstrate this across three real verticals: B2B Invoices, Retail Hardware, and Customer Orders.\n\nWe also generate one-page printable CPA audit certificates and embeddable verification badges."`,
+      6: `[02:20 - 02:40] SPEAKER SCRIPT:\n"Our go-to-market strategy requires zero behavioral change. We do not ask small businesses to become crypto believers or set up Phantom wallets.\n\nWe sell simple B2B SaaS for $49 to $149 a month. Because Solana transaction costs are a fraction of a cent, our gross margins exceed 95%.\n\nWe distribute directly through the app stores SMEs already use: QuickBooks, Xero, and Shopify.\n\nWe also partner with auditing and accounting firms, who will recommend SolTrace to their clients because it cuts their annual audit prep time by 80%."`,
+      7: `[02:40 - 02:55] SPEAKER SCRIPT:\n"Judges, I built SolTrace because I have spent years working directly at the intersection of computer engineering, physical systems, and software.\n\nAs a Computer and Robotics Engineer from TUS, I know firsthand that physical reality and database records frequently drift apart—and how trivial it is for unauthorized users to alter mutable SQL tables.\n\nI built the SolTrace engine from the ground up to solve this for real businesses. We bring the engineering discipline of robotics and the speed of Solana to small business accounting and inventory."`,
+      8: `[02:40 - 03:00] SPEAKER SCRIPT:\n"Today, SolTrace is a fully functional prototype with 26 passing automated tests, live Solana anchoring, a REST API with Swagger documentation, and working live demonstrations for invoice fraud, retail inventory shrinkage, and order fulfillment.\n\nWe are competing in the Colosseum Crypto World's Fair to showcase the power of Solana for real-world business trust and win the Solana track.\n\nOur next milestone is launching our QuickBooks and Shopify plugins, onboarding our first 50 pilot SMEs, and scaling to 1,000 paying business customers.\n\nJoin us in building the default trust layer for SME commerce on Solana. Thank you."`
+    };
+
+    function showSlide(index) {
+      if (index < 1 || index > totalSlides) return;
+      currentSlide = index;
+
+      document.querySelectorAll('.slide').forEach((s, idx) => {
+        s.classList.toggle('active', idx + 1 === currentSlide);
+      });
+
+      document.querySelectorAll('.dot').forEach((d, idx) => {
+        d.classList.toggle('active', idx + 1 === currentSlide);
+      });
+
+      document.getElementById('slide-num-label').textContent = `${currentSlide} / ${totalSlides}`;
+
+      const activeSlideEl = document.getElementById(`slide-${currentSlide}`);
+      const slideTitle = activeSlideEl ? activeSlideEl.getAttribute('data-title') : `Slide ${currentSlide}`;
+      document.getElementById('notes-slide-title').textContent = `Slide ${currentSlide}: ${slideTitle}`;
+      document.getElementById('notes-content').textContent = speakerNotes[currentSlide] || "No speaker notes for this slide.";
+    }
+
+    document.getElementById('btn-next').addEventListener('click', () => showSlide(currentSlide + 1));
+    document.getElementById('btn-prev').addEventListener('click', () => showSlide(currentSlide - 1));
+
+    document.querySelectorAll('.dot').forEach(dot => {
+      dot.addEventListener('click', () => {
+        const target = parseInt(dot.getAttribute('data-slide'), 10);
+        showSlide(target);
+      });
+    });
+
+    const notesDrawer = document.getElementById('notes-drawer');
+    const btnNotes = document.getElementById('btn-notes');
+    btnNotes.addEventListener('click', () => {
+      notesDrawer.classList.toggle('open');
+      btnNotes.classList.toggle('active');
+    });
+
+    const btnFullscreen = document.getElementById('btn-fullscreen');
+    btnFullscreen.addEventListener('click', () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+        btnFullscreen.textContent = 'Exit Fullscreen';
+      } else {
+        document.exitFullscreen().catch(() => {});
+        btnFullscreen.textContent = 'Fullscreen (F)';
+      }
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        e.preventDefault();
+        showSlide(currentSlide + 1);
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        showSlide(currentSlide - 1);
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        showSlide(1);
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        showSlide(totalSlides);
+      } else if (e.key.toLowerCase() === 'n') {
+        btnNotes.click();
+      } else if (e.key.toLowerCase() === 'f') {
+        btnFullscreen.click();
+      }
+    });
+
+    showSlide(1);
+  </script>
+</body>
+</html>

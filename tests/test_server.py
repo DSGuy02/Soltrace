@@ -224,6 +224,12 @@ def test_dashboard_page():
     assert "Universal Cryptographic Ledger" in resp.text
     assert "Interactive Showcase" in resp.text
 
+def test_presentation_page():
+    resp = client.get("/presentation")
+    assert resp.status_code == 200
+    assert "Colosseum Pitch Deck" in resp.text
+    assert "SolTrace" in resp.text
+
 def test_static_assets():
     resp_css = client.get("/static/style.css")
     assert resp_css.status_code == 200

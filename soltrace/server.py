@@ -113,6 +113,15 @@ class VerifyRecordResponse(BaseModel):
 
 # --- Endpoints ---
 
+@app.get("/presentation", response_class=FileResponse)
+@app.get("/pitch", response_class=FileResponse)
+@app.get("/deck", response_class=FileResponse)
+def get_presentation():
+    pres_file = os.path.join(STATIC_DIR, "presentation.html")
+    if os.path.exists(pres_file):
+        return FileResponse(pres_file)
+    return HTMLResponse("<h1>SolTrace Presentation</h1><p>Static presentation.html not found.</p>")
+
 @app.get("/dashboard", response_class=FileResponse)
 @app.get("/explorer", response_class=FileResponse)
 @app.get("/audit", response_class=FileResponse)
