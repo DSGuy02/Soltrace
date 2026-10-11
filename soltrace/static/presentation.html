@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark">
-  <title>SolTrace — Colosseum Crypto World's Fair 2026 Pitch Deck</title>
+  <title>SolTrace — Tamper-Proof Business Records on Solana</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap">
@@ -114,6 +114,7 @@
       display: inline-flex;
       align-items: center;
       gap: 0.35rem;
+      text-decoration: none;
     }
 
     .btn-ctrl:hover {
@@ -142,14 +143,14 @@
       width: 100%;
       max-width: 1200px;
       height: 100%;
-      max-height: 675px; /* 16:9 aspect ratio */
+      max-height: 675px;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 14px;
       box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
       display: none;
       flex-direction: column;
-      padding: 2.5rem 3rem;
+      padding: 2.25rem 2.75rem;
       position: relative;
       animation: fadeIn 0.25s ease-out;
     }
@@ -163,9 +164,8 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Header component inside slide */
     .slide-header {
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.25rem;
       flex-shrink: 0;
     }
 
@@ -180,7 +180,7 @@
       border-radius: 9999px;
       background: var(--pill-bg);
       border: 1px solid var(--card-border);
-      margin-bottom: 0.6rem;
+      margin-bottom: 0.5rem;
     }
 
     .slide-eyebrow.green { color: var(--emerald); border-color: rgba(16, 185, 129, 0.3); }
@@ -188,12 +188,12 @@
     .slide-eyebrow.cyan { color: var(--cyan); border-color: rgba(34, 211, 238, 0.3); }
 
     .slide-title {
-      font-size: 1.875rem;
+      font-size: 1.75rem;
       font-weight: 800;
       letter-spacing: -0.03em;
       color: var(--text);
       line-height: 1.15;
-      margin-bottom: 0.35rem;
+      margin-bottom: 0.3rem;
     }
 
     .slide-subtitle {
@@ -209,7 +209,6 @@
       justify-content: center;
     }
 
-    /* Cards grid */
     .grid-3 {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -297,45 +296,6 @@
       color: var(--text-muted);
     }
 
-    /* Architecture / Flow row */
-    .flow-row {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1rem;
-      align-items: stretch;
-      margin-bottom: 1.25rem;
-    }
-
-    .flow-card {
-      background: #18181b;
-      border: 1px solid var(--card-border);
-      border-radius: 8px;
-      padding: 1rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-    }
-
-    .flow-card-head {
-      font-size: 0.6875rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-
-    .flow-card-title {
-      font-size: 0.9375rem;
-      font-weight: 700;
-      color: var(--text);
-    }
-
-    .flow-card-body {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      line-height: 1.4;
-    }
-
-    /* Comparison Table */
     .comp-table {
       width: 100%;
       border-collapse: collapse;
@@ -370,7 +330,6 @@
       color: #fff;
     }
 
-    /* Footer Bottom Controls */
     .deck-bottombar {
       height: 48px;
       border-top: 1px solid var(--card-border);
@@ -406,7 +365,6 @@
       background: var(--emerald);
     }
 
-    /* Speaker Notes Modal */
     .notes-drawer {
       position: fixed;
       bottom: 48px;
@@ -471,22 +429,22 @@
         <span class="slide-eyebrow green">Colosseum Crypto World's Fair 2026 · Solana Track</span>
         <h1 class="slide-title" style="font-size:3.5rem; letter-spacing:-0.04em;">SolTrace</h1>
         <p class="slide-subtitle" style="font-size:1.25rem; font-weight:600; color:var(--cyan);">
-          Universal Cryptographic Ledger for Small & Medium Enterprises
+          Tamper-proof business records on Solana
         </p>
       </div>
       <div class="slide-body">
         <div class="card" style="margin-bottom:1.5rem; background:#18181b; padding:1.75rem;">
-          <h2 style="font-size:1.25rem; font-weight:700; margin-bottom:0.4rem;">Know instantly if a business record was changed.</h2>
+          <h2 style="font-size:1.25rem; font-weight:700; margin-bottom:0.4rem;">Know instantly if an invoice, stock count, or order was changed.</h2>
           <p style="color:var(--text-muted); font-size:0.9375rem; line-height:1.5;">
-            SolTrace anchors cryptographic fingerprints of B2B invoices, retail inventory counts, and customer orders directly to Solana in 400ms. If even one character is altered in an internal database, SolTrace detects the mismatch immediately.
+            SolTrace saves an unchangeable digital fingerprint of each business record on the Solana blockchain in under half a second. If an attacker or insider secretly changes even one letter, bank detail, or price in the database, SolTrace catches it immediately.
           </p>
         </div>
         <div class="card" style="padding:1rem 1.25rem; background:rgba(16, 185, 129, 0.05); border-color:rgba(16, 185, 129, 0.25);">
           <div style="font-weight:700; font-size:0.875rem; color:#fff;">
-            Founder: Oladeji Sanyaolu · Systems Architect (TUS)
+            Founder: Oladeji Sanyaolu · Robotics & Systems Engineer (TUS)
           </div>
           <div style="font-size:0.75rem; color:var(--emerald); margin-top:0.2rem;">
-            Live Prototype on Solana · 26/26 Automated Tests Passing · Interactive Web UI at /dashboard
+            Live Working Prototype · Customer Verification Badges · Printable CPA Audit Certificates
           </div>
         </div>
       </div>
@@ -502,40 +460,40 @@
     <!-- ================= SLIDE 2 ================= -->
     <section class="slide" id="slide-2" data-title="The Problem">
       <div class="slide-header">
-        <span class="slide-eyebrow rose">The Problem · $180B+ Annual Crisis</span>
-        <h2 class="slide-title">Centralized Business Databases Are Completely Mutable</h2>
-        <p class="slide-subtitle">QuickBooks, Shopify, and SQL databases permit silent out-of-band record alterations with zero cryptographic trace.</p>
+        <span class="slide-eyebrow rose">The Problem · The Silent Database Crisis</span>
+        <h2 class="slide-title">Any Normal Database Can Be Secretly Edited</h2>
+        <p class="slide-subtitle">When someone changes a number inside a database, the software itself doesn't notice until money or stock is already lost.</p>
       </div>
       <div class="slide-body">
         <div class="grid-3">
           <div class="card">
             <div class="stat-badge rose">$3.0B+</div>
-            <h3 class="card-title">B2B Wire & Invoice Fraud (BEC)</h3>
-            <p class="card-sub">FBI IC3 Report · $123k avg loss per business</p>
+            <h3 class="card-title">Fake Bank Details on Invoices</h3>
+            <p class="card-sub">FBI IC3 Report · $123k avg loss per incident</p>
             <ul class="card-list">
-              <li>Attackers or rogue insiders alter recipient IBANs in database right before payout approval.</li>
-              <li>Accounts payable wires funds to offshore scammer account.</li>
-              <li>Standard database logs can be wiped or truncated by anyone with server privileges.</li>
+              <li>A scammer or insider quietly edits the bank IBAN on an invoice right before payment.</li>
+              <li>Accounts payable wires thousands of euros to an overseas account without knowing.</li>
+              <li>Normal databases have no way to prove whether an invoice was altered after being issued.</li>
             </ul>
           </div>
           <div class="card">
             <div class="stat-badge amber">$112B+</div>
-            <h3 class="card-title">Retail Inventory Shrinkage</h3>
-            <p class="card-sub">NRF Annual Survey · 29% Employee Theft</p>
+            <h3 class="card-title">Missing Inventory Blamed on "Errors"</h3>
+            <p class="card-sub">Retail Federation · 29% Employee Theft</p>
             <ul class="card-list">
-              <li>Workers physically take high-value laptops/GPUs and overwrite stock quantities in SQL.</li>
-              <li>Missing stock written off as "damaged goods" with zero mathematical non-repudiation.</li>
-              <li>Inventory systems only store the latest state, leaving owners unable to prove fraud.</li>
+              <li>Staff steal valuable laptops or stock, then lower the count in the database to hide it.</li>
+              <li>Missing items are written off as "damaged goods" or "counting mistakes."</li>
+              <li>Store owners only see the latest computer number, with zero proof of who changed it.</li>
             </ul>
           </div>
           <div class="card">
             <div class="stat-badge cyan">5%</div>
-            <h3 class="card-title">Annual Revenue Lost to Fraud</h3>
-            <p class="card-sub">ACFE Global Study · $100k+ median loss</p>
+            <h3 class="card-title">Revenue Lost to Financial Tampering</h3>
+            <p class="card-sub">Global Fraud Study · Weeks of Manual Audits</p>
             <ul class="card-list">
-              <li>Billing tampering schemes persist for 12+ months before accidental discovery.</li>
-              <li>Small businesses lack complex multi-tier internal controls.</li>
-              <li>CPAs spend hundreds of hours manually sampling paper receipts with zero certainty.</li>
+              <li>Internal billing tampering goes undetected for an average of 12 months.</li>
+              <li>Accountants spend weeks manually cross-checking paper receipts against bank statements.</li>
+              <li>Businesses waste thousands paying auditors because their database cannot be proven true.</li>
             </ul>
           </div>
         </div>
@@ -545,45 +503,41 @@
     <!-- ================= SLIDE 3 ================= -->
     <section class="slide" id="slide-3" data-title="The Solution">
       <div class="slide-header">
-        <span class="slide-eyebrow green">The Solution · Zero-Trust Integrity</span>
-        <h2 class="slide-title">SolTrace: An Invisible Cryptographic Sidecar for Any SME</h2>
-        <p class="slide-subtitle">Computes deterministic state seals and anchors them to Solana in ~400ms with zero crypto friction.</p>
+        <span class="slide-eyebrow green">The Solution · 3 Simple Steps</span>
+        <h2 class="slide-title">How SolTrace Works in 3 Everyday Steps</h2>
+        <p class="slide-subtitle">An invisible assistant running in the background. No crypto wallet or blockchain knowledge needed.</p>
       </div>
       <div class="slide-body">
-        <div class="flow-row">
-          <div class="flow-card">
-            <span class="flow-card-head" style="color:var(--text-muted);">1. Business Source</span>
-            <div class="flow-card-title">Existing Software</div>
-            <div class="flow-card-body">QuickBooks, Xero, Shopify, InvenTree, and SQL databases emit webhook events.</div>
-          </div>
-          <div class="flow-card" style="border-color:var(--cyan);">
-            <span class="flow-card-head" style="color:var(--cyan);">2. SolTrace Sidecar</span>
-            <div class="flow-card-title">Deterministic Seal</div>
-            <div class="flow-card-body">Canonical JSON normalizer computes SHA-256 state seal across critical business values.</div>
-          </div>
-          <div class="flow-card" style="border-color:var(--purple);">
-            <span class="flow-card-head" style="color:var(--purple);">3. Solana Consensus</span>
-            <div class="flow-card-title">SPL Memo Program</div>
-            <div class="flow-card-body">Anchors fingerprint directly on-chain in 400ms for $0.00025. Zero private data on-chain.</div>
-          </div>
-          <div class="flow-card" style="border-color:var(--emerald);">
-            <span class="flow-card-head" style="color:var(--emerald);">4. Continuous Audit</span>
-            <div class="flow-card-title">Tamper Detection</div>
-            <div class="flow-card-body">Live SQL row compared against Solana seal. Immediate alert & forensic diff if modified.</div>
-          </div>
-        </div>
         <div class="grid-3">
-          <div class="card">
-            <h4 style="font-size:0.875rem; font-weight:700; color:var(--cyan); margin-bottom:0.25rem;">Deterministic State Seals</h4>
-            <p style="font-size:0.75rem; color:var(--text-muted);">Lexicographically sorted JSON keys and normalized whitespace guarantee exact identical hashes across platforms.</p>
+          <div class="card highlight-emerald">
+            <div class="stat-badge emerald" style="font-size:1.75rem;">STEP 1</div>
+            <h3 class="card-title">Seal the Original</h3>
+            <p style="font-size:0.8125rem; color:#fff; line-height:1.5; margin-bottom:0.75rem;">
+              When an invoice is approved, stock is received, or an order is placed, SolTrace creates a permanent digital fingerprint and saves it to Solana in 0.4 seconds.
+            </p>
+            <div style="font-size:0.75rem; color:var(--emerald); margin-top:auto;">
+              ✔ Costs ~$0.00025 (less than 1/40th of a cent). Never slows down checkout.
+            </div>
           </div>
           <div class="card">
-            <h4 style="font-size:0.875rem; font-weight:700; color:var(--emerald); margin-bottom:0.25rem;">400ms Sub-Second Finality</h4>
-            <p style="font-size:0.75rem; color:var(--text-muted);">Powered by Solana's SPL Memo Program. Instant confirmation during checkout or invoice issuance with zero lag.</p>
+            <div class="stat-badge rose" style="font-size:1.75rem;">STEP 2</div>
+            <h3 class="card-title">Someone Edits the Database</h3>
+            <p style="font-size:0.8125rem; color:#fff; line-height:1.5; margin-bottom:0.75rem;">
+              An insider or hacker secretly changes the recipient bank account, increases an invoice total, or lowers a stock count inside the company database.
+            </p>
+            <div style="font-size:0.75rem; color:var(--rose); margin-top:auto;">
+              ⚠ The regular app thinks all is fine, but the fingerprint no longer matches.
+            </div>
           </div>
-          <div class="card">
-            <h4 style="font-size:0.875rem; font-weight:700; color:var(--purple); margin-bottom:0.25rem;">Zero Private Data Leaks</h4>
-            <p style="font-size:0.75rem; color:var(--text-muted);">Only one-way mathematical digests go on-chain. Confidential customer details and pricing remain 100% private.</p>
+          <div class="card highlight-cyan">
+            <div class="stat-badge cyan" style="font-size:1.75rem;">STEP 3</div>
+            <h3 class="card-title">Check Against Solana</h3>
+            <p style="font-size:0.8125rem; color:#fff; line-height:1.5; margin-bottom:0.75rem;">
+              SolTrace compares the live database record with the fingerprint saved on Solana. If even one character changed, it immediately shows the difference in red.
+            </p>
+            <div style="font-size:0.75rem; color:var(--cyan); margin-top:auto;">
+              ✔ Blocks the fraudulent payment and gives the business 100% proof.
+            </div>
           </div>
         </div>
       </div>
@@ -592,9 +546,9 @@
     <!-- ================= SLIDE 4 ================= -->
     <section class="slide" id="slide-4" data-title="Why Solana?">
       <div class="slide-header">
-        <span class="slide-eyebrow cyan">Why Solana? · Sub-Cent Microeconomics</span>
-        <h2 class="slide-title">Sub-Cent Cost & 400ms Finality Make Business Sealing Viable</h2>
-        <p class="slide-subtitle">Solana is the only public blockchain where logging every commercial state transition is economically rational.</p>
+        <span class="slide-eyebrow cyan">Why Solana? · Fast & Almost Free</span>
+        <h2 class="slide-title">Solana Makes Fingerprinting Every Record Affordable</h2>
+        <p class="slide-subtitle">Saving 100,000 business records costs less than $25 total. No other blockchain makes this possible.</p>
       </div>
       <div class="slide-body">
         <table class="comp-table">
@@ -602,52 +556,52 @@
             <tr>
               <th>Platform</th>
               <th>Cost for 100,000 Records</th>
-              <th>Confirmation Latency</th>
-              <th>Commercial Verdict</th>
+              <th>Confirmation Speed</th>
+              <th>Practical Verdict</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td><strong>Ethereum Mainnet</strong></td>
               <td style="color:var(--rose);">~$25,000+</td>
-              <td>12–15 min finality</td>
-              <td style="color:var(--text-muted);">Financially impossible for SMEs</td>
+              <td>12–15 minutes</td>
+              <td style="color:var(--text-muted);">Way too expensive for everyday business</td>
             </tr>
             <tr>
               <td><strong>Polygon / Arbitrum L2s</strong></td>
               <td style="color:var(--amber);">~$200 – $500</td>
-              <td>2–5 min finality</td>
-              <td style="color:var(--text-muted);">Too expensive for daily inventory transactions</td>
+              <td>2–5 minutes</td>
+              <td style="color:var(--text-muted);">Too costly for high-frequency store inventory</td>
             </tr>
             <tr>
-              <td><strong>AWS CloudTrail / Splunk</strong></td>
+              <td><strong>Regular Cloud Logs (AWS)</strong></td>
               <td style="color:var(--amber);">~$400 / month</td>
               <td>Centralized DB</td>
-              <td style="color:var(--text-muted);">Mutable centralized SQL; zero non-repudiation</td>
+              <td style="color:var(--text-muted);">Anyone with admin access can still delete or edit them</td>
             </tr>
             <tr class="highlight-row">
               <td><strong>Solana Memo Program</strong></td>
               <td style="color:var(--emerald); font-weight:700;">&lt;$25.00 Total</td>
-              <td>400ms Sub-Second</td>
-              <td style="color:var(--emerald);">1,000x Cheaper • Sub-Cent Commercial Viability</td>
+              <td>0.4 Seconds (Instant)</td>
+              <td style="color:var(--emerald);">1,000x Cheaper • Affordable for Any Business</td>
             </tr>
           </tbody>
         </table>
         <div class="grid-3">
           <div class="card highlight-emerald">
-            <div class="stat-badge emerald" style="font-size:1.75rem;">$0.00025</div>
-            <div class="card-title">Per Anchor Cost</div>
-            <div style="font-size:0.75rem; color:var(--text-muted);">100,000 commercial record seals cost less than $25 total on Solana.</div>
+            <div class="stat-badge emerald" style="font-size:1.75rem;">&lt;$25</div>
+            <div class="card-title">For 100k Records</div>
+            <div style="font-size:0.75rem; color:var(--text-muted);">Saving 100,000 business records costs less than twenty-five dollars total.</div>
           </div>
           <div class="card highlight-cyan">
-            <div class="stat-badge cyan" style="font-size:1.75rem;">400ms</div>
-            <div class="card-title">Slot Finality</div>
-            <div style="font-size:0.75rem; color:var(--text-muted);">Instant record sealing with zero POS checkout or accounting delay.</div>
+            <div class="stat-badge cyan" style="font-size:1.75rem;">0.4s</div>
+            <div class="card-title">Instant Finality</div>
+            <div style="font-size:0.75rem; color:var(--text-muted);">Records confirm in 400 milliseconds. Cashiers and clerks never wait.</div>
           </div>
           <div class="card">
-            <div class="stat-badge" style="color:var(--purple); font-size:1.75rem;">&gt;95%</div>
-            <div class="card-title">SaaS Gross Margins</div>
-            <div style="font-size:0.75rem; color:var(--text-muted);">SolTrace charges $49–$149/mo while paying ~$2 in on-chain fees.</div>
+            <div class="stat-badge" style="color:var(--purple); font-size:1.75rem;">Zero</div>
+            <div class="card-title">Crypto Complexity</div>
+            <div style="font-size:0.75rem; color:var(--text-muted);">SMEs pay a normal $49/mo subscription in Euros or Dollars.</div>
           </div>
         </div>
       </div>
@@ -656,52 +610,46 @@
     <!-- ================= SLIDE 5 ================= -->
     <section class="slide" id="slide-5" data-title="Working Prototype">
       <div class="slide-header">
-        <span class="slide-eyebrow green">Working Prototype · 3 Core Verticals</span>
-        <h2 class="slide-title">Live Interactive Showcase: 3 Steps Across 3 Verticals</h2>
-        <p class="slide-subtitle">Fully working FastAPI REST gateway, Swagger UI (/docs), visual dashboard (/dashboard), and live verification badges.</p>
+        <span class="slide-eyebrow green">Live Product · Test It Yourself</span>
+        <h2 class="slide-title">Working Features You Can Test in the Dashboard Today</h2>
+        <p class="slide-subtitle">An interactive web demo across 3 real business scenarios, with customer badges and accountant audit certificates.</p>
       </div>
       <div class="slide-body">
         <div class="grid-2">
-          <div class="card" style="padding:1.5rem; background:#18181b;">
-            <div style="font-size:0.75rem; font-weight:700; color:var(--cyan); text-transform:uppercase; margin-bottom:0.75rem;">
-              The 3-Step Interactive Paradigm
-            </div>
-            <div style="display:flex; flex-direction:column; gap:1rem;">
-              <div style="border-left:2px solid var(--emerald); padding-left:0.75rem;">
-                <div style="font-weight:700; font-size:0.875rem;">Step 1: Seal Original</div>
-                <div style="font-size:0.75rem; color:var(--text-muted);">Saves SHA-256 fingerprint on Solana Memo program. Returns confirmed signature link.</div>
-              </div>
-              <div style="border-left:2px solid var(--rose); padding-left:0.75rem;">
-                <div style="font-weight:700; font-size:0.875rem;">Step 2: Someone Edits Database</div>
-                <div style="font-size:0.75rem; color:var(--text-muted);">Simulates out-of-band SQL overwrite attack. App itself doesn't notice until audited.</div>
-              </div>
-              <div style="border-left:2px solid var(--cyan); padding-left:0.75rem;">
-                <div style="font-weight:700; font-size:0.875rem;">Step 3: Check Against Solana</div>
-                <div style="font-size:0.75rem; color:var(--text-muted);">Recalculates live hash and compares to on-chain seal. Instant forensic diff alert.</div>
-              </div>
-            </div>
+          <div class="card" style="padding:1.25rem;">
+            <div style="font-size:0.6875rem; font-weight:700; color:var(--cyan); text-transform:uppercase; margin-bottom:0.25rem;">INTERACTIVE DEMO</div>
+            <h3 class="card-title">3 Real Business Scenarios</h3>
+            <p style="font-size:0.8125rem; color:var(--text-muted); line-height:1.45; margin-bottom:0.5rem;">
+              Switch between an Invoice, Retail Inventory, or Customer Order. Click 'Simulate Attack' to secretly alter the database, then click 'Verify' to watch SolTrace catch it immediately in red.
+            </p>
+            <div style="font-size:0.75rem; color:var(--emerald); font-weight:600; margin-top:auto;">✔ Invoices • Inventory • Customer Orders</div>
           </div>
-          <div class="card" style="padding:1.5rem;">
-            <div style="font-size:0.75rem; font-weight:700; color:var(--emerald); text-transform:uppercase; margin-bottom:0.75rem;">
-              Proven Across 3 Commercial Verticals
-            </div>
-            <div style="display:flex; flex-direction:column; gap:0.85rem;">
-              <div>
-                <div style="font-weight:700; font-size:0.875rem; color:#fff;">🧾 B2B Invoices & BEC Wire Defense</div>
-                <div style="font-size:0.75rem; color:var(--text-muted);">Protects €18,265.50 invoice. Halts altered recipient IBAN & +€4k inflation fraud.</div>
-              </div>
-              <div>
-                <div style="font-weight:700; font-size:0.875rem; color:#fff;">📦 Retail Hardware Inventory</div>
-                <div style="font-size:0.75rem; color:var(--text-muted);">Store vault: Catches 10 stolen MacBooks (€28,990 shrinkage) and swapped RAM/SSD specs.</div>
-              </div>
-              <div>
-                <div style="font-weight:700; font-size:0.875rem; color:#fff;">🛒 Customer Orders & Fulfilment</div>
-                <div style="font-size:0.75rem; color:var(--text-muted);">E-commerce order: Catches address redirect to scammer drop house before shipping.</div>
-              </div>
-              <div style="padding-top:0.5rem; border-top:1px solid var(--card-border); font-size:0.75rem; color:var(--emerald);">
-                ✔ Printable CPA Audit Certificates + Embeddable Verification Badges
-              </div>
-            </div>
+
+          <div class="card" style="padding:1.25rem;">
+            <div style="font-size:0.6875rem; font-weight:700; color:var(--emerald); text-transform:uppercase; margin-bottom:0.25rem;">CUSTOMER TRUST</div>
+            <h3 class="card-title">Click-to-Verify Badge</h3>
+            <p style="font-size:0.8125rem; color:var(--text-muted); line-height:1.45; margin-bottom:0.5rem;">
+              Businesses paste a small "Verified on Solana" badge onto invoices and receipts. Customers or clients click it to confirm the document hasn't been altered—no crypto wallet needed.
+            </p>
+            <div style="font-size:0.75rem; color:var(--emerald); font-weight:600; margin-top:auto;">✔ Embed in HTML or Markdown in 1 Click</div>
+          </div>
+
+          <div class="card" style="padding:1.25rem;">
+            <div style="font-size:0.6875rem; font-weight:700; color:var(--purple); text-transform:uppercase; margin-bottom:0.25rem;">ACCOUNTANT READY</div>
+            <h3 class="card-title">1-Page CPA Audit Certificate</h3>
+            <p style="font-size:0.8125rem; color:var(--text-muted); line-height:1.45; margin-bottom:0.5rem;">
+              Generates an official printable audit certificate for accountants and tax auditors proving mathematically that no records were altered, cutting weeks of manual paperwork to 1 second.
+            </p>
+            <div style="font-size:0.75rem; color:var(--purple); font-weight:600; margin-top:auto;">✔ Ready to Print or Save as PDF</div>
+          </div>
+
+          <div class="card" style="padding:1.25rem;">
+            <div style="font-size:0.6875rem; font-weight:700; color:#fff; text-transform:uppercase; margin-bottom:0.25rem;">RECORDS TIMELINE</div>
+            <h3 class="card-title">Searchable Records History</h3>
+            <p style="font-size:0.8125rem; color:var(--text-muted); line-height:1.45; margin-bottom:0.5rem;">
+              Click any past record to open an inspection drawer showing the exact on-chain receipt, operator identity, and complete historical audit trail from day one.
+            </p>
+            <div style="font-size:0.75rem; color:var(--cyan); font-weight:600; margin-top:auto;">✔ 27 Automated Test Suites Passing</div>
           </div>
         </div>
       </div>
@@ -710,46 +658,46 @@
     <!-- ================= SLIDE 6 ================= -->
     <section class="slide" id="slide-6" data-title="Business Model">
       <div class="slide-header">
-        <span class="slide-eyebrow cyan">Business Model & GTM · Predictable SaaS</span>
-        <h2 class="slide-title">High-Margin B2B SaaS with Organic App Store Distribution</h2>
-        <p class="slide-subtitle">SMEs pay standard fiat subscriptions via Stripe. SolTrace handles gas, RPCs, and key management behind the scenes.</p>
+        <span class="slide-eyebrow cyan">Business Model · Simple & Profitable</span>
+        <h2 class="slide-title">Standard Monthly Subscriptions, Huge Margins</h2>
+        <p class="slide-subtitle">Sold like any normal business software (Slack or QuickBooks). Customers pay in ordinary currency.</p>
       </div>
       <div class="slide-body">
         <div class="grid-2">
           <div class="card">
-            <h3 class="card-title" style="color:var(--emerald); margin-bottom:1rem;">Predictable SaaS Tiers</h3>
-            <div style="display:flex; flex-direction:column; gap:1rem;">
+            <h3 class="card-title" style="color:var(--emerald); margin-bottom:0.75rem;">Simple Monthly Pricing Plans</h3>
+            <div style="display:flex; flex-direction:column; gap:0.85rem;">
               <div>
-                <div style="font-weight:700; font-size:0.9375rem;">Starter — $49 / month</div>
-                <div style="font-size:0.75rem; color:var(--text-muted);">Up to 25,000 anchors/mo for retail shops & local businesses. Standard REST API.</div>
+                <div style="font-weight:700; font-size:0.875rem;">Starter — $49 / month</div>
+                <div style="font-size:0.75rem; color:var(--text-muted);">Up to 25,000 records per month. Perfect for local shops, cafes, contractors, and independent stores.</div>
               </div>
               <div>
-                <div style="font-weight:700; font-size:0.9375rem;">Growth — $149 / month</div>
-                <div style="font-size:0.75rem; color:var(--text-muted);">Up to 100,000 anchors/mo + webhooks + 1-click verification badges + CPA certificates.</div>
+                <div style="font-weight:700; font-size:0.875rem;">Growth — $149 / month</div>
+                <div style="font-size:0.75rem; color:var(--text-muted);">Up to 100,000 records. Includes automatic webhooks, customer verification badges, and CPA audit certificates.</div>
               </div>
               <div>
-                <div style="font-weight:700; font-size:0.9375rem;">Enterprise — $299+ / month</div>
-                <div style="font-size:0.75rem; color:var(--text-muted);">Custom Postgres/MySQL CDC daemons, multi-store audit consolidation & SLA.</div>
+                <div style="font-weight:700; font-size:0.875rem;">Enterprise — $299+ / month</div>
+                <div style="font-size:0.75rem; color:var(--text-muted);">Custom database connections for larger retail chains and multi-store setups.</div>
               </div>
-              <div style="font-size:0.75rem; color:var(--emerald); font-weight:600; padding-top:0.5rem; border-top:1px solid var(--card-border);">
+              <div style="font-size:0.75rem; color:var(--emerald); font-weight:600; padding-top:0.4rem; border-top:1px solid var(--card-border);">
                 On-chain fees cost &lt;$2/mo per customer yielding &gt;95% gross margins.
               </div>
             </div>
           </div>
           <div class="card">
-            <h3 class="card-title" style="color:var(--cyan); margin-bottom:1rem;">Frictionless Distribution Channels</h3>
-            <div style="display:flex; flex-direction:column; gap:1.1rem;">
+            <h3 class="card-title" style="color:var(--cyan); margin-bottom:0.75rem;">How We Get Customers</h3>
+            <div style="display:flex; flex-direction:column; gap:0.95rem;">
               <div>
-                <div style="font-weight:700; font-size:0.875rem;">1. Accounting & POS App Stores</div>
-                <div style="font-size:0.75rem; color:var(--text-muted);">1-click connectors for QuickBooks, Xero, and Shopify. Zero behavioral change required for SMEs.</div>
+                <div style="font-weight:700; font-size:0.875rem;">1. Built-in App Stores (1-Click)</div>
+                <div style="font-size:0.75rem; color:var(--text-muted);">Listed directly in the QuickBooks, Xero, and Shopify app stores. Business owners click 'Install' and their records are protected automatically.</div>
               </div>
               <div>
-                <div style="font-weight:700; font-size:0.875rem;">2. CPA & Accounting Channel Partners</div>
-                <div style="font-size:0.75rem; color:var(--text-muted);">Accounting firms mandate SolTrace to clients to cut year-end manual audit preparation by 80%.</div>
+                <div style="font-weight:700; font-size:0.875rem;">2. Partnerships with Accounting Firms</div>
+                <div style="font-size:0.75rem; color:var(--text-muted);">Accountants recommend SolTrace to their small business clients because it eliminates weeks of painful manual receipt checking.</div>
               </div>
               <div>
-                <div style="font-weight:700; font-size:0.875rem;">3. Developer & SQL Extensions</div>
-                <div style="font-size:0.75rem; color:var(--text-muted);">2-line configuration for PostgreSQL, MySQL, Supabase, and SQLite—letting developers seal tables effortlessly.</div>
+                <div style="font-weight:700; font-size:0.875rem;">3. Free Local Simulator for Developers</div>
+                <div style="font-size:0.75rem; color:var(--text-muted);">Developers can test SolTrace locally with zero blockchain setup using our built-in simulator, then upgrade to live protection in 1 click.</div>
               </div>
             </div>
           </div>
@@ -760,36 +708,36 @@
     <!-- ================= SLIDE 7 ================= -->
     <section class="slide" id="slide-7" data-title="Founder-Market Fit">
       <div class="slide-header">
-        <span class="slide-eyebrow green">Founder-Market Fit · Systems Engineering</span>
+        <span class="slide-eyebrow green">The Founder · Systems & Robotics</span>
         <h2 class="slide-title">Built by an Engineer Who Understands Physical & Digital State</h2>
-        <p class="slide-subtitle">Combining robotics systems engineering discipline with high-speed cryptographic consensus.</p>
+        <p class="slide-subtitle">Combining robotics engineering discipline with high-speed blockchain consensus.</p>
       </div>
       <div class="slide-body">
         <div class="grid-2">
-          <div class="card" style="align-items:center; text-align:center; padding:2rem;">
-            <div style="width:130px; height:130px; border-radius:50%; background:linear-gradient(135deg, var(--purple), var(--cyan)); padding:3px; margin-bottom:1rem;">
-              <div style="width:100%; height:100%; border-radius:50%; background:#18181b; display:flex; align-items:center; justify-content:center; font-size:2.5rem; font-weight:800; color:#fff;">OS</div>
+          <div class="card" style="align-items:center; text-align:center; padding:1.75rem;">
+            <div style="width:120px; height:120px; border-radius:50%; background:linear-gradient(135deg, var(--purple), var(--cyan)); padding:3px; margin-bottom:0.75rem;">
+              <div style="width:100%; height:100%; border-radius:50%; background:#18181b; display:flex; align-items:center; justify-content:center; font-size:2.25rem; font-weight:800; color:#fff;">OS</div>
             </div>
-            <h3 style="font-size:1.25rem; font-weight:700; color:#fff;">Oladeji Sanyaolu</h3>
+            <h3 style="font-size:1.15rem; font-weight:700; color:#fff;">Oladeji Sanyaolu</h3>
             <div style="font-size:0.8125rem; color:var(--cyan); font-weight:600; margin-top:0.2rem;">Founder & Systems Architect</div>
-            <p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.5rem; max-width:320px; line-height:1.5;">
+            <p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.4rem; max-width:320px; line-height:1.45;">
               BEng in Computer Engineering with Robotics<br>
               Technological University of the Shannon (TUS)
             </p>
           </div>
           <div class="card" style="padding:1.5rem;">
-            <div style="display:flex; flex-direction:column; gap:1rem;">
+            <div style="display:flex; flex-direction:column; gap:0.9rem;">
               <div>
-                <div style="font-weight:700; font-size:0.875rem; color:var(--cyan);">Hardware & Systems Engineering Foundation</div>
-                <div style="font-size:0.75rem; color:var(--text-muted); margin-top:0.2rem;">Deep expertise in embedded systems, component telemetry, microcontrollers, and state machine validation.</div>
+                <div style="font-weight:700; font-size:0.875rem; color:var(--cyan);">Robotics & Systems Engineering Foundation</div>
+                <div style="font-size:0.75rem; color:var(--text-muted); margin-top:0.2rem;">Hands-on background tracking physical hardware, sensors, and database synchronisation where reality must match computer records.</div>
               </div>
               <div>
-                <div style="font-weight:700; font-size:0.875rem; color:var(--purple);">Database & Cryptographic Provenance</div>
-                <div style="font-size:0.75rem; color:var(--text-muted); margin-top:0.2rem;">Architected the deterministic JSON hasher, verifiable transition ledger, and Solana Memo client with 26/26 automated tests.</div>
+                <div style="font-weight:700; font-size:0.875rem; color:var(--purple);">Built from Scratch for Real Businesses</div>
+                <div style="font-size:0.75rem; color:var(--text-muted); margin-top:0.2rem;">Architected the SolTrace digital fingerprinting engine, local ledger, and Solana integration from the ground up with 27 automated tests.</div>
               </div>
-              <div style="padding-top:0.75rem; border-top:1px solid var(--card-border);">
+              <div style="padding-top:0.6rem; border-top:1px solid var(--card-border);">
                 <div style="font-size:0.8125rem; font-weight:700; color:var(--emerald); line-height:1.5;">
-                  "Every business transaction deserves mathematical certainty. SolTrace bridges Main Street commerce and Solana consensus."
+                  "Every business transaction deserves certainty. SolTrace bridges everyday business and Solana consensus."
                 </div>
               </div>
             </div>
@@ -801,40 +749,40 @@
     <!-- ================= SLIDE 8 ================= -->
     <section class="slide" id="slide-8" data-title="Roadmap & The Ask">
       <div class="slide-header">
-        <span class="slide-eyebrow green">Roadmap & The Ask · Scale to 1,000 SMEs</span>
-        <h2 class="slide-title">From Hackathon MVP to Scaling Across 1,000 SMEs</h2>
-        <p class="slide-subtitle">Ready to onboard the first cohort of commercial design partners and accounting firms onto Solana.</p>
+        <span class="slide-eyebrow green">Roadmap & Next Steps</span>
+        <h2 class="slide-title">What's Next for SolTrace</h2>
+        <p class="slide-subtitle">From a working hackathon MVP to protecting thousands of small and medium businesses.</p>
       </div>
       <div class="slide-body">
         <div class="grid-4" style="margin-bottom:1.25rem;">
           <div class="card highlight-cyan">
-            <span style="font-size:0.6875rem; font-weight:700; color:var(--cyan);">Q3 2026 (Now)</span>
-            <div style="font-weight:700; font-size:0.875rem; margin-top:0.2rem;">Colosseum MVP</div>
-            <div style="font-size:0.6875rem; color:var(--text-muted); margin-top:0.35rem;">Working Solana engine, 26 automated tests, live UI dashboard.</div>
+            <span style="font-size:0.6875rem; font-weight:700; color:var(--cyan);">Now</span>
+            <div style="font-weight:700; font-size:0.875rem; margin-top:0.2rem;">Working MVP</div>
+            <div style="font-size:0.6875rem; color:var(--text-muted); margin-top:0.35rem;">Live working dashboard, 27 automated tests, badges & CPA certificates.</div>
           </div>
           <div class="card">
-            <span style="font-size:0.6875rem; font-weight:700; color:var(--text-muted);">Q4 2026</span>
-            <div style="font-weight:700; font-size:0.875rem; margin-top:0.2rem;">SME Connectors</div>
-            <div style="font-size:0.6875rem; color:var(--text-muted); margin-top:0.35rem;">QuickBooks & Shopify plugins, 50 pilot SMEs.</div>
+            <span style="font-size:0.6875rem; font-weight:700; color:var(--text-muted);">Next 3 Months</span>
+            <div style="font-weight:700; font-size:0.875rem; margin-top:0.2rem;">1-Click Apps</div>
+            <div style="font-size:0.6875rem; color:var(--text-muted); margin-top:0.35rem;">QuickBooks & Shopify apps, 50 pilot SMEs, automated email alerts.</div>
           </div>
           <div class="card">
-            <span style="font-size:0.6875rem; font-weight:700; color:var(--text-muted);">Q1 2027</span>
-            <div style="font-weight:700; font-size:0.875rem; margin-top:0.2rem;">Mainnet Launch</div>
-            <div style="font-size:0.6875rem; color:var(--text-muted); margin-top:0.35rem;">Public protocol launch, open SDK, CPA audit portal.</div>
+            <span style="font-size:0.6875rem; font-weight:700; color:var(--text-muted);">Next 6 Months</span>
+            <div style="font-weight:700; font-size:0.875rem; margin-top:0.2rem;">Public Launch</div>
+            <div style="font-size:0.6875rem; color:var(--text-muted); margin-top:0.35rem;">Public Solana launch, open developer SDK, CPA auditor portal.</div>
           </div>
           <div class="card highlight-emerald">
-            <span style="font-size:0.6875rem; font-weight:700; color:var(--emerald);">Q2 2027</span>
-            <div style="font-weight:700; font-size:0.875rem; margin-top:0.2rem;">Scale to 1,000 SMEs</div>
-            <div style="font-size:0.6875rem; color:var(--text-muted); margin-top:0.35rem;">European & global retail distribution, $1.2M ARR run-rate.</div>
+            <span style="font-size:0.6875rem; font-weight:700; color:var(--emerald);">Next 12 Months</span>
+            <div style="font-weight:700; font-size:0.875rem; margin-top:0.2rem;">1,000 SMEs</div>
+            <div style="font-size:0.6875rem; color:var(--text-muted); margin-top:0.35rem;">Expand across EU & UK, Xero & Stripe app stores, $1.2M ARR target.</div>
           </div>
         </div>
         <div class="grid-2">
           <div class="card highlight-emerald" style="padding:1.25rem;">
-            <div style="font-weight:700; font-size:0.9375rem; color:var(--emerald); margin-bottom:0.4rem;">Hackathon Next Steps & Goals</div>
+            <div style="font-weight:700; font-size:0.9375rem; color:var(--emerald); margin-bottom:0.4rem;">Hackathon Goals & The Ask</div>
             <ul class="card-list" style="font-size:0.75rem;">
-              <li>Target: Top placement in the Colosseum Crypto World's Fair Solana Track ($100k prize pool).</li>
-              <li>Pilot Traction: Onboarding our first 50 retail, wholesale, and B2B design partners across Ireland & UK.</li>
-              <li>Ecosystem Growth: Seeking judge feedback, accounting firm intros, and developer integrations.</li>
+              <li>Hackathon Goal: Competing to win the Colosseum Solana Track ($100k prize pool).</li>
+              <li>Pilot Onboarding: Launching with our first 50 retail, wholesale, and B2B design partners.</li>
+              <li>Partnerships: Looking for feedback from judges, accounting firm intros, and design partners.</li>
             </ul>
           </div>
           <div class="card" style="padding:1.25rem;">
@@ -843,7 +791,7 @@
               <div><strong style="color:#fff;">Founder:</strong> Oladeji Sanyaolu</div>
               <div><strong style="color:#fff;">Email:</strong> oladejisanyaolu@gmail.com</div>
               <div><strong style="color:#fff;">GitHub:</strong> github.com/DSGuy02</div>
-              <div><strong style="color:#fff;">Project:</strong> SolTrace (Universal SME Cryptographic Ledger)</div>
+              <div><strong style="color:#fff;">Project:</strong> SolTrace (Tamper-Proof Business Records on Solana)</div>
             </div>
           </div>
         </div>
@@ -856,7 +804,7 @@
   <div class="notes-drawer" id="notes-drawer">
     <div class="notes-title" id="notes-slide-title">Slide 1: Title & Hook</div>
     <div class="notes-text" id="notes-content">
-      "Good afternoon judges. My name is Oladeji Sanyaolu, and today I am excited to present SolTrace: the universal cryptographic ledger for Small and Medium Enterprises, powered by Solana..."
+      "Good afternoon judges. My name is Oladeji Sanyaolu, and today I am excited to present SolTrace..."
     </div>
   </div>
 
@@ -886,14 +834,14 @@
     let currentSlide = 1;
 
     const speakerNotes = {
-      1: `[00:00 - 00:20] SPEAKER SCRIPT:\n"Good afternoon judges. My name is Oladeji Sanyaolu, and today I am excited to present SolTrace: the universal cryptographic ledger for Small and Medium Enterprises, powered by Solana.\n\nOver 400 million SMEs run daily operations on invoices, stock counts, and orders stored in standard relational databases. But traditional business databases have a fatal flaw: they are completely mutable. Anyone with direct database access or compromised credentials can alter records with zero cryptographic trace.\n\nSolTrace brings mathematical non-repudiation to Main Street business operations."`,
-      2: `[00:20 - 00:50] SPEAKER SCRIPT:\n"Here is the root vulnerability in business software today: relational databases are mutable by design.\n\nIf an attacker breaches a company's email or an insider wants to steal money, they do not hack the bank. They alter the invoice database: changing the recipient IBAN to an offshore account right before Accounts Payable hits wire transfer. The FBI reports over $3 Billion in annual BEC wire fraud losses, averaging $123,000 per business.\n\nIn retail, the National Retail Federation reports over $112 Billion lost to shrinkage, with nearly 30% caused by employee theft. Employees quietly decrement stock numbers in MySQL to hide stolen laptops as damaged goods.\n\nAnd because standard databases only record current state, businesses lose 5% of their revenue annually with zero cryptographic defense."`,
-      3: `[00:50 - 01:25] SPEAKER SCRIPT:\n"SolTrace solves this by giving every SME an invisible cryptographic sidecar powered by Solana.\n\nIt integrates seamlessly with the software businesses already run: QuickBooks, Xero, Shopify, InvenTree, and standard PostgreSQL or MySQL databases.\n\nWhenever an invoice is generated or inventory arrives, SolTrace computes a deterministic SHA-256 seal across the critical fields and commits it directly to Solana in 400 milliseconds.\n\nCrucially: zero private customer information or pricing secrets ever go on-chain—only one-way mathematical digests.\n\nIf anyone attempts an unauthorized database edit, SolTrace detects the mismatch immediately and halts the fraudulent payout before money or merchandise leaves the building."`,
-      4: `[01:25 - 01:55] SPEAKER SCRIPT:\n"Why does this have to be built on Solana? Because of micro-cent economics and sub-second speed.\n\nA busy distributor or retail store generates thousands of invoices and inventory updates every week. On Ethereum, logging records costs thousands of dollars. On L2 rollups, costs still reach hundreds of dollars with multi-minute delays.\n\nOn Solana, anchoring 100,000 records costs less than $25 total. With 400ms block times, records are sealed instantly.\n\nThis enables SolTrace to charge simple, accessible $49 to $149 monthly fiat subscriptions while operating at greater than 95% software gross profit margins."`,
-      5: `[01:55 - 02:20] SPEAKER SCRIPT:\n"This is not a slide mockup—SolTrace is a fully functional prototype tested with 26 automated unit and integration suites.\n\nOur dashboard demonstrates the entire 3-step lifecycle:\nStep 1: Seal the original record on Solana.\nStep 2: Simulate an insider or hacker modifying database values via SQL.\nStep 3: Instant on-chain verification flagging the exact altered fields with a forensic diff table.\n\nWe demonstrate this across three real verticals: B2B Invoices, Retail Hardware, and Customer Orders.\n\nWe also generate one-page printable CPA audit certificates and embeddable verification badges."`,
-      6: `[02:20 - 02:40] SPEAKER SCRIPT:\n"Our go-to-market strategy requires zero behavioral change. We do not ask small businesses to become crypto believers or set up Phantom wallets.\n\nWe sell simple B2B SaaS for $49 to $149 a month. Because Solana transaction costs are a fraction of a cent, our gross margins exceed 95%.\n\nWe distribute directly through the app stores SMEs already use: QuickBooks, Xero, and Shopify.\n\nWe also partner with auditing and accounting firms, who will recommend SolTrace to their clients because it cuts their annual audit prep time by 80%."`,
-      7: `[02:40 - 02:55] SPEAKER SCRIPT:\n"Judges, I built SolTrace because I have spent years working directly at the intersection of computer engineering, physical systems, and software.\n\nAs a Computer and Robotics Engineer from TUS, I know firsthand that physical reality and database records frequently drift apart—and how trivial it is for unauthorized users to alter mutable SQL tables.\n\nI built the SolTrace engine from the ground up to solve this for real businesses. We bring the engineering discipline of robotics and the speed of Solana to small business accounting and inventory."`,
-      8: `[02:40 - 03:00] SPEAKER SCRIPT:\n"Today, SolTrace is a fully functional prototype with 26 passing automated tests, live Solana anchoring, a REST API with Swagger documentation, and working live demonstrations for invoice fraud, retail inventory shrinkage, and order fulfillment.\n\nWe are competing in the Colosseum Crypto World's Fair to showcase the power of Solana for real-world business trust and win the Solana track.\n\nOur next milestone is launching our QuickBooks and Shopify plugins, onboarding our first 50 pilot SMEs, and scaling to 1,000 paying business customers.\n\nJoin us in building the default trust layer for SME commerce on Solana. Thank you."`
+      1: `[00:00 - 00:20] SPEAKER SCRIPT:\n"Good afternoon judges. My name is Oladeji Sanyaolu, and I am the founder of SolTrace.\n\nEvery business relies on records: invoices to get paid, stock counts to track inventory, and customer orders. But standard business databases can be silently altered by anyone who has administrative access or stolen passwords.\n\nSolTrace saves an unchangeable digital fingerprint of each record on the Solana blockchain in under half a second. If even one number or bank account is changed, SolTrace catches it instantly."`,
+      2: `[00:20 - 00:50] SPEAKER SCRIPT:\n"Here is the simple reality of modern business software: databases are only as honest as the people who have access to them.\n\nIf a hacker breaks into a company or a dishonest employee wants to steal, they don't break a bank vault. They quietly edit the invoice database: changing the bank IBAN to an offshore account right before payment. The FBI reports over $3 Billion lost every year to this exact scam.\n\nIn retail stores, over $112 Billion is lost each year to shrinkage because employees can steal laptops and then quietly reduce the stock count in the computer to cover their tracks.\n\nAnd at the end of the year, businesses spend weeks paying auditors to manually check receipts because their software cannot prove it wasn't altered."`,
+      3: `[00:50 - 01:25] SPEAKER SCRIPT:\n"SolTrace solves this in three simple steps:\n\nStep 1: When an invoice is issued or inventory arrives, SolTrace takes a digital fingerprint of the document and locks it into Solana in less than half a second. It costs a fraction of a cent. Zero private customer details ever go on-chain—only the fingerprint.\n\nStep 2: If someone later goes into the database and tries to swap the bank routing number or erase missing laptops, the regular app wouldn't notice.\n\nStep 3: But when SolTrace checks against Solana, it instantly spots the difference, flags the exact modified fields in red, and stops the fraud before any money leaves the door."`,
+      4: `[01:25 - 01:55] SPEAKER SCRIPT:\n"Why does this have to be built on Solana?\nBecause of speed and cost.\n\nA busy distributor or retail shop processes thousands of transactions a week. On Ethereum, saving records on-chain costs thousands of dollars—which makes no sense for a small business.\n\nOn Solana, saving 100,000 records costs less than $25 total, and it confirms in 400 milliseconds.\n\nThis allows us to charge businesses a simple, affordable $49 monthly software subscription in normal currency, while SolTrace earns over 95% software profit margins."`,
+      5: `[01:55 - 02:20] SPEAKER SCRIPT:\n"This is not a slide mockup—SolTrace is a fully functional web dashboard you can test right now.\n\nFirst: You can test three real business scenarios: an invoice, a retail laptop inventory, and a customer order. You can click 'Simulate Attack' to see how an attacker secretly alters the database, and click 'Verify' to watch SolTrace catch it in real time.\n\nSecond: We built a Click-to-Verify badge that businesses can embed directly on invoices or email receipts. Any customer can click it to confirm their document is authentic without needing a crypto wallet.\n\nThird: We generate a clean, one-page printable CPA Audit Certificate that proves to accountants and auditors that the books have never been tampered with."`,
+      6: `[02:20 - 02:40] SPEAKER SCRIPT:\n"Our business model is simple B2B SaaS. We charge $49 to $149 a month, paid by credit card in regular currency. Because Solana transaction costs are less than two dollars a month per customer, our gross margins are over 95%.\n\nHow do we get customers?\nFirst: We distribute through app stores businesses already use—QuickBooks, Xero, and Shopify. It installs in one click.\nSecond: We partner with accounting firms, who will recommend SolTrace to their clients because it cuts their annual audit prep time by 80%."`,
+      7: `[02:40 - 02:55] SPEAKER SCRIPT:\n"Judges, I built SolTrace because I have spent years working at the intersection of computer engineering, physical hardware, and software.\n\nAs a Robotics and Computer Engineer from TUS, I know firsthand that physical reality and database numbers easily drift apart—and how easy it is for someone to alter a computer record without anyone noticing.\n\nI built SolTrace from scratch so that everyday business owners can have mathematical certainty that their invoices and stock counts are real and untouched."`,
+      8: `[02:40 - 03:00] SPEAKER SCRIPT:\n"Today, SolTrace is a live, fully functional prototype with 27 passing automated tests, a visual dashboard, live verification badges, and printable audit certificates.\n\nWe are competing in the Colosseum Hackathon to showcase the power of Solana for real-world business trust.\n\nOur next milestone is launching our QuickBooks and Shopify plugins, onboarding our first 50 pilot businesses, and scaling to 1,000 paying business customers.\n\nHelp us build the default trust layer for everyday business commerce on Solana. Thank you."`
     };
 
     function showSlide(index) {
